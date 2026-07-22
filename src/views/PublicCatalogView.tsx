@@ -10,7 +10,6 @@ import {
   ChevronRight,
   ChevronLeft,
   Maximize2,
-  Globe,
   MapPin,
   Phone,
   Mail,
@@ -28,7 +27,15 @@ const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
 
 export const PublicCatalogView: React.FC = () => {
   const { products } = useApp();
-  const [lang, setLang] = useState<'id' | 'en'>('id');
+
+  // AUTOMATIC BROWSER LANGUAGE DETECTION (ID vs EN)
+  const [lang] = useState<'id' | 'en'>(() => {
+    if (typeof window !== 'undefined' && navigator.language) {
+      return navigator.language.toLowerCase().startsWith('id') ? 'id' : 'en';
+    }
+    return 'id';
+  });
+
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -103,7 +110,7 @@ export const PublicCatalogView: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-stone-100 font-sans selection:bg-stone-100 selection:text-stone-950">
-      {/* HEADER WITH LANGUAGE SWITCHER (ID 🇮🇩 / EN 🇬🇧) */}
+      {/* HEADER WITH AUTO BROWSER LANGUAGE DETECTION (CLEAN HEADER, ZERO MANUAL BUTTON CLUTTER) */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 lg:px-16 py-5 transition-all">
         <div className="max-w-[1800px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -125,24 +132,6 @@ export const PublicCatalogView: React.FC = () => {
             <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">
               {lang === 'id' ? 'SIMULASI BUDGET' : 'BUDGET ESTIMATOR'}
             </button>
-
-            {/* BILINGUAL LANGUAGE SWITCHER */}
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-900 border border-stone-800 text-[11px] font-mono">
-              <Globe className="w-3.5 h-3.5 text-stone-400" />
-              <button
-                onClick={() => setLang('id')}
-                className={`transition-colors ${lang === 'id' ? 'text-amber-300 font-bold' : 'text-stone-500 hover:text-stone-300'}`}
-              >
-                ID
-              </button>
-              <span className="text-stone-700">|</span>
-              <button
-                onClick={() => setLang('en')}
-                className={`transition-colors ${lang === 'en' ? 'text-amber-300 font-bold' : 'text-stone-500 hover:text-stone-300'}`}
-              >
-                EN
-              </button>
-            </div>
 
             <a
               href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20konsultasi%20desain%20interior."
@@ -226,7 +215,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* PURE EDITORIAL ARCHITECTURAL STUDIO ABOUT US SECTION (NO STAT COUNTERS, NO CHEESY BOXES) */}
+      {/* PURE EDITORIAL ARCHITECTURAL STUDIO ABOUT US SECTION */}
       <section id="about-section" className="py-24 lg:py-32 px-6 sm:px-12 lg:px-16 bg-[#050505] border-b border-stone-900">
         <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
           {/* Left Column: Title & Heritage */}
