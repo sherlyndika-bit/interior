@@ -10,7 +10,9 @@ import {
   Calculator,
   ChevronRight,
   ChevronLeft,
-  Maximize2
+  Maximize2,
+  ChevronLast,
+  ChevronFirst
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -20,6 +22,10 @@ export const PublicCatalogView: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeVariant, setActiveVariant] = useState<ProductVariant | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
+
+  // Gallery Pagination State (Alien DC Style)
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 5;
 
   // Custom Fitout Estimator Modal State
   const [isEstimatorOpen, setIsEstimatorOpen] = useState<boolean>(false);
@@ -37,6 +43,9 @@ export const PublicCatalogView: React.FC = () => {
                           p.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage) || 1;
+  const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   // Duplicate items for continuous infinite marquee scrolling
   const marqueeRow1 = [...products, ...products];
@@ -217,103 +226,135 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* ALIEN DC STYLE PROJECT GALLERY WITH SOFT ROUNDED TILES */}
+      {/* ALIEN DC EXACT PROJECT GALLERY (5-COLUMN HORIZONTAL PHOTOGRAPHY CARDS WITH PAGINATION) */}
       <main id="gallery-section" className="max-w-7xl mx-auto px-6 sm:px-12 py-24 space-y-12">
-        <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-sans font-bold text-white tracking-tight">
-                Project Gallery
-              </h2>
-              <p className="text-stone-400 text-xs font-light mt-1">
-                A curated selection of architectural and interior fitout projects.
-              </p>
-            </div>
-
-            {/* Search Input */}
-            <div className="relative w-full sm:w-72">
-              <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search projects..."
-                className="w-full pl-9 pr-4 py-2.5 bg-stone-950 border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
-              />
-            </div>
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+          <div className="space-y-2 max-w-xl">
+            <h2 className="text-3xl sm:text-4xl font-sans font-bold text-white tracking-tight">
+              Project Gallery
+            </h2>
+            <p className="text-stone-400 text-xs font-light leading-relaxed">
+              A curated selection of architectural and interior projects shaped by strategy, context, and precision. Designed to deliver clarity in form and purpose in function.
+            </p>
           </div>
 
-          {/* Minimalist Category Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-stone-900 pb-4">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`text-xs font-mono uppercase tracking-widest transition-all px-4 py-1.5 rounded-full ${
-                  selectedCategory === cat
-                    ? 'bg-white text-stone-950 font-bold shadow-lg'
-                    : 'text-stone-400 hover:text-white bg-stone-950 border border-stone-800'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="flex items-center gap-3 shrink-0">
+            {/* Category Filter Dropdown / Tabs */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => { setSelectedCategory(cat); setCurrentPage(1); }}
+                  className={`px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider transition-all rounded-full ${
+                    selectedCategory === cat
+                      ? 'bg-white text-stone-950 font-bold'
+                      : 'text-stone-400 hover:text-white border border-stone-800'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* ALIEN DC PHOTOGRAPHY TILES WITH ELEGANT ROUNDED CORNERS (rounded-3xl) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
+        {/* ALIEN DC 5-COLUMN HORIZONTAL PHOTOGRAPHY CARDS */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {paginatedProducts.map((product) => (
             <div
               key={product.id}
               onClick={() => handleOpenDetails(product)}
-              className="relative aspect-[4/3] rounded-3xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900/80 shadow-2xl transition-all duration-500"
+              className="group cursor-pointer space-y-3"
             >
-              {/* Photo Image */}
-              <img
-                src={product.images[0]}
-                alt={product.name}
-                className="w-full h-full object-cover filter brightness-[0.88] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
-              />
-
-              {/* Code Badge */}
-              <div className="absolute top-4 left-4 z-10">
-                <span className="px-3 py-1 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-mono text-stone-300 rounded-full shadow-md">
+              {/* Photo Frame */}
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-stone-950 border border-stone-900 shadow-xl">
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700"
+                />
+                <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[9px] font-mono text-stone-300 rounded">
                   {product.code}
-                </span>
+                </div>
               </div>
 
-              {/* Hover Overlay with Specs */}
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-end">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300 mb-1">
-                  {product.category}
-                </span>
-                <h3 className="font-serif font-bold text-white text-lg leading-snug line-clamp-1">
+              {/* Title & Description Underneath (Exact Alien DC Screenshot 4) */}
+              <div className="space-y-1 px-1">
+                <h3 className="font-serif font-bold text-white text-sm group-hover:text-amber-200 transition-colors line-clamp-1">
                   {product.name}
                 </h3>
-                <p className="text-stone-300 text-xs font-light line-clamp-2 mt-1 leading-relaxed">
+                <p className="text-stone-400 text-[11px] font-light line-clamp-2 leading-snug">
                   {product.description}
                 </p>
 
-                <div className="pt-3 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-stone-400">
-                    Lead time ~{product.leadTimeDays}d
+                <div className="pt-1 flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-stone-500">
+                    {product.category}
                   </span>
                   <a
                     href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-lg"
+                    className="text-[10px] font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
                   >
-                    <MessageSquare className="w-3.5 h-3.5" />
-                    <span>Tanya WA</span>
+                    <MessageSquare className="w-3 h-3" />
+                    <span>Inquire WA</span>
                   </a>
                 </div>
               </div>
             </div>
           ))}
         </div>
+
+        {/* ALIEN DC STYLE PAGINATION (`<< < 1 2 3 4 5 > >>`) */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-3 pt-8 text-xs font-mono text-stone-400">
+            <button
+              onClick={() => setCurrentPage(1)}
+              disabled={currentPage === 1}
+              className="hover:text-white disabled:opacity-30 transition-colors p-1"
+            >
+              <ChevronFirst className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="hover:text-white disabled:opacity-30 transition-colors p-1"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+              <button
+                key={pageNum}
+                onClick={() => setCurrentPage(pageNum)}
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                  currentPage === pageNum
+                    ? 'bg-white text-stone-950 font-bold shadow-md'
+                    : 'hover:text-white hover:bg-stone-900'
+                }`}
+              >
+                {pageNum}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="hover:text-white disabled:opacity-30 transition-colors p-1"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages}
+              className="hover:text-white disabled:opacity-30 transition-colors p-1"
+            >
+              <ChevronLast className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </main>
 
       {/* FOOTER */}
@@ -423,7 +464,7 @@ export const PublicCatalogView: React.FC = () => {
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-full flex items-center justify-center gap-2 shadow-xl transition-all"
+                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xl rounded-full transition-all"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Inquire Price & Specs via WA</span>
