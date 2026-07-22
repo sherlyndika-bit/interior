@@ -11,7 +11,9 @@ import {
   ChevronRight,
   ChevronLeft,
   Maximize2,
-  SlidersHorizontal
+  SlidersHorizontal,
+  ArrowUpRight,
+  Sparkles
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -29,15 +31,7 @@ export const PublicCatalogView: React.FC = () => {
   const [estHeight, setEstHeight] = useState<number>(2.8);
   const [estFinish, setEstFinish] = useState<string>('HPL Taco Wood Grain');
 
-  const categories = [
-    { name: 'Semua', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80' },
-    { name: 'Kitchen Set', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&auto=format&fit=crop&q=80' },
-    { name: 'Wardrobe', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&auto=format&fit=crop&q=80' },
-    { name: 'Bedroom', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&auto=format&fit=crop&q=80' },
-    { name: 'Living Room', image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&auto=format&fit=crop&q=80' },
-    { name: 'Wall Panel', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80' },
-    { name: 'Office', image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&auto=format&fit=crop&q=80' }
-  ];
+  const categories = ['Semua', 'Kitchen Set', 'Wardrobe', 'Bedroom', 'Living Room', 'Wall Panel', 'Office'];
 
   const filteredProducts = products.filter(p => {
     const matchesCategory = selectedCategory === 'Semua' || p.category === selectedCategory;
@@ -67,7 +61,7 @@ export const PublicCatalogView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0C0B0A] text-stone-100 font-sans selection:bg-stone-200 selection:text-stone-950">
+    <div className="min-h-screen bg-[#0A0908] text-stone-100 font-sans selection:bg-stone-200 selection:text-stone-950">
       {/* Overlay Minimalist Top Header */}
       <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-stone-950/90 via-stone-950/40 to-transparent backdrop-blur-sm px-6 py-5 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -105,8 +99,8 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </header>
 
-      {/* PURE BREATHTAKING ARCHITECTURAL PHOTOGRAPHY HERO (NO DISTRACTING HERO BUTTONS) */}
-      <section className="relative h-[88vh] min-h-[550px] w-full flex items-center justify-center overflow-hidden">
+      {/* PURE BREATHTAKING ARCHITECTURAL PHOTOGRAPHY HERO */}
+      <section className="relative h-[85vh] min-h-[550px] w-full flex items-center justify-center overflow-hidden">
         {/* Full-bleed photography background */}
         <img
           src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&auto=format&fit=crop&q=85"
@@ -115,7 +109,7 @@ export const PublicCatalogView: React.FC = () => {
         />
 
         {/* Natural Smooth Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0C0B0A] via-[#0C0B0A]/30 to-stone-950/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0908] via-[#0A0908]/30 to-stone-950/60" />
 
         {/* ELEGANT MINIMALIST TYPOGRAPHY OVERLAY */}
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-5 pt-16">
@@ -136,126 +130,123 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* Main Visual Gallery Showcase Area */}
+      {/* DYNAMIC ASYMMETRIC MASONRY EXHIBITION GALLERY WALL */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-10">
-        {/* Category Pills & Search Bar Header */}
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <h2 className="text-xl font-serif text-white tracking-tight flex items-center gap-2">
-              <SlidersHorizontal className="w-4 h-4 text-amber-200" />
-              Koleksi Kategori Ruangan
-            </h2>
-
-            {/* Clean Refined Search Bar Above Gallery Grid */}
-            <div className="relative w-full sm:w-80">
-              <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari kitchen set, wardrobe, bed set..."
-                className="w-full pl-9 pr-4 py-2 bg-stone-900/90 border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors shadow-inner"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+        {/* Refined Category Tabs & Search Bar */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-stone-800/80 pb-6">
+          {/* Elegant Category Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
             {categories.map((cat) => (
               <button
-                key={cat.name}
-                onClick={() => setSelectedCategory(cat.name)}
-                className={`relative rounded-2xl overflow-hidden h-28 text-left p-3 flex flex-col justify-end transition-all border group ${
-                  selectedCategory === cat.name
-                    ? 'border-white ring-2 ring-white/20 scale-[1.03] shadow-2xl'
-                    : 'border-stone-800 opacity-75 hover:opacity-100 hover:border-stone-700'
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full text-xs font-medium transition-all shrink-0 ${
+                  selectedCategory === cat
+                    ? 'bg-white text-stone-950 font-bold shadow-lg scale-105'
+                    : 'bg-stone-900/60 text-stone-400 hover:text-white hover:bg-stone-800 border border-stone-800'
                 }`}
               >
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="absolute inset-0 w-full h-full object-cover filter brightness-75 group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
-                <span className="relative z-10 text-xs font-bold text-white group-hover:text-amber-200 transition-colors">
-                  {cat.name}
-                </span>
+                {cat}
               </button>
             ))}
           </div>
+
+          {/* Clean Search Input */}
+          <div className="relative w-full md:w-72 shrink-0">
+            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari model fitout / kode..."
+              className="w-full pl-9 pr-4 py-2 bg-stone-900/80 border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors shadow-inner"
+            />
+          </div>
         </div>
 
-        {/* Result Header */}
-        <div className="flex items-center justify-between border-b border-stone-800/80 pb-4 text-xs text-stone-400">
-          <span>Portofolio: <strong className="text-white font-bold">{filteredProducts.length} Foto Hasil Proyek</strong></span>
-          <span>Kategori Filter: <strong className="text-amber-200 font-bold">{selectedCategory}</strong></span>
+        {/* Gallery Counter */}
+        <div className="flex items-center justify-between text-xs text-stone-400">
+          <span className="flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            Menampilkan <strong className="text-white font-bold">{filteredProducts.length} Karya Pilihan Studio</strong>
+          </span>
+          <span>Klik foto mana pun untuk memperbesar & tanya harga</span>
         </div>
 
-        {/* ELEGANT ARCHITECTURAL PHOTOGRAPHY GALLERY WALL */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              onClick={() => handleOpenDetails(product)}
-              className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden cursor-pointer border border-stone-800/80 group shadow-2xl transition-all duration-500 bg-stone-950"
-            >
-              {/* Full Tile Image */}
-              <img
-                src={product.images[0]}
-                alt={product.name}
-                className="w-full h-full object-cover filter brightness-[0.88] contrast-[1.03] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
-              />
+        {/* DYNAMIC ASYMMETRIC MASONRY GRID EXHIBITION */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+          {filteredProducts.map((product, index) => {
+            // Asymmetric Layout Logic: First item is large hero tile (col-span-8), second is tall portrait (col-span-4), etc.
+            const isLargeTile = index === 0 && selectedCategory === 'Semua' && !searchQuery;
+            const colSpan = isLargeTile
+              ? 'md:col-span-8 h-[500px]'
+              : (index % 5 === 1 ? 'md:col-span-4 h-[500px]' : 'md:col-span-4 h-[380px]');
 
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/30 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-500" />
+            return (
+              <div
+                key={product.id}
+                onClick={() => handleOpenDetails(product)}
+                className={`relative rounded-3xl overflow-hidden cursor-pointer border border-stone-800/80 group shadow-2xl transition-all duration-700 bg-stone-950 ${colSpan}`}
+              >
+                {/* Full Tile Image */}
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover filter brightness-[0.88] contrast-[1.03] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
+                />
 
-              {/* Floating Top Category Pill */}
-              <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                <span className="px-3 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-semibold text-stone-200 rounded-full border border-stone-800 shadow-md">
-                  {product.category}
-                </span>
-                <span className="px-2.5 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-mono text-stone-400 rounded-full border border-stone-800">
-                  {product.code}
-                </span>
-              </div>
+                {/* Dark Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
 
-              {/* Floating Expand Icon */}
-              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="p-2.5 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-800 text-white hover:bg-stone-900 shadow-xl">
-                  <Maximize2 className="w-4 h-4 text-amber-200" />
-                </div>
-              </div>
-
-              {/* Bottom Photo Title & Action Bar */}
-              <div className="absolute bottom-0 inset-x-0 p-6 z-10 space-y-3 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
-                <div>
-                  <h3 className="font-serif font-bold text-white text-lg group-hover:text-amber-200 transition-colors line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <p className="text-stone-300 text-xs line-clamp-2 leading-relaxed font-light mt-1">
-                    {product.description}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between pt-1">
-                  <span className="text-[11px] text-stone-400 font-medium flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-amber-200" />
-                    ~{product.leadTimeDays} Hari Kerja
+                {/* Floating Top Category Pill */}
+                <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+                  <span className="px-3 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-semibold text-amber-200 rounded-full border border-stone-800 shadow-md">
+                    {product.category}
                   </span>
+                  <span className="px-2.5 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-mono text-stone-300 rounded-full border border-stone-800">
+                    {product.code}
+                  </span>
+                </div>
 
-                  <a
-                    href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
-                  >
-                    <MessageSquare className="w-3.5 h-3.5" />
-                    <span>Tanya Harga WA</span>
-                  </a>
+                {/* Hover Expand Icon */}
+                <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="p-3 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-800 text-white hover:bg-stone-900 shadow-xl flex items-center gap-1.5 text-xs">
+                    <Maximize2 className="w-4 h-4 text-amber-300" />
+                  </div>
+                </div>
+
+                {/* Overlaid Title & Quick WA Action Bar */}
+                <div className="absolute bottom-0 inset-x-0 p-6 z-10 space-y-3 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
+                  <div>
+                    <h3 className={`font-serif font-extrabold text-white group-hover:text-amber-200 transition-colors line-clamp-1 ${isLargeTile ? 'text-2xl sm:text-3xl' : 'text-lg'}`}>
+                      {product.name}
+                    </h3>
+                    <p className="text-stone-300 text-xs line-clamp-2 leading-relaxed font-light mt-1">
+                      {product.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[11px] text-stone-400 font-medium flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-amber-300" />
+                      ~{product.leadTimeDays} Hari Kerja
+                    </span>
+
+                    <a
+                      href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>Tanya Harga WA</span>
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </main>
 
@@ -449,7 +440,7 @@ export const PublicCatalogView: React.FC = () => {
                   min="1"
                   value={estLength}
                   onChange={(e) => setEstLength(Number(e.target.value))}
-                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
+                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-300"
                 />
               </div>
 
