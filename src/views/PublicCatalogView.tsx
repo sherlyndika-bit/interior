@@ -89,16 +89,16 @@ export const PublicCatalogView: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-stone-100 font-sans selection:bg-stone-100 selection:text-stone-950">
-      {/* ALIEN DC STYLE MINIMALIST MONOCHROMATIC HEADER */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 py-5 transition-all">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      {/* ALIEN DC STYLE FLUID WIDE HEADER */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 lg:px-16 py-5 transition-all">
+        <div className="max-w-[1800px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <span className="font-bold text-white text-2xl tracking-widest uppercase">
-              INTERIORCRAFT <span className="font-light text-stone-400 text-xs tracking-normal">STUDIO</span>
+            <span className="font-bold text-white text-xl sm:text-2xl lg:text-3xl tracking-widest uppercase">
+              INTERIORCRAFT <span className="font-light text-stone-400 text-xs lg:text-sm tracking-normal">STUDIO</span>
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold tracking-wider text-stone-300 uppercase">
+          <nav className="hidden md:flex items-center gap-8 lg:gap-12 text-xs lg:text-sm font-semibold tracking-wider text-stone-300 uppercase">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">BERANDA</button>
             <button onClick={scrollToGallery} className="hover:text-white transition-colors">GALERI PROYEK</button>
             <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">SIMULASI BUDGET</button>
@@ -108,43 +108,43 @@ export const PublicCatalogView: React.FC = () => {
               rel="noopener noreferrer"
               className="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 font-bold"
             >
-              <WhatsAppIcon className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4 lg:w-5 lg:h-5" />
               <span>TANYA WA</span>
             </a>
           </nav>
         </div>
       </header>
 
-      {/* HERO SECTION: ARCHITECTURAL MONUMENTAL CANVAS */}
-      <section className="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden pt-16">
+      {/* HERO SECTION: FLUID AUTO-SCALING MONUMENTAL CANVAS */}
+      <section className="relative h-screen min-h-[650px] w-full flex items-center justify-center overflow-hidden pt-16">
         <img
-          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&auto=format&fit=crop&q=85"
+          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=2400&auto=format&fit=crop&q=90"
           alt="Architectural Masterpiece Canvas"
           className="absolute inset-0 w-full h-full object-cover filter brightness-[0.65] contrast-[1.05] scale-105"
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-[#050505]/60" />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 w-full text-left space-y-6">
-          <h1 className="text-4xl sm:text-7xl font-sans font-extrabold text-white tracking-tight leading-[1.08] max-w-3xl">
+        <div className="relative z-10 max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-16 w-full text-left space-y-6 lg:space-y-8">
+          <h1 className="text-4xl sm:text-6xl lg:text-8xl 2xl:text-9xl font-sans font-extrabold text-white tracking-tight leading-[1.05] max-w-6xl">
             Desain Interior & <br />
             <span className="text-amber-200">Fitout Custom Mewah</span>
           </h1>
 
-          <p className="text-stone-300 text-sm sm:text-base max-w-xl font-light leading-relaxed">
+          <p className="text-stone-300 text-sm sm:text-base lg:text-xl max-w-2xl font-light leading-relaxed">
             Koleksi portofolio eksklusif kitchen set modular, custom wardrobe, & backdrop wall panel. Konsultasikan konsep & penawaran harga presisi langsung via WhatsApp.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-4">
+          <div className="flex flex-wrap items-center gap-4 lg:gap-6 pt-4">
             <button
               onClick={scrollToGallery}
-              className="px-8 py-3.5 border border-white text-white font-semibold text-xs uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-all rounded-full"
+              className="px-8 lg:px-10 py-3.5 lg:py-4 border border-white text-white font-semibold text-xs lg:text-sm uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-all rounded-full"
             >
               Jelajahi Galeri
             </button>
             <button
               onClick={() => setIsEstimatorOpen(true)}
-              className="px-8 py-3.5 border border-stone-700 text-stone-300 font-semibold text-xs uppercase tracking-widest hover:border-white hover:text-white transition-all rounded-full"
+              className="px-8 lg:px-10 py-3.5 lg:py-4 border border-stone-700 text-stone-300 font-semibold text-xs lg:text-sm uppercase tracking-widest hover:border-white hover:text-white transition-all rounded-full"
             >
               Simulasi Budget
             </button>
@@ -152,20 +152,20 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* STUDIO MANIFESTO / ABOUT STATEMENT SECTION */}
-      <section className="py-20 px-6 sm:px-12 bg-[#0A0908] border-y border-stone-900">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-5 flex items-center justify-center">
-            <span className="text-9xl font-extrabold text-stone-800 tracking-tighter select-none">
+      {/* STUDIO MANIFESTO / ABOUT STATEMENT SECTION (FLUID WIDE) */}
+      <section className="py-20 lg:py-28 px-6 sm:px-12 lg:px-16 bg-[#0A0908] border-y border-stone-900">
+        <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+          <div className="lg:col-span-4 flex items-center justify-center lg:justify-start">
+            <span className="text-9xl lg:text-[14rem] font-extrabold text-stone-800 tracking-tighter select-none leading-none">
               IC
             </span>
           </div>
 
-          <div className="lg:col-span-7 space-y-6">
-            <h2 className="text-2xl sm:text-3xl font-sans font-bold text-white tracking-tight leading-snug">
+          <div className="lg:col-span-8 space-y-6 lg:space-y-8">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-snug">
               InteriorCraft Studio Adalah Kolektif Pengrajin, Arsitek, & Desainer Interior yang Berkomitmen Mewujudkan Ruangan Presisi Tanpa Kompromi.
             </h2>
-            <p className="text-stone-400 text-sm leading-relaxed font-light">
+            <p className="text-stone-400 text-sm lg:text-lg leading-relaxed font-light max-w-4xl">
               Berpengalaman mengerjakan fitout residensial, apartemen mewah, & perkantoran. Kami menggunakan kayu multiplek 18mm grade A, engsel soft-close Hafele, dan finishing HPL Taco / Cat Duco berkualitas tinggi dengan garansi resmi 2 tahun.
             </p>
           </div>
@@ -173,29 +173,29 @@ export const PublicCatalogView: React.FC = () => {
       </section>
 
       {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS */}
-      <section className="py-8 bg-[#050505] overflow-hidden space-y-4">
+      <section className="py-8 bg-[#050505] overflow-hidden space-y-6">
         {/* ROW 1 */}
         <div className="overflow-hidden w-full relative">
-          <div className="animate-marquee-left gap-4">
+          <div className="animate-marquee-left gap-4 lg:gap-6">
             {marqueeRow1.map((product, idx) => (
               <div
                 key={`row1-${product.id}-${idx}`}
                 onClick={() => handleOpenDetails(product)}
-                className="relative w-80 sm:w-96 aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900 shadow-xl"
+                className="relative w-80 sm:w-96 lg:w-[28rem] aspect-[16/10] shrink-0 rounded-2xl lg:rounded-3xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900 shadow-xl"
               >
                 <img
                   src={product.images[0]}
                   alt={product.name}
                   className="w-full h-full object-cover filter brightness-[0.88] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
-                  <span className="text-[10px] font-mono text-amber-300 tracking-widest uppercase">
+                <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 lg:p-8">
+                  <span className="text-[10px] lg:text-xs font-mono text-amber-300 tracking-widest uppercase">
                     {product.category}
                   </span>
                   <div className="space-y-1">
-                    <h3 className="text-lg font-bold text-white line-clamp-1">{product.name}</h3>
-                    <p className="text-xs text-stone-300 font-light line-clamp-1">{product.description}</p>
-                    <div className="pt-2 flex items-center gap-2 text-xs font-bold text-emerald-400">
+                    <h3 className="text-lg lg:text-xl font-bold text-white line-clamp-1">{product.name}</h3>
+                    <p className="text-xs lg:text-sm text-stone-300 font-light line-clamp-1">{product.description}</p>
+                    <div className="pt-2 flex items-center gap-2 text-xs lg:text-sm font-bold text-emerald-400">
                       <WhatsAppIcon className="w-4 h-4" />
                       <span>Tanya Harga WA</span>
                     </div>
@@ -208,26 +208,26 @@ export const PublicCatalogView: React.FC = () => {
 
         {/* ROW 2 */}
         <div className="overflow-hidden w-full relative">
-          <div className="animate-marquee-right gap-4">
+          <div className="animate-marquee-right gap-4 lg:gap-6">
             {marqueeRow2.map((product, idx) => (
               <div
                 key={`row2-${product.id}-${idx}`}
                 onClick={() => handleOpenDetails(product)}
-                className="relative w-80 sm:w-96 aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900 shadow-xl"
+                className="relative w-80 sm:w-96 lg:w-[28rem] aspect-[16/10] shrink-0 rounded-2xl lg:rounded-3xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900 shadow-xl"
               >
                 <img
                   src={product.images[0]}
                   alt={product.name}
                   className="w-full h-full object-cover filter brightness-[0.88] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
-                  <span className="text-[10px] font-mono text-amber-300 tracking-widest uppercase">
+                <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 lg:p-8">
+                  <span className="text-[10px] lg:text-xs font-mono text-amber-300 tracking-widest uppercase">
                     {product.category}
                   </span>
                   <div className="space-y-1">
-                    <h3 className="text-lg font-bold text-white line-clamp-1">{product.name}</h3>
-                    <p className="text-xs text-stone-300 font-light line-clamp-1">{product.description}</p>
-                    <div className="pt-2 flex items-center gap-2 text-xs font-bold text-emerald-400">
+                    <h3 className="text-lg lg:text-xl font-bold text-white line-clamp-1">{product.name}</h3>
+                    <p className="text-xs lg:text-sm text-stone-300 font-light line-clamp-1">{product.description}</p>
+                    <div className="pt-2 flex items-center gap-2 text-xs lg:text-sm font-bold text-emerald-400">
                       <WhatsAppIcon className="w-4 h-4" />
                       <span>Tanya Harga WA</span>
                     </div>
@@ -239,14 +239,14 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* PURE ARCHITECTURAL STUDIO PROJECT GALLERY (ZERO E-COMMERCE CLUTTER) */}
-      <main id="gallery-section" className="max-w-7xl mx-auto px-6 sm:px-12 py-24 space-y-12">
+      {/* FLUID AUTO-ADJUSTING ARCHITECTURAL GALLERY GRID (ADJUSTS TO 3, 4, 5, 6 COLUMNS ON WIDE SCREENS / ZOOM OUT) */}
+      <main id="gallery-section" className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-16 py-24 lg:py-32 space-y-12 lg:space-y-16">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-900 pb-8">
           <div className="space-y-2 max-w-xl">
-            <h2 className="text-3xl sm:text-4xl font-sans font-bold text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight">
               Galeri Portofolio Proyek
             </h2>
-            <p className="text-stone-400 text-xs font-light leading-relaxed">
+            <p className="text-stone-400 text-xs sm:text-sm font-light leading-relaxed">
               Kumpulan kurasi proyek arsitektur & fitout desain interior studio kami.
             </p>
           </div>
@@ -258,7 +258,7 @@ export const PublicCatalogView: React.FC = () => {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 text-xs font-mono uppercase tracking-widest transition-all rounded-full ${
+                  className={`px-4 lg:px-5 py-2 lg:py-2.5 text-xs lg:text-sm font-mono uppercase tracking-widest transition-all rounded-full ${
                     selectedCategory === cat
                       ? 'bg-white text-stone-950 font-bold shadow-md'
                       : 'text-stone-400 hover:text-white bg-stone-950 border border-stone-800'
@@ -272,19 +272,19 @@ export const PublicCatalogView: React.FC = () => {
         </div>
 
         {/* SEARCH INPUT */}
-        <div className="relative max-w-md">
-          <Search className="w-4 h-4 text-stone-500 absolute left-4 top-1/2 -translate-y-1/2" />
+        <div className="relative max-w-md lg:max-w-lg">
+          <Search className="w-4 h-4 lg:w-5 lg:h-5 text-stone-500 absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari nama proyek interior..."
-            className="w-full pl-11 pr-4 py-2.5 bg-[#0A0908] border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
+            className="w-full pl-11 lg:pl-12 pr-4 py-2.5 lg:py-3 bg-[#0A0908] border border-stone-800 rounded-full text-xs lg:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
           />
         </div>
 
-        {/* PURE PHOTOGRAPHY PORTFOLIO GRID (CLEAN TILES WITH HOVER OVERLAY, ZERO TEXT NOISE BELOW) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* FLUID DYNAMIC AUTO-SCALING GRID (3 -> 4 -> 5 -> 6 COLUMNS ON WIDE DISPLAY / ZOOM OUT) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-6 lg:gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -300,26 +300,26 @@ export const PublicCatalogView: React.FC = () => {
 
               {/* Permanent Minimalist Category Tag */}
               <div className="absolute top-4 left-4 z-10">
-                <span className="px-3.5 py-1.5 bg-stone-950/80 backdrop-blur-md border border-stone-800/80 text-[10px] font-mono uppercase tracking-widest text-amber-300 rounded-full shadow-lg">
+                <span className="px-3.5 py-1.5 bg-stone-950/80 backdrop-blur-md border border-stone-800/80 text-[10px] lg:text-xs font-mono uppercase tracking-widest text-amber-300 rounded-full shadow-lg">
                   {product.category}
                 </span>
               </div>
 
               {/* Sleek Gradient Overlay on Hover (Title, Lead Time, & Instant WA Action) */}
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-end">
-                <h3 className="font-extrabold text-white text-xl leading-snug line-clamp-1">
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 lg:p-8 flex flex-col justify-end">
+                <h3 className="font-extrabold text-white text-lg lg:text-2xl leading-snug line-clamp-1">
                   {product.name}
                 </h3>
-                <p className="text-stone-300 text-xs font-light line-clamp-2 mt-1 leading-relaxed">
+                <p className="text-stone-300 text-xs lg:text-sm font-light line-clamp-2 mt-1 leading-relaxed">
                   {product.description}
                 </p>
 
                 <div className="pt-4 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-stone-400">
+                  <span className="text-[11px] lg:text-xs font-mono text-stone-400">
                     Lead time ~{product.leadTimeDays} hari
                   </span>
-                  <div className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl">
-                    <WhatsAppIcon className="w-3.5 h-3.5" />
+                  <div className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs lg:text-sm flex items-center gap-1.5 transition-all shadow-xl">
+                    <WhatsAppIcon className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                     <span>Tanya Harga WA</span>
                   </div>
                 </div>
@@ -330,8 +330,8 @@ export const PublicCatalogView: React.FC = () => {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-stone-900 py-12 bg-[#050505] text-center text-xs text-stone-500">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="border-t border-stone-900 py-12 lg:py-16 bg-[#050505] text-center text-xs lg:text-sm text-stone-500">
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="font-bold text-stone-300 tracking-wider">
             INTERIORCRAFT STUDIO INDONESIA
           </span>
@@ -345,7 +345,7 @@ export const PublicCatalogView: React.FC = () => {
           isOpen={!!selectedProduct}
           onClose={() => setSelectedProduct(null)}
           hideHeader={true}
-          maxWidth="max-w-4xl"
+          maxWidth="max-w-5xl"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-stone-100 pt-2">
             {/* Left: Interactive Synchronized Image Canvas */}
@@ -400,16 +400,16 @@ export const PublicCatalogView: React.FC = () => {
                   <span className="text-xs font-mono uppercase tracking-widest text-amber-300 block mb-1">
                     Koleksi {selectedProduct.category}
                   </span>
-                  <h3 className="text-2xl font-extrabold text-white leading-tight">
+                  <h3 className="text-2xl lg:text-3xl font-extrabold text-white leading-tight">
                     {selectedProduct.name}
                   </h3>
                 </div>
 
-                <p className="text-xs text-stone-300 leading-relaxed font-light">
+                <p className="text-xs lg:text-sm text-stone-300 leading-relaxed font-light">
                   {selectedProduct.description}
                 </p>
 
-                <div className="p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-xs space-y-1">
+                <div className="p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-xs lg:text-sm space-y-1">
                   <span className="text-stone-400 block">Estimasi Waktu Pengerjaan (Lead Time):</span>
                   <span className="font-bold text-amber-300">~{selectedProduct.leadTimeDays} Hari Kerja (Custom Fitout)</span>
                 </div>
@@ -417,7 +417,7 @@ export const PublicCatalogView: React.FC = () => {
                 {/* 2-WAY SYNCHRONIZED MATERIAL VARIANT BUTTONS */}
                 {selectedProduct.variants.length > 0 && (
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-stone-300 block">
+                    <label className="text-xs lg:text-sm font-semibold text-stone-300 block">
                       Pilih Varian Finishing / Material:
                     </label>
                     <div className="space-y-2">
@@ -425,7 +425,7 @@ export const PublicCatalogView: React.FC = () => {
                         <button
                           key={variant.id}
                           onClick={() => handleSelectVariant(variant, idx)}
-                          className={`w-full text-left p-3.5 rounded-xl text-xs font-semibold border flex items-center justify-between transition-all ${
+                          className={`w-full text-left p-3.5 rounded-xl text-xs lg:text-sm font-semibold border flex items-center justify-between transition-all ${
                             activeVariant?.id === variant.id
                               ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-md ring-1 ring-amber-400/50'
                               : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
@@ -453,7 +453,7 @@ export const PublicCatalogView: React.FC = () => {
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-full flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/20 transition-all hover:scale-105"
+                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs lg:text-sm rounded-full flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/20 transition-all hover:scale-105"
                 >
                   <WhatsAppIcon className="w-4 h-4" />
                   <span>Konsultasi Harga & Spesifikasi via WA</span>
@@ -470,10 +470,10 @@ export const PublicCatalogView: React.FC = () => {
           isOpen={isEstimatorOpen}
           onClose={() => setIsEstimatorOpen(false)}
           title="Simulasi Estimasi Budget Custom Fitout"
-          maxWidth="max-w-xl"
+          maxWidth="max-w-2xl"
         >
           <div className="space-y-5 text-stone-100">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs lg:text-sm">
               <div className="space-y-1">
                 <label className="block text-stone-400 font-semibold">Jenis Proyek</label>
                 <select
@@ -537,11 +537,11 @@ export const PublicCatalogView: React.FC = () => {
                     Perkiraan Anggaran Biaya Indikatif:
                   </span>
 
-                  <div className="text-xl sm:text-2xl font-bold text-white tracking-wide">
+                  <div className="text-xl sm:text-3xl font-bold text-white tracking-wide">
                     {formatRupiah(minEst)} &nbsp;—&nbsp; {formatRupiah(maxEst)}
                   </div>
 
-                  <p className="text-[11px] text-stone-500 font-light">
+                  <p className="text-[11px] lg:text-xs text-stone-500 font-light">
                     *Termasuk kayu multiplek 18mm grade A, engsel soft-close Hafele, pengiriman & instalasi lokasi.
                   </p>
                 </div>
@@ -551,7 +551,7 @@ export const PublicCatalogView: React.FC = () => {
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 onClick={() => setIsEstimatorOpen(false)}
-                className="px-5 py-2.5 rounded-full bg-stone-800 text-stone-300 text-xs font-semibold hover:bg-stone-700 transition-colors"
+                className="px-5 py-2.5 rounded-full bg-stone-800 text-stone-300 text-xs lg:text-sm font-semibold hover:bg-stone-700 transition-colors"
               >
                 Tutup
               </button>
@@ -559,7 +559,7 @@ export const PublicCatalogView: React.FC = () => {
                 href={`https://wa.me/6281298765432?text=${encodeURIComponent(`Halo InteriorCraft Studio, saya telah mencoba kalkulator estimasi untuk *${estCategory}* ukuran ${estLength}m x ${estHeight}m dengan finishing ${estFinish}. Mohon konsultasi survei lokasi!`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold flex items-center gap-2 transition-all shadow-xl hover:scale-105"
+                className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs lg:text-sm font-extrabold flex items-center gap-2 shadow-xl hover:scale-105"
               >
                 <WhatsAppIcon className="w-4 h-4" />
                 <span>Konsultasi Hasil Estimasi via WA</span>
