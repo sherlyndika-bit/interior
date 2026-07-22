@@ -6,17 +6,14 @@ import { Modal } from '../components/Modal';
 import {
   MessageSquare,
   Search,
-  Filter,
   Sparkles,
   Clock,
   ShieldCheck,
   Calculator,
-  Eye,
   ChevronRight,
   ChevronLeft,
   Maximize2,
   SlidersHorizontal,
-  ArrowRight,
   CheckCircle2
 } from 'lucide-react';
 
@@ -73,28 +70,28 @@ export const PublicCatalogView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-stone-900 font-sans selection:bg-amber-100 selection:text-stone-900">
-      {/* Editorial Luxury Top Header */}
-      <header className="sticky top-0 z-40 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-stone-200/80 px-6 py-4 transition-all">
+    <div className="min-h-screen bg-[#0F0E0D] text-stone-100 font-sans selection:bg-amber-400 selection:text-stone-950">
+      {/* Overlay Minimalist Top Header */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-stone-950/90 via-stone-950/40 to-transparent backdrop-blur-sm px-6 py-5 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center text-amber-200 font-bold text-sm shadow-md">
+            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-amber-300 font-bold text-sm shadow-xl">
               IC
             </div>
             <div>
-              <span className="font-serif font-bold text-stone-900 text-xl tracking-tight flex items-center gap-2">
-                INTERIORCRAFT <span className="font-sans text-[10px] font-semibold tracking-widest text-amber-700 uppercase px-2 py-0.5 rounded bg-stone-100 border border-stone-200">STUDIO</span>
+              <span className="font-serif font-bold text-white text-xl tracking-tight flex items-center gap-2">
+                INTERIORCRAFT <span className="font-sans text-[10px] font-semibold tracking-widest text-amber-300 uppercase px-2 py-0.5 rounded bg-white/10 border border-white/20">GALLERY</span>
               </span>
-              <p className="text-[10px] text-stone-500 tracking-wider uppercase font-medium">Architecture & Fine Furniture Gallery</p>
+              <p className="text-[10px] text-stone-300 tracking-wider uppercase font-medium">Architecture & Custom Fitout</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setIsEstimatorOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-300 text-xs font-medium text-stone-800 transition-all shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md text-xs font-medium text-white transition-all shadow-lg"
             >
-              <Calculator className="w-3.5 h-3.5 text-amber-700" />
+              <Calculator className="w-3.5 h-3.5 text-amber-300" />
               <span className="hidden sm:inline">Simulasi Budget</span>
             </button>
 
@@ -102,7 +99,7 @@ export const PublicCatalogView: React.FC = () => {
               href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20untuk%20konsultasi%20desain%20interior."
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2 rounded-full bg-stone-900 hover:bg-stone-800 text-amber-100 font-semibold text-xs flex items-center gap-2 transition-all shadow-md"
+              className="px-5 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 transition-all shadow-xl hover:scale-105"
             >
               <MessageSquare className="w-3.5 h-3.5" />
               <span>Tanya Harga via WA</span>
@@ -111,89 +108,83 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero Editorial Architecture Gallery Showcase */}
-      <section className="relative overflow-hidden py-16 px-6 border-b border-stone-200/60 bg-gradient-to-b from-[#FAF8F5] via-white to-[#FAF8F5]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-medium">
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-              <span>Koleksi Eksklusif Fitout Interior & Furniture 2026</span>
-            </div>
+      {/* FULL-BLEED FULL SCREEN PHOTOGRAPHY HERO WITH OVERLAID TYPOGRAPHY */}
+      <section className="relative h-[90vh] min-h-[600px] w-full flex items-center justify-center overflow-hidden">
+        {/* Full-bleed background photography */}
+        <img
+          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&auto=format&fit=crop&q=85"
+          alt="Full Bleed Architecture Photography"
+          className="absolute inset-0 w-full h-full object-cover filter contrast-[1.05] brightness-90 scale-105"
+        />
 
-            <h1 className="text-4xl sm:text-6xl font-serif font-normal text-stone-950 tracking-tight leading-[1.15]">
-              Ruang Elegan & Custom, <br />
-              <span className="italic font-serif text-amber-800">
-                Konsultasikan Harga via WA
-              </span>
-            </h1>
+        {/* Dark Vignette Overlay for Crisp Typography Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0F0E0D] via-[#0F0E0D]/40 to-[#0F0E0D]/60" />
+        <div className="absolute inset-0 bg-stone-950/30 backdrop-brightness-95" />
 
-            <p className="text-stone-600 text-base leading-relaxed max-w-2xl font-light">
-              Setiap karya furniture & fitout interior dirancang secara khusus (<strong>custom-fit</strong>) sesuai ukuran ruangan Anda. Pilih galeri inspirasi dari rumah, lalu tekan tombol konsultasi WhatsApp untuk penawaran harga presisi.
-            </p>
+        {/* OVERLAID CONTENT ON TOP OF IMAGE */}
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6 pt-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-200 text-xs font-medium">
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            <span>Koleksi Eksklusif Portofolio Gallery 2026</span>
+          </div>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2 justify-center lg:justify-start">
-              <button
-                onClick={() => setIsEstimatorOpen(true)}
-                className="px-7 py-3 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-medium text-xs flex items-center gap-2 transition-all shadow-md hover:scale-[1.02]"
-              >
-                <Calculator className="w-4 h-4 text-amber-300" />
-                <span>Simulasi Estimasi Budget Custom</span>
-              </button>
+          <h1 className="text-4xl sm:text-7xl font-serif font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-2xl">
+            Ruang Elegan & Custom, <br />
+            <span className="italic font-serif text-amber-300 font-normal">
+              Konsultasikan Harga via WA
+            </span>
+          </h1>
 
-              <a
-                href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20ingin%20konsultasi%20desain%20interior%20bebas%20biaya."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-7 py-3 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-xs flex items-center gap-2 transition-all shadow-md hover:scale-[1.02]"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>Konsultasi Gratis via WA</span>
-              </a>
-            </div>
+          <p className="text-stone-200 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-light drop-shadow-md">
+            Jelajahi karya desain interior & furniture custom kami dari rumah. Klik foto favorit Anda dan tekan tombol WhatsApp untuk diskusi penawaran harga presisi!
+          </p>
 
-            <div className="flex items-center justify-center lg:justify-start gap-6 pt-4 text-xs text-stone-500">
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Garansi Engsel & Kayu 2 Tahun</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-stone-700" />
-                <span>Bahan Multiplek 18mm & HPL Taco Grade A</span>
-              </div>
+          {/* Search bar directly inside hero overlay */}
+          <div className="max-w-xl mx-auto pt-2">
+            <div className="relative">
+              <Search className="w-5 h-5 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Cari kitchen set, wardrobe, bed set, wall panel..."
+                className="w-full pl-12 pr-6 py-3.5 bg-stone-950/80 backdrop-blur-xl border border-white/20 rounded-full text-sm text-white placeholder-stone-400 focus:outline-none focus:border-amber-300 shadow-2xl transition-all"
+              />
             </div>
           </div>
 
-          {/* Hero Editorial Showcase Image */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-stone-200 bg-white group">
-              <img
-                src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1000&auto=format&fit=crop&q=80"
-                alt="Luxury Gallery Showcase"
-                className="w-full h-80 sm:h-[400px] object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-[1.02]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 text-white space-y-1">
-                <span className="text-[10px] font-mono tracking-widest uppercase text-amber-200">
-                  Scandinavian Minimalist Fitout
-                </span>
-                <h3 className="font-serif text-lg font-bold">Proyek Residensial Alam Sutera</h3>
-                <p className="text-xs text-stone-300 font-light">Custom fluted wall panel, warm LED light & quartz top.</p>
-              </div>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
+            <button
+              onClick={() => setIsEstimatorOpen(true)}
+              className="px-8 py-3.5 rounded-full bg-white/90 hover:bg-white text-stone-950 font-bold text-xs flex items-center gap-2 shadow-2xl transition-all hover:scale-105"
+            >
+              <Calculator className="w-4 h-4 text-amber-700" />
+              <span>Simulasi Budget Custom</span>
+            </button>
+
+            <a
+              href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20konsultasi%20desain%20interior."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-2xl transition-all hover:scale-105"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>Tanya Harga via WA</span>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Main Gallery Collection */}
+      {/* Main Visual Gallery Showcase Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-12">
-        {/* Visual Category Showcase */}
+        {/* Category Pills Slider */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-serif text-stone-900 tracking-tight flex items-center gap-2">
-              <SlidersHorizontal className="w-4 h-4 text-amber-700" />
-              Galeri Kategori Ruangan
+            <h2 className="text-xl font-serif text-white tracking-tight flex items-center gap-2">
+              <SlidersHorizontal className="w-4 h-4 text-amber-300" />
+              Galeri Berdasarkan Kategori
             </h2>
-            <span className="text-xs text-stone-500">Pilih kategori untuk memfilter</span>
+            <span className="text-xs text-stone-400 font-light">Pilih kategori untuk memfilter</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
@@ -201,19 +192,19 @@ export const PublicCatalogView: React.FC = () => {
               <button
                 key={cat.name}
                 onClick={() => setSelectedCategory(cat.name)}
-                className={`relative rounded-xl overflow-hidden h-24 text-left p-3 flex flex-col justify-end transition-all border ${
+                className={`relative rounded-2xl overflow-hidden h-28 text-left p-3 flex flex-col justify-end transition-all border group ${
                   selectedCategory === cat.name
-                    ? 'border-amber-700 ring-2 ring-amber-700/20 scale-[1.02] shadow-md'
-                    : 'border-stone-200 hover:border-stone-300 opacity-90 hover:opacity-100'
+                    ? 'border-amber-400 ring-2 ring-amber-400/40 scale-[1.03] shadow-2xl'
+                    : 'border-stone-800 opacity-70 hover:opacity-100 hover:border-stone-700'
                 }`}
               >
                 <img
                   src={cat.image}
                   alt={cat.name}
-                  className="absolute inset-0 w-full h-full object-cover filter brightness-75 group-hover:scale-110 transition-transform duration-500"
+                  className="absolute inset-0 w-full h-full object-cover filter brightness-75 group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/30 to-transparent" />
-                <span className="relative z-10 text-xs font-semibold text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
+                <span className="relative z-10 text-xs font-bold text-white group-hover:text-amber-300 transition-colors">
                   {cat.name}
                 </span>
               </button>
@@ -221,72 +212,61 @@ export const PublicCatalogView: React.FC = () => {
           </div>
         </div>
 
-        {/* Filter Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-stone-200">
-          <div className="text-xs text-stone-500">
-            Menampilkan <strong className="text-stone-900 font-semibold">{filteredProducts.length}</strong> karya portofolio furniture
-          </div>
-
-          <div className="relative w-full sm:w-80">
-            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari model furniture / kode..."
-              className="w-full pl-9 pr-4 py-2 bg-white border border-stone-300 rounded-full text-xs text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-700 transition-colors shadow-sm"
-            />
-          </div>
+        {/* Result Header */}
+        <div className="flex items-center justify-between border-b border-stone-800 pb-4 text-xs text-stone-400">
+          <span>Menampilkan <strong className="text-white font-bold">{filteredProducts.length}</strong> karya portofolio foto</span>
+          <span>Kategori: <strong className="text-amber-300 font-bold">{selectedCategory}</strong></span>
         </div>
 
-        {/* Editorial Product Cards Grid */}
+        {/* FULL IMAGE PHOTOGRAPHY CARDS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-2xl border border-stone-200/80 overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all duration-300 group"
+              className="bg-stone-900/80 rounded-3xl border border-stone-800 overflow-hidden flex flex-col justify-between hover:border-stone-700 transition-all duration-500 group shadow-2xl"
             >
               <div>
-                {/* Product Showcase Image */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-stone-100 cursor-pointer" onClick={() => handleOpenDetails(product)}>
+                {/* Full Visual Photo Card Canvas */}
+                <div className="relative aspect-[4/3] overflow-hidden bg-stone-950 cursor-pointer" onClick={() => handleOpenDetails(product)}>
                   <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-[1.01]"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 filter contrast-[1.03]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-transparent opacity-60" />
+                  {/* Photo Vignette Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-90" />
 
-                  {/* Category Pill */}
-                  <div className="absolute top-3 left-3 flex items-center gap-2">
-                    <span className="px-3 py-1 bg-white/90 backdrop-blur-md text-[10px] font-bold text-stone-900 rounded-full border border-stone-200 shadow-sm">
+                  {/* Category & Code Tag */}
+                  <div className="absolute top-4 left-4 flex items-center gap-2">
+                    <span className="px-3 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-bold text-amber-300 rounded-full border border-stone-800 shadow-md">
                       {product.category}
                     </span>
-                    <span className="px-2.5 py-1 bg-stone-900/80 backdrop-blur-md text-[10px] font-mono text-amber-200 rounded-full">
+                    <span className="px-2.5 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-mono text-stone-300 rounded-full border border-stone-800">
                       {product.code}
                     </span>
                   </div>
 
-                  {/* Lead Time */}
-                  <div className="absolute bottom-3 left-3 text-[11px] text-white font-medium bg-stone-950/80 px-2.5 py-1 rounded-full border border-stone-700 backdrop-blur-sm flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-amber-300" />
+                  {/* Lead Time Tag */}
+                  <div className="absolute bottom-4 left-4 text-[11px] text-stone-200 font-medium bg-stone-950/90 px-3 py-1 rounded-full border border-stone-800 backdrop-blur-sm flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-amber-300" />
                     <span>Lead Time ~{product.leadTimeDays} Hari</span>
                   </div>
                 </div>
 
-                {/* Card Content */}
-                <div className="p-6 space-y-2">
-                  <h3 className="font-serif font-bold text-stone-900 text-lg group-hover:text-amber-800 transition-colors line-clamp-1">
+                {/* Card Title & Specs Description */}
+                <div className="p-6 space-y-3">
+                  <h3 className="font-serif font-extrabold text-white text-lg group-hover:text-amber-300 transition-colors line-clamp-1">
                     {product.name}
                   </h3>
-                  <p className="text-stone-600 text-xs line-clamp-2 leading-relaxed font-light">
+                  <p className="text-stone-400 text-xs line-clamp-2 leading-relaxed font-light">
                     {product.description}
                   </p>
 
-                  {/* Variants */}
+                  {/* Variant Tags */}
                   {product.variants.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-2">
+                    <div className="flex flex-wrap gap-1.5 pt-1">
                       {product.variants.map(v => (
-                        <span key={v.id} className="text-[10px] px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-700 border border-stone-200">
+                        <span key={v.id} className="text-[10px] px-2.5 py-0.5 rounded-full bg-stone-950 text-stone-300 border border-slate-800">
                           {v.name}
                         </span>
                       ))}
@@ -296,11 +276,11 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="p-6 pt-0 flex items-center gap-2">
+              <div className="p-6 pt-0 flex items-center gap-3">
                 <button
                   onClick={() => handleOpenDetails(product)}
-                  className="p-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 transition-colors"
-                  title="Lihat Galeri Details"
+                  className="p-3 rounded-full bg-stone-950 hover:bg-stone-800 border border-stone-800 text-stone-300 hover:text-white transition-colors"
+                  title="Lihat Galeri Foto Full"
                 >
                   <Maximize2 className="w-4 h-4" />
                 </button>
@@ -309,7 +289,7 @@ export const PublicCatalogView: React.FC = () => {
                   href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 py-2.5 px-4 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-md"
+                  className="flex-1 py-3 px-4 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 transition-all shadow-xl hover:scale-[1.02]"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Tanya Harga via WA</span>
@@ -321,10 +301,10 @@ export const PublicCatalogView: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-stone-200 mt-20 py-10 bg-white text-center text-xs text-stone-500">
+      <footer className="border-t border-stone-800 mt-20 py-10 bg-stone-950 text-center text-xs text-stone-500">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-serif font-bold text-stone-900">PT InteriorCraft Studio Indonesia</span>
+            <span className="font-serif font-bold text-stone-200">PT InteriorCraft Studio Indonesia</span>
             <span>• Kawasan Industri Kreatif, BSD City</span>
           </div>
           <div>
@@ -333,18 +313,18 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </footer>
 
-      {/* Product Detail Modal */}
+      {/* Full Visual Gallery & Detail Modal */}
       {selectedProduct && (
         <Modal
           isOpen={!!selectedProduct}
           onClose={() => setSelectedProduct(null)}
-          title={`Galeri & Spesifikasi: ${selectedProduct.name}`}
+          title={`Galeri Foto: ${selectedProduct.name}`}
           maxWidth="max-w-4xl"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-stone-900">
-            {/* Left: Images */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-stone-100">
+            {/* Left: Images Carousel */}
             <div className="lg:col-span-7 space-y-3">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 group">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-800 bg-stone-950 group">
                 <img
                   src={selectedProduct.images[activeImageIndex] || selectedProduct.images[0]}
                   alt={selectedProduct.name}
@@ -355,13 +335,13 @@ export const PublicCatalogView: React.FC = () => {
                   <div className="absolute inset-0 flex items-center justify-between p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : selectedProduct.images.length - 1))}
-                      className="p-2 rounded-full bg-white/90 text-stone-900 border border-stone-200 hover:bg-white"
+                      className="p-2 rounded-full bg-stone-950/80 backdrop-blur-md text-white border border-stone-700 hover:bg-stone-900"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                       onClick={() => setActiveImageIndex((prev) => (prev < selectedProduct.images.length - 1 ? prev + 1 : 0))}
-                      className="p-2 rounded-full bg-white/90 text-stone-900 border border-stone-200 hover:bg-white"
+                      className="p-2 rounded-full bg-stone-950/80 backdrop-blur-md text-white border border-stone-700 hover:bg-stone-900"
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
@@ -377,7 +357,7 @@ export const PublicCatalogView: React.FC = () => {
                       key={idx}
                       onClick={() => setActiveImageIndex(idx)}
                       className={`w-20 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
-                        activeImageIndex === idx ? 'border-amber-700 scale-105' : 'border-stone-200 opacity-60'
+                        activeImageIndex === idx ? 'border-amber-400 scale-105' : 'border-stone-800 opacity-60'
                       }`}
                     >
                       <img src={img} alt="Thumb" className="w-full h-full object-cover" />
@@ -387,32 +367,32 @@ export const PublicCatalogView: React.FC = () => {
               )}
 
               <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-stone-50 border border-stone-200">
+                <div className="p-3 rounded-xl bg-stone-950 border border-stone-800">
                   <span className="text-stone-500 block">Kategori</span>
-                  <span className="font-bold text-stone-900">{selectedProduct.category}</span>
+                  <span className="font-bold text-amber-300">{selectedProduct.category}</span>
                 </div>
-                <div className="p-3 rounded-xl bg-stone-50 border border-stone-200">
-                  <span className="text-stone-500 block">Lead Time Produksi</span>
-                  <span className="font-bold text-stone-900">{selectedProduct.leadTimeDays} Hari Kerja</span>
+                <div className="p-3 rounded-xl bg-stone-950 border border-stone-800">
+                  <span className="text-slate-500 block">Lead Time Produksi</span>
+                  <span className="font-bold text-slate-200">{selectedProduct.leadTimeDays} Hari Kerja</span>
                 </div>
               </div>
             </div>
 
-            {/* Right: Technical Specs */}
+            {/* Right: Technical Specs & WA Action */}
             <div className="lg:col-span-5 space-y-5 flex flex-col justify-between">
               <div className="space-y-3">
-                <span className="text-xs font-mono text-amber-800 px-2.5 py-0.5 rounded bg-amber-50 border border-amber-200 inline-block">
+                <span className="text-xs font-mono text-amber-300 px-2.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 inline-block">
                   {selectedProduct.code}
                 </span>
-                <h3 className="text-2xl font-serif font-bold text-stone-950 leading-tight">{selectedProduct.name}</h3>
-                <p className="text-xs text-stone-600 leading-relaxed font-light">
+                <h3 className="text-2xl font-serif font-bold text-white leading-tight">{selectedProduct.name}</h3>
+                <p className="text-xs text-stone-300 leading-relaxed font-light">
                   {selectedProduct.description}
                 </p>
 
                 {/* Variant selection */}
                 {selectedProduct.variants.length > 0 && (
                   <div className="mt-4 space-y-2">
-                    <label className="text-xs font-semibold text-stone-700 block">
+                    <label className="text-xs font-semibold text-stone-300 block">
                       Pilih Varian Finishing / Material:
                     </label>
                     <div className="space-y-2">
@@ -422,8 +402,8 @@ export const PublicCatalogView: React.FC = () => {
                           onClick={() => setActiveVariant(variant)}
                           className={`w-full text-left p-3 rounded-xl text-xs font-medium border flex items-center justify-between transition-all ${
                             activeVariant?.id === variant.id
-                              ? 'bg-amber-50 border-amber-700 text-amber-900 font-bold'
-                              : 'bg-stone-50 border-stone-200 text-stone-700 hover:border-stone-300'
+                              ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-bold'
+                              : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
                           }`}
                         >
                           <span>{variant.name}</span>
@@ -435,8 +415,8 @@ export const PublicCatalogView: React.FC = () => {
                 )}
               </div>
 
-              <div className="pt-4 border-t border-stone-200 space-y-3">
-                <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-center gap-2">
+              <div className="pt-4 border-t border-stone-800 space-y-3">
+                <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
                   <MessageSquare className="w-4 h-4 shrink-0" />
                   <span>Pemesanan & penyesuaian ukuran dilakukan langsung via WhatsApp.</span>
                 </div>
@@ -450,7 +430,7 @@ export const PublicCatalogView: React.FC = () => {
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs rounded-full flex items-center justify-center gap-2 shadow-md transition-all"
+                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-full flex items-center justify-center gap-2 shadow-xl transition-all"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Tanya Harga Varian ini via WA</span>
@@ -461,7 +441,7 @@ export const PublicCatalogView: React.FC = () => {
         </Modal>
       )}
 
-      {/* Estimator Modal */}
+      {/* Fitout Budget Estimator Modal */}
       {isEstimatorOpen && (
         <Modal
           isOpen={isEstimatorOpen}
@@ -469,18 +449,18 @@ export const PublicCatalogView: React.FC = () => {
           title="Simulasi Estimasi Budget Custom Fitout Interior"
           maxWidth="max-w-xl"
         >
-          <div className="space-y-4 text-stone-900">
-            <p className="text-xs text-stone-600">
+          <div className="space-y-4 text-stone-100">
+            <p className="text-xs text-stone-300">
               Hitung gambaran kasar anggaran biaya custom furniture berdasarkan ukuran ruangan Anda:
             </p>
 
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <label className="block text-stone-600 mb-1 font-semibold">Jenis Proyek</label>
+                <label className="block text-stone-400 mb-1 font-semibold">Jenis Proyek</label>
                 <select
                   value={estCategory}
                   onChange={(e) => setEstCategory(e.target.value)}
-                  className="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl text-stone-900 focus:outline-none focus:border-amber-700"
+                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
                 >
                   <option value="Kitchen Set">Kitchen Set</option>
                   <option value="Wardrobe">Wardrobe Walk-in Closet</option>
@@ -490,11 +470,11 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-stone-600 mb-1 font-semibold">Finishing Material</label>
+                <label className="block text-stone-400 mb-1 font-semibold">Finishing Material</label>
                 <select
                   value={estFinish}
                   onChange={(e) => setEstFinish(e.target.value)}
-                  className="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl text-stone-900 focus:outline-none focus:border-amber-700"
+                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
                 >
                   <option value="HPL Taco Wood Grain">HPL Taco Standard</option>
                   <option value="Duco Matte Paint">Cat Duco Premium</option>
@@ -503,26 +483,26 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-stone-600 mb-1 font-semibold">Panjang Ruangan (Meter)</label>
+                <label className="block text-stone-400 mb-1 font-semibold">Panjang Ruangan (Meter)</label>
                 <input
                   type="number"
                   step="0.5"
                   min="1"
                   value={estLength}
                   onChange={(e) => setEstLength(Number(e.target.value))}
-                  className="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl text-stone-900 focus:outline-none focus:border-amber-700"
+                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
                 />
               </div>
 
               <div>
-                <label className="block text-stone-600 mb-1 font-semibold">Tinggi Kabinet (Meter)</label>
+                <label className="block text-slate-400 mb-1 font-semibold">Tinggi Kabinet (Meter)</label>
                 <input
                   type="number"
                   step="0.1"
                   min="1"
                   value={estHeight}
                   onChange={(e) => setEstHeight(Number(e.target.value))}
-                  className="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl text-stone-900 focus:outline-none focus:border-amber-700"
+                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
                 />
               </div>
             </div>
@@ -531,12 +511,12 @@ export const PublicCatalogView: React.FC = () => {
             {(() => {
               const { minEst, maxEst } = calculateEstimatedPriceRange();
               return (
-                <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-center space-y-1 shadow-sm">
-                  <span className="text-xs text-amber-900 font-semibold block">Estimasi Biaya Indikatif:</span>
-                  <div className="text-2xl font-serif font-bold text-stone-950">
+                <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-center space-y-1 shadow-xl">
+                  <span className="text-xs text-amber-300 font-semibold block">Estimasi Biaya Indikatif:</span>
+                  <div className="text-2xl font-serif font-bold text-white">
                     {formatRupiah(minEst)} - {formatRupiah(maxEst)}
                   </div>
-                  <p className="text-[10px] text-stone-500">
+                  <p className="text-[10px] text-slate-400">
                     *Termasuk multiplek 18mm, engsel soft-close, delivery & instalasi lokasi.
                   </p>
                 </div>
@@ -546,7 +526,7 @@ export const PublicCatalogView: React.FC = () => {
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setIsEstimatorOpen(false)}
-                className="px-4 py-2 rounded-full bg-stone-100 text-stone-700 text-xs font-semibold hover:bg-stone-200"
+                className="px-4 py-2 rounded-full bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700"
               >
                 Tutup
               </button>
@@ -554,7 +534,7 @@ export const PublicCatalogView: React.FC = () => {
                 href={`https://wa.me/6281298765432?text=${encodeURIComponent(`Halo InteriorCraft Studio, saya telah mencoba kalkulator estimasi untuk *${estCategory}* ukuran ${estLength}m x ${estHeight}m dengan finishing ${estFinish}. Mohon konsultasi survei lokasi!`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold flex items-center gap-1.5"
+                className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>Konsultasi Hasil Estimasi via WA</span>
