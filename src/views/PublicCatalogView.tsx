@@ -48,8 +48,23 @@ export const PublicCatalogView: React.FC = () => {
 
   const handleOpenDetails = (product: Product) => {
     setSelectedProduct(product);
-    setActiveVariant(product.variants.length > 0 ? product.variants[0] : null);
     setActiveImageIndex(0);
+    setActiveVariant(product.variants.length > 0 ? product.variants[0] : null);
+  };
+
+  // Synchronized Selection Handlers (Variant <-> Image 2-Way Sync)
+  const handleSelectVariant = (variant: ProductVariant, index: number) => {
+    setActiveVariant(variant);
+    if (selectedProduct && selectedProduct.images[index]) {
+      setActiveImageIndex(index);
+    }
+  };
+
+  const handleSelectImage = (index: number) => {
+    setActiveImageIndex(index);
+    if (selectedProduct && selectedProduct.variants[index]) {
+      setActiveVariant(selectedProduct.variants[index]);
+    }
   };
 
   const calculateEstimatedPriceRange = () => {
@@ -329,16 +344,16 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </footer>
 
-      {/* REDESIGNED UNIFIED LUXURY LIGHTBOX MODAL */}
+      {/* FRAMELESS DYNAMICALLY SYNCHRONIZED LIGHTBOX MODAL */}
       {selectedProduct && (
         <Modal
           isOpen={!!selectedProduct}
           onClose={() => setSelectedProduct(null)}
-          title={selectedProduct.name}
+          hideHeader={true}
           maxWidth="max-w-4xl"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-stone-100">
-            {/* Left: Interactive Multi-Photo Gallery Slider */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-stone-100 pt-2">
+            {/* Left: Interactive Synchronized Image Canvas */}
             <div className="lg:col-span-7 space-y-3">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-800 bg-stone-950 group">
                 <img
@@ -350,13 +365,13 @@ export const PublicCatalogView: React.FC = () => {
                 {selectedProduct.images.length > 1 && (
                   <div className="absolute inset-0 flex items-center justify-between p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
-                      onClick={() => setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : selectedProduct.images.length - 1))}
+                      onClick={() => handleSelectImage(activeImageIndex > 0 ? activeImageIndex - 1 : selectedProduct.images.length - 1)}
                       className="p-2 rounded-full bg-stone-950/80 text-white border border-stone-700 hover:bg-stone-900"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
-                      onClick={() => setActiveImageIndex((prev) => (prev < selectedProduct.images.length - 1 ? prev + 1 : 0))}
+                      onClick={() => handleSelectImage(activeImageIndex < selectedProduct.images.length - 1 ? activeImageIndex + 1 : 0)}
                       className="p-2 rounded-full bg-stone-950/80 text-white border border-stone-700 hover:bg-stone-900"
                     >
                       <ChevronRight className="w-5 h-5" />
@@ -365,15 +380,15 @@ export const PublicCatalogView: React.FC = () => {
                 )}
               </div>
 
-              {/* Thumbnails Navigation */}
+              {/* Thumbnails Navigation (Selecting thumbnail switches image & synced variant) */}
               {selectedProduct.images.length > 1 && (
                 <div className="flex items-center gap-2 overflow-x-auto pb-1">
                   {selectedProduct.images.map((img, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setActiveImageIndex(idx)}
+                      onClick={() => handleSelectImage(idx)}
                       className={`w-20 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
-                        activeImageIndex === idx ? 'border-amber-400 scale-105' : 'border-stone-800 opacity-60'
+                        activeImageIndex === idx ? 'border-amber-400 scale-105 shadow-lg' : 'border-stone-800 opacity-60'
                       }`}
                     >
                       <img src={img} alt="Thumb" className="w-full h-full object-cover" />
@@ -383,7 +398,7 @@ export const PublicCatalogView: React.FC = () => {
               )}
             </div>
 
-            {/* Right: Clean Indonesian Specs & WhatsApp Action */}
+            {/* Right: Clean Specs & Synchronized Material Variant Selection */}
             <div className="lg:col-span-5 space-y-6 flex flex-col justify-between">
               <div className="space-y-4">
                 <div>
@@ -404,26 +419,26 @@ export const PublicCatalogView: React.FC = () => {
                   <span className="font-bold text-amber-300">~{selectedProduct.leadTimeDays} Hari Kerja (Custom Fitout)</span>
                 </div>
 
-                {/* Clean Material Variant Selection (Zero Internal SKU Noise) */}
+                {/* 2-WAY SYNCHRONIZED MATERIAL VARIANT BUTTONS */}
                 {selectedProduct.variants.length > 0 && (
                   <div className="space-y-2">
                     <label className="text-xs font-semibold text-stone-300 block">
                       Pilih Varian Finishing / Material:
                     </label>
                     <div className="space-y-2">
-                      {selectedProduct.variants.map((variant) => (
+                      {selectedProduct.variants.map((variant, idx) => (
                         <button
                           key={variant.id}
-                          onClick={() => setActiveVariant(variant)}
+                          onClick={() => handleSelectVariant(variant, idx)}
                           className={`w-full text-left p-3.5 rounded-xl text-xs font-semibold border flex items-center justify-between transition-all ${
                             activeVariant?.id === variant.id
-                              ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-md'
+                              ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-md ring-1 ring-amber-400/50'
                               : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
                           }`}
                         >
                           <span>{variant.name}</span>
                           {activeVariant?.id === variant.id && (
-                            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">Terpilih</span>
+                            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">TERPILIH</span>
                           )}
                         </button>
                       ))}
