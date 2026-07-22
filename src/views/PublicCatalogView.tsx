@@ -6,13 +6,16 @@ import { Modal } from '../components/Modal';
 import {
   MessageSquare,
   Search,
+  Sparkles,
   Clock,
   ShieldCheck,
   Calculator,
   ChevronRight,
   ChevronLeft,
   Maximize2,
-  SlidersHorizontal
+  SlidersHorizontal,
+  ArrowUpRight,
+  Eye
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -68,8 +71,8 @@ export const PublicCatalogView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0F0E0D] text-stone-100 font-sans selection:bg-amber-400 selection:text-stone-950">
-      {/* Overlay Minimalist Top Header (Clean Layout) */}
+    <div className="min-h-screen bg-[#0A0908] text-stone-100 font-sans selection:bg-amber-400 selection:text-stone-950">
+      {/* Overlay Minimalist Top Header */}
       <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-stone-950/90 via-stone-950/60 to-transparent backdrop-blur-md px-6 py-4 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -115,11 +118,11 @@ export const PublicCatalogView: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover filter contrast-[1.05] brightness-90 scale-105"
         />
 
-        {/* Dark Vignette Overlay for Crisp Typography Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0F0E0D] via-[#0F0E0D]/40 to-[#0F0E0D]/60" />
+        {/* Dark Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0908] via-[#0A0908]/40 to-[#0A0908]/60" />
         <div className="absolute inset-0 bg-stone-950/30 backdrop-brightness-95" />
 
-        {/* OVERLAID CONTENT ON TOP OF IMAGE (Clean spacing without overlapping pill badge) */}
+        {/* OVERLAID CONTENT ON TOP OF IMAGE */}
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6 pt-24">
           <h1 className="text-4xl sm:text-7xl font-serif font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-2xl">
             Ruang Elegan & Custom, <br />
@@ -132,7 +135,7 @@ export const PublicCatalogView: React.FC = () => {
             Jelajahi karya desain interior & furniture custom kami dari rumah. Klik foto favorit Anda dan tekan tombol WhatsApp untuk diskusi penawaran harga presisi!
           </p>
 
-          {/* Search bar directly inside hero overlay */}
+          {/* Search bar inside hero overlay */}
           <div className="max-w-xl mx-auto pt-2">
             <div className="relative">
               <Search className="w-5 h-5 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2" />
@@ -169,15 +172,15 @@ export const PublicCatalogView: React.FC = () => {
       </section>
 
       {/* Main Visual Gallery Showcase Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-10">
         {/* Category Pills Slider */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-serif text-white tracking-tight flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4 text-amber-300" />
-              Galeri Berdasarkan Kategori
+              Koleksi Kategori Ruangan
             </h2>
-            <span className="text-xs text-stone-400 font-light">Pilih kategori untuk memfilter</span>
+            <span className="text-xs text-stone-400 font-light">Pilih kategori untuk memfilter foto</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
@@ -207,86 +210,73 @@ export const PublicCatalogView: React.FC = () => {
 
         {/* Result Header */}
         <div className="flex items-center justify-between border-b border-stone-800 pb-4 text-xs text-stone-400">
-          <span>Menampilkan <strong className="text-white font-bold">{filteredProducts.length}</strong> karya portofolio foto</span>
+          <span>Portofolio: <strong className="text-white font-bold">{filteredProducts.length} Foto Hasil Proyek</strong></span>
           <span>Kategori: <strong className="text-amber-300 font-bold">{selectedCategory}</strong></span>
         </div>
 
-        {/* FULL IMAGE PHOTOGRAPHY CARDS GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* TRUE ARCHITECTURAL PHOTOGRAPHY GALLERY WALL (Edge-to-Edge Image Tiles with Hover Overlays) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-stone-900/80 rounded-3xl border border-stone-800 overflow-hidden flex flex-col justify-between hover:border-stone-700 transition-all duration-500 group shadow-2xl"
+              onClick={() => handleOpenDetails(product)}
+              className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden cursor-pointer border border-stone-800 group shadow-2xl transition-all duration-500"
             >
-              <div>
-                {/* Full Visual Photo Card Canvas */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-stone-950 cursor-pointer" onClick={() => handleOpenDetails(product)}>
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 filter contrast-[1.03]"
-                  />
-                  {/* Photo Vignette Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-90" />
+              {/* Full Tile Image */}
+              <img
+                src={product.images[0]}
+                alt={product.name}
+                className="w-full h-full object-cover filter brightness-[0.88] contrast-[1.05] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
+              />
 
-                  {/* Category & Code Tag */}
-                  <div className="absolute top-4 left-4 flex items-center gap-2">
-                    <span className="px-3 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-bold text-amber-300 rounded-full border border-stone-800 shadow-md">
-                      {product.category}
-                    </span>
-                    <span className="px-2.5 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-mono text-stone-300 rounded-full border border-stone-800">
-                      {product.code}
-                    </span>
-                  </div>
+              {/* Gradient Overlay (Visible on Hover & Mobile) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
 
-                  {/* Lead Time Tag */}
-                  <div className="absolute bottom-4 left-4 text-[11px] text-stone-200 font-medium bg-stone-950/90 px-3 py-1 rounded-full border border-stone-800 backdrop-blur-sm flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-amber-300" />
-                    <span>Lead Time ~{product.leadTimeDays} Hari</span>
-                  </div>
-                </div>
+              {/* Floating Top Category Pill */}
+              <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+                <span className="px-3 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-bold text-amber-300 rounded-full border border-stone-800 shadow-md">
+                  {product.category}
+                </span>
+                <span className="px-2.5 py-1 bg-stone-950/80 backdrop-blur-md text-[10px] font-mono text-stone-300 rounded-full border border-stone-800">
+                  {product.code}
+                </span>
+              </div>
 
-                {/* Card Title & Specs Description */}
-                <div className="p-6 space-y-3">
-                  <h3 className="font-serif font-extrabold text-white text-lg group-hover:text-amber-300 transition-colors line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <p className="text-stone-400 text-xs line-clamp-2 leading-relaxed font-light">
-                    {product.description}
-                  </p>
-
-                  {/* Variant Tags */}
-                  {product.variants.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {product.variants.map(v => (
-                        <span key={v.id} className="text-[10px] px-2.5 py-0.5 rounded-full bg-stone-950 text-stone-300 border border-slate-800">
-                          {v.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+              {/* Floating Expand Icon */}
+              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="p-2.5 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-800 text-white hover:bg-stone-900 shadow-xl">
+                  <Maximize2 className="w-4 h-4 text-amber-300" />
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="p-6 pt-0 flex items-center gap-3">
-                <button
-                  onClick={() => handleOpenDetails(product)}
-                  className="p-3 rounded-full bg-stone-950 hover:bg-stone-800 border border-stone-800 text-stone-300 hover:text-white transition-colors"
-                  title="Lihat Galeri Foto Full"
-                >
-                  <Maximize2 className="w-4 h-4" />
-                </button>
+              {/* Bottom Photo Title & Action Bar (Overlaid Directly on Image Canvas) */}
+              <div className="absolute bottom-0 inset-x-0 p-6 z-10 space-y-3 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
+                <div>
+                  <h3 className="font-serif font-extrabold text-white text-lg group-hover:text-amber-300 transition-colors line-clamp-1">
+                    {product.name}
+                  </h3>
+                  <p className="text-stone-300 text-xs line-clamp-2 leading-relaxed font-light mt-1">
+                    {product.description}
+                  </p>
+                </div>
 
-                <a
-                  href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-3 px-4 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 transition-all shadow-xl hover:scale-[1.02]"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Tanya Harga via WA</span>
-                </a>
+                <div className="flex items-center justify-between pt-1">
+                  <span className="text-[11px] text-stone-400 font-medium flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-amber-300" />
+                    ~{product.leadTimeDays} Hari Kerja
+                  </span>
+
+                  <a
+                    href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>Tanya Harga WA</span>
+                  </a>
+                </div>
               </div>
             </div>
           ))}
@@ -306,7 +296,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </footer>
 
-      {/* Full Visual Gallery & Detail Modal */}
+      {/* Full Visual Lightbox Gallery & Detail Modal */}
       {selectedProduct && (
         <Modal
           isOpen={!!selectedProduct}
