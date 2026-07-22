@@ -10,9 +10,7 @@ import {
   Calculator,
   ChevronRight,
   ChevronLeft,
-  Maximize2,
-  SlidersHorizontal,
-  Sparkles
+  Maximize2
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -69,7 +67,7 @@ export const PublicCatalogView: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-stone-100 font-sans selection:bg-stone-100 selection:text-stone-950">
-      {/* ALIEN DC STYLE MINIMALIST MONOCHROMATIC HEADER (CLEAN NO HASH LINKS) */}
+      {/* ALIEN DC STYLE MINIMALIST MONOCHROMATIC HEADER */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 py-5 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -152,19 +150,11 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS (RIGHT-TO-LEFT & LEFT-TO-RIGHT) */}
-      <section className="py-16 bg-[#050505] overflow-hidden space-y-8">
-        <div className="px-6 flex items-center justify-between max-w-7xl mx-auto">
-          <span className="text-xs font-mono uppercase tracking-widest text-stone-400 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-300" />
-            LIVE AUTOMATIC SHOWCASE GALLERY (MOVE & HOVER TO PAUSE)
-          </span>
-          <span className="text-xs text-stone-500 hidden sm:inline">Arahkan kursor untuk menghentikan & perbesar</span>
-        </div>
-
+      {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS (PURE PHOTOGRAPHY ROWS, NO TEXT HEADERS) */}
+      <section className="py-8 bg-[#050505] overflow-hidden space-y-4">
         {/* MARQUEE ROW 1: AUTOMATICALLY SCROLLING RIGHT TO LEFT */}
         <div className="overflow-hidden w-full relative">
-          <div className="animate-marquee-left gap-4">
+          <div className="animate-marquee-left gap-2">
             {marqueeRow1.map((product, idx) => (
               <div
                 key={`row1-${product.id}-${idx}`}
@@ -196,7 +186,7 @@ export const PublicCatalogView: React.FC = () => {
 
         {/* MARQUEE ROW 2: AUTOMATICALLY SCROLLING LEFT TO RIGHT */}
         <div className="overflow-hidden w-full relative">
-          <div className="animate-marquee-right gap-4">
+          <div className="animate-marquee-right gap-2">
             {marqueeRow2.map((product, idx) => (
               <div
                 key={`row2-${product.id}-${idx}`}
