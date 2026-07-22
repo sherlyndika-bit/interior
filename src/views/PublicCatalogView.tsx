@@ -10,9 +10,7 @@ import {
   Calculator,
   ChevronRight,
   ChevronLeft,
-  Maximize2,
-  ChevronLast,
-  ChevronFirst
+  Maximize2
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -22,10 +20,6 @@ export const PublicCatalogView: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeVariant, setActiveVariant] = useState<ProductVariant | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
-
-  // Gallery Pagination State (Alien DC Style)
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 5;
 
   // Custom Fitout Estimator Modal State
   const [isEstimatorOpen, setIsEstimatorOpen] = useState<boolean>(false);
@@ -43,9 +37,6 @@ export const PublicCatalogView: React.FC = () => {
                           p.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage) || 1;
-  const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   // Duplicate items for continuous infinite marquee scrolling
   const marqueeRow1 = [...products, ...products];
@@ -159,7 +150,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS */}
+      {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS (PURE PHOTOGRAPHY CAROUSELS) */}
       <section className="py-8 bg-[#050505] overflow-hidden space-y-4">
         {/* ROW 1 */}
         <div className="overflow-hidden w-full relative">
@@ -168,16 +159,16 @@ export const PublicCatalogView: React.FC = () => {
               <div
                 key={`row1-${product.id}-${idx}`}
                 onClick={() => handleOpenDetails(product)}
-                className="relative w-80 sm:w-96 aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900"
+                className="relative w-80 sm:w-96 aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900 shadow-xl"
               >
                 <img
                   src={product.images[0]}
                   alt={product.name}
-                  className="w-full h-full object-cover filter brightness-[0.85] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
+                  className="w-full h-full object-cover filter brightness-[0.88] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
                   <span className="text-[10px] font-mono text-amber-300 tracking-widest uppercase">
-                    {product.category} • {product.code}
+                    {product.category}
                   </span>
                   <div className="space-y-1">
                     <h3 className="font-serif text-lg font-bold text-white line-clamp-1">{product.name}</h3>
@@ -200,16 +191,16 @@ export const PublicCatalogView: React.FC = () => {
               <div
                 key={`row2-${product.id}-${idx}`}
                 onClick={() => handleOpenDetails(product)}
-                className="relative w-80 sm:w-96 aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900"
+                className="relative w-80 sm:w-96 aspect-[16/10] shrink-0 rounded-2xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900 shadow-xl"
               >
                 <img
                   src={product.images[0]}
                   alt={product.name}
-                  className="w-full h-full object-cover filter brightness-[0.85] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
+                  className="w-full h-full object-cover filter brightness-[0.88] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
                   <span className="text-[10px] font-mono text-amber-300 tracking-widest uppercase">
-                    {product.category} • {product.code}
+                    {product.category}
                   </span>
                   <div className="space-y-1">
                     <h3 className="font-serif text-lg font-bold text-white line-clamp-1">{product.name}</h3>
@@ -226,29 +217,29 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* ALIEN DC EXACT PROJECT GALLERY (5-COLUMN HORIZONTAL PHOTOGRAPHY CARDS WITH PAGINATION) */}
+      {/* CLEAN SPACIOUS ARCHITECTURAL PROJECT GALLERY */}
       <main id="gallery-section" className="max-w-7xl mx-auto px-6 sm:px-12 py-24 space-y-12">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-900 pb-8">
           <div className="space-y-2 max-w-xl">
             <h2 className="text-3xl sm:text-4xl font-sans font-bold text-white tracking-tight">
               Project Gallery
             </h2>
             <p className="text-stone-400 text-xs font-light leading-relaxed">
-              A curated selection of architectural and interior projects shaped by strategy, context, and precision. Designed to deliver clarity in form and purpose in function.
+              A curated selection of architectural and interior fitout projects.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            {/* Category Filter Dropdown / Tabs */}
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            {/* Category Filter Tabs */}
             <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
               {categories.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => { setSelectedCategory(cat); setCurrentPage(1); }}
-                  className={`px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider transition-all rounded-full ${
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4 py-2 text-xs font-mono uppercase tracking-widest transition-all rounded-full ${
                     selectedCategory === cat
-                      ? 'bg-white text-stone-950 font-bold'
-                      : 'text-stone-400 hover:text-white border border-stone-800'
+                      ? 'bg-white text-stone-950 font-bold shadow-md'
+                      : 'text-stone-400 hover:text-white bg-stone-950 border border-stone-800'
                   }`}
                 >
                   {cat}
@@ -258,103 +249,74 @@ export const PublicCatalogView: React.FC = () => {
           </div>
         </div>
 
-        {/* ALIEN DC 5-COLUMN HORIZONTAL PHOTOGRAPHY CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {paginatedProducts.map((product) => (
+        {/* SEARCH INPUT */}
+        <div className="relative max-w-md">
+          <Search className="w-4 h-4 text-stone-500 absolute left-4 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search projects..."
+            className="w-full pl-11 pr-4 py-2.5 bg-[#0A0908] border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
+          />
+        </div>
+
+        {/* ELEGANT SPACIOUS 3-COLUMN PHOTOGRAPHY TILES (NO SKU BADGES, NO NOISE) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map((product) => (
             <div
               key={product.id}
               onClick={() => handleOpenDetails(product)}
-              className="group cursor-pointer space-y-3"
+              className="group cursor-pointer space-y-4"
             >
-              {/* Photo Frame */}
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-stone-950 border border-stone-900 shadow-xl">
+              {/* Photo Frame Canvas */}
+              <div className="relative aspect-[16/11] rounded-3xl overflow-hidden bg-stone-950 border border-stone-900 shadow-2xl">
                 <img
                   src={product.images[0]}
                   alt={product.name}
-                  className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700"
+                  className="w-full h-full object-cover filter brightness-[0.9] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
                 />
-                <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[9px] font-mono text-stone-300 rounded">
-                  {product.code}
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
+
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="p-2.5 rounded-full bg-stone-950/90 text-white border border-stone-700 shadow-xl flex items-center gap-1.5 text-xs font-semibold">
+                    <span>Perbesar Galeri</span>
+                    <Maximize2 className="w-3.5 h-3.5 text-amber-200" />
+                  </div>
                 </div>
               </div>
 
-              {/* Title & Description Underneath (Exact Alien DC Screenshot 4) */}
-              <div className="space-y-1 px-1">
-                <h3 className="font-serif font-bold text-white text-sm group-hover:text-amber-200 transition-colors line-clamp-1">
+              {/* Title & Info Underneath */}
+              <div className="space-y-1.5 px-1">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300 block">
+                  {product.category}
+                </span>
+                <h3 className="font-serif font-extrabold text-white text-xl group-hover:text-stone-300 transition-colors">
                   {product.name}
                 </h3>
-                <p className="text-stone-400 text-[11px] font-light line-clamp-2 leading-snug">
+                <p className="text-stone-400 text-xs font-light line-clamp-2 leading-relaxed">
                   {product.description}
                 </p>
 
-                <div className="pt-1 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-stone-500">
-                    {product.category}
+                <div className="pt-2 flex items-center justify-between">
+                  <span className="text-[11px] font-mono text-stone-500">
+                    Lead time ~{product.leadTimeDays} hari
                   </span>
                   <a
                     href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-[10px] font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+                    className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
                   >
-                    <MessageSquare className="w-3 h-3" />
-                    <span>Inquire WA</span>
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>Tanya Harga WA</span>
                   </a>
                 </div>
               </div>
             </div>
           ))}
         </div>
-
-        {/* ALIEN DC STYLE PAGINATION (`<< < 1 2 3 4 5 > >>`) */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-3 pt-8 text-xs font-mono text-stone-400">
-            <button
-              onClick={() => setCurrentPage(1)}
-              disabled={currentPage === 1}
-              className="hover:text-white disabled:opacity-30 transition-colors p-1"
-            >
-              <ChevronFirst className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="hover:text-white disabled:opacity-30 transition-colors p-1"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-              <button
-                key={pageNum}
-                onClick={() => setCurrentPage(pageNum)}
-                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
-                  currentPage === pageNum
-                    ? 'bg-white text-stone-950 font-bold shadow-md'
-                    : 'hover:text-white hover:bg-stone-900'
-                }`}
-              >
-                {pageNum}
-              </button>
-            ))}
-
-            <button
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="hover:text-white disabled:opacity-30 transition-colors p-1"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setCurrentPage(totalPages)}
-              disabled={currentPage === totalPages}
-              className="hover:text-white disabled:opacity-30 transition-colors p-1"
-            >
-              <ChevronLast className="w-4 h-4" />
-            </button>
-          </div>
-        )}
       </main>
 
       {/* FOOTER */}
@@ -421,8 +383,8 @@ export const PublicCatalogView: React.FC = () => {
 
             <div className="lg:col-span-5 space-y-5 flex flex-col justify-between">
               <div className="space-y-3">
-                <span className="text-xs font-mono text-stone-400 uppercase tracking-wider block">
-                  {selectedProduct.code} • {selectedProduct.category}
+                <span className="text-xs font-mono text-amber-300 uppercase tracking-wider block">
+                  {selectedProduct.category}
                 </span>
                 <h3 className="text-2xl font-serif font-bold text-white leading-tight">{selectedProduct.name}</h3>
                 <p className="text-xs text-stone-300 leading-relaxed font-light">
