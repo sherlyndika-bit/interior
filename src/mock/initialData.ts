@@ -19,7 +19,7 @@ export const initialUsers: User[] = [
     email: 'owner@interiorcraft.id',
     username: 'owner',
     role: 'owner',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
     permissions: ['all']
   },
   {
@@ -28,7 +28,7 @@ export const initialUsers: User[] = [
     email: 'sales@interiorcraft.id',
     username: 'kasir',
     role: 'kasir',
-    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80',
+    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&auto=format&fit=crop&q=80',
     permissions: ['pos', 'preorder', 'customers', 'quotations', 'catalog']
   },
   {
@@ -37,7 +37,7 @@ export const initialUsers: User[] = [
     email: 'gudang@interiorcraft.id',
     username: 'gudang',
     role: 'gudang',
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80',
     permissions: ['inventory', 'raw_materials', 'stock_movement']
   },
   {
@@ -46,7 +46,7 @@ export const initialUsers: User[] = [
     email: 'teknisi@interiorcraft.id',
     username: 'teknisi',
     role: 'teknisi',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&auto=format&fit=crop&q=80',
     permissions: ['schedule', 'installation_status']
   }
 ];
@@ -64,8 +64,8 @@ export const initialProducts: Product[] = [
     minStock: 2,
     unit: 'Unit Set',
     images: [
-      'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1000&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&auto=format&fit=crop&q=80'
     ],
     variants: [
       {
@@ -101,8 +101,8 @@ export const initialProducts: Product[] = [
     minStock: 1,
     unit: 'Unit Custom',
     images: [
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1000&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=1000&auto=format&fit=crop&q=80'
     ],
     variants: [
       {
@@ -138,8 +138,8 @@ export const initialProducts: Product[] = [
     minStock: 3,
     unit: 'Meter Lari',
     images: [
-      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1000&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1000&auto=format&fit=crop&q=80'
     ],
     variants: [
       {
@@ -175,8 +175,8 @@ export const initialProducts: Product[] = [
     minStock: 2,
     unit: 'Set Bed',
     images: [
-      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1000&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=1000&auto=format&fit=crop&q=80'
     ],
     variants: [
       {
@@ -212,7 +212,7 @@ export const initialProducts: Product[] = [
     minStock: 1,
     unit: 'Set Meja',
     images: [
-      'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1000&auto=format&fit=crop&q=80'
     ],
     variants: [],
     isPreOrderAvailable: true,
@@ -353,9 +353,9 @@ export const initialOrders: Order[] = [
     subtotal: 24500000,
     discountAmount: 1000000,
     promoCode: 'PROMOJULI',
-    taxAmount: 2585000, // 11% PPN
+    taxAmount: 2585000,
     grandTotal: 26085000,
-    paidAmount: 13042500, // 50% DP paid
+    paidAmount: 13042500,
     remainingBalance: 13042500,
     stage: 'In Production',
     milestones: [
@@ -469,7 +469,7 @@ export const initialEmployees: Employee[] = [
     role: 'Kepala Teknisi & Fitting',
     baseSalary: 5500000,
     allowance: 1200000,
-    commissionRate: 2.5, // 2.5% per project installed
+    commissionRate: 2.5,
     phone: '081234567890',
     status: 'Active'
   },
@@ -508,7 +508,7 @@ export const initialPayrolls: PayrollRecord[] = [
     allowance: 1200000,
     commissionAmount: 1450000,
     bonus: 500000,
-    deductions: 150000, // BPJS
+    deductions: 150000,
     taxAmount: 210000,
     netSalary: 8290000,
     status: 'Paid',
