@@ -13,9 +13,7 @@ import {
   Maximize2,
   SlidersHorizontal,
   Sparkles,
-  ArrowRight,
-  Eye,
-  Camera
+  ArrowRight
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -63,210 +61,250 @@ export const PublicCatalogView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#080706] text-stone-100 font-sans selection:bg-stone-200 selection:text-stone-950">
-      {/* Overlay Minimalist Top Header */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-stone-950/90 via-stone-950/40 to-transparent backdrop-blur-sm px-6 py-5 transition-all">
+    <div className="min-h-screen bg-[#050505] text-stone-100 font-sans selection:bg-stone-100 selection:text-stone-950">
+      {/* ALIEN DC STYLE MINIMALIST MONOCHROMATIC HEADER */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 py-5 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-amber-200 font-bold text-sm shadow-xl">
-              IC
-            </div>
-            <div>
-              <span className="font-serif font-bold text-white text-xl tracking-tight flex items-center gap-2">
-                INTERIORCRAFT <span className="font-sans text-[10px] font-semibold tracking-widest text-amber-200 uppercase px-2 py-0.5 rounded bg-white/10 border border-white/20">EXHIBITION</span>
-              </span>
-              <p className="text-[10px] text-stone-300 tracking-wider uppercase font-medium">Fine Architectural Photography</p>
-            </div>
+            <span className="font-serif font-extrabold text-white text-2xl tracking-widest uppercase">
+              INTERIORCRAFT <span className="font-sans font-light text-stone-400 text-xs tracking-normal">STUDIO</span>
+            </span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsEstimatorOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md text-xs font-medium text-white transition-all shadow-lg"
-            >
-              <Calculator className="w-3.5 h-3.5 text-amber-200" />
-              <span className="hidden sm:inline">Simulasi Budget</span>
-            </button>
-
+          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold tracking-wider text-stone-300 uppercase">
+            <a href="#hero" className="hover:text-white transition-colors border-b-2 border-white pb-0.5">HOME</a>
+            <a href="#gallery" className="hover:text-white transition-colors">PROJECT GALLERY</a>
+            <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">SIMULASI BUDGET</button>
             <a
-              href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20untuk%20konsultasi%20desain%20interior."
+              href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20konsultasi%20desain%20interior."
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 transition-all shadow-xl hover:scale-105"
+              className="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5"
             >
               <MessageSquare className="w-3.5 h-3.5" />
-              <span>Tanya Harga via WA</span>
+              <span>TANYA WA</span>
             </a>
-          </div>
+          </nav>
         </div>
       </header>
 
-      {/* PURE BREATHTAKING ARCHITECTURAL PHOTOGRAPHY HERO */}
-      <section className="relative h-[85vh] min-h-[550px] w-full flex items-center justify-center overflow-hidden">
-        {/* Full-bleed photography background */}
+      {/* HERO SECTION: ARCHITECTURAL MONUMENTAL CANVAS */}
+      <section id="hero" className="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden pt-16">
         <img
           src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&auto=format&fit=crop&q=85"
-          alt="Luxury Architecture Portfolio Hero"
-          className="absolute inset-0 w-full h-full object-cover filter contrast-[1.03] brightness-[0.85] scale-105"
+          alt="Architectural Masterpiece Canvas"
+          className="absolute inset-0 w-full h-full object-cover filter brightness-[0.65] contrast-[1.05] scale-105"
         />
 
-        {/* Natural Smooth Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080706] via-[#080706]/30 to-stone-950/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-[#050505]/60" />
 
-        {/* ELEGANT MINIMALIST TYPOGRAPHY OVERLAY */}
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-5 pt-16">
-          <span className="text-[11px] font-mono tracking-[0.3em] text-stone-300 uppercase block font-medium">
-            MUSEUM ARCHITECTURAL EXHIBITION • 2026
-          </span>
-
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-normal text-white tracking-tight leading-[1.12] drop-shadow-lg">
-            Crafting Bespoke Spaces <br />
-            <span className="font-serif font-light text-stone-200">
-              For Modern Living
-            </span>
+        <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 w-full text-left space-y-6">
+          <h1 className="text-4xl sm:text-7xl font-sans font-bold text-white tracking-tight leading-[1.08] max-w-3xl">
+            We Design Your <br />
+            <span className="font-serif italic font-normal text-stone-200">Bespoke Spaces</span>
           </h1>
 
-          <p className="text-stone-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto font-light drop-shadow-sm">
-            Jelajahi galeri karya furniture & fitout interior custom kami dari rumah. Klik foto favorit Anda dan hubungi konsultan kami via WhatsApp untuk penawaran presisi.
+          <p className="text-stone-300 text-sm sm:text-base max-w-xl font-light leading-relaxed">
+            Koleksi lengkap portofolio desain interior, kitchen set modular, wardrobe custom, & wall panel. Konsultasikan harga presisi langsung via WhatsApp.
           </p>
+
+          <div className="flex flex-wrap items-center gap-4 pt-4">
+            <a
+              href="#gallery"
+              className="px-8 py-3.5 border border-white text-white font-semibold text-xs uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-all"
+            >
+              Explore Gallery
+            </a>
+            <button
+              onClick={() => setIsEstimatorOpen(true)}
+              className="px-8 py-3.5 border border-stone-700 text-stone-300 font-semibold text-xs uppercase tracking-widest hover:border-white hover:text-white transition-all"
+            >
+              Simulasi Budget
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* MUSEUM-GRADE FINE ART & ARCHITECTURE EXHIBITION GALLERY */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16 space-y-12">
-        {/* Gallery Exhibition Filter Header */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-stone-800/80 pb-6">
-          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-all shrink-0 ${
-                  selectedCategory === cat
-                    ? 'bg-white text-stone-950 font-bold shadow-lg scale-105'
-                    : 'bg-stone-900/60 text-stone-400 hover:text-white hover:bg-stone-800 border border-stone-800'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+      {/* STUDIO MANIFESTO / ABOUT STATEMENT SECTION */}
+      <section className="py-24 px-6 sm:px-12 bg-[#0A0908] border-y border-stone-900">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5 flex items-center justify-center">
+            <span className="font-serif text-9xl font-bold text-stone-800 tracking-tighter select-none">
+              IC
+            </span>
           </div>
 
-          <div className="relative w-full md:w-72 shrink-0">
-            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari karya / kode..."
-              className="w-full pl-9 pr-4 py-2 bg-stone-900/80 border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors shadow-inner"
-            />
+          <div className="lg:col-span-7 space-y-6">
+            <h2 className="text-2xl sm:text-3xl font-sans font-bold text-white tracking-tight leading-snug">
+              InteriorCraft Studio is a collective of Craftsmen, Architects, and Interior Designers Committed to Transforming Vision Into Precise Spaces.
+            </h2>
+            <p className="text-stone-400 text-sm leading-relaxed font-light">
+              Berpengalaman mengerjakan fitout residensial, apartemen mewah, & perkantoran. Kami menggunakan kayu multiplek 18mm grade A, engsel soft-closeHafele, dan finishing HPL Taco / Cat Duco berkualitas tinggi dengan garansi resmi 2 tahun.
+            </p>
           </div>
         </div>
+      </section>
 
-        {/* FINE ART EXHIBITION FRAMES WALL (Alternating Portrait, Panoramic & Square Museum Frames) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-start">
-          {filteredProducts.map((product, idx) => {
-            // Alternating Museum Frame Ratios: 0 = Portrait (3/4), 1 = Wide (16/10), 2 = Square (1/1)
-            const frameRatio = idx % 3 === 0 ? 'aspect-[3/4]' : idx % 3 === 1 ? 'aspect-[16/10]' : 'aspect-square';
+      {/* SEAMLESS EDGE-TO-EDGE PHOTOGRAPHY SHOWCASE WALL (ALIEN DC SHOWCASE) */}
+      <section className="py-12 bg-[#050505]">
+        <div className="px-6 mb-6 flex items-center justify-between max-w-7xl mx-auto">
+          <span className="text-xs font-mono uppercase tracking-widest text-stone-400">
+            SELECTED ARCHITECTURAL WORKS
+          </span>
+          <span className="text-xs text-stone-500">Klik foto untuk perbesar galeri</span>
+        </div>
 
-            return (
-              <div
-                key={product.id}
-                onClick={() => handleOpenDetails(product)}
-                className="group cursor-pointer space-y-3 transition-all duration-500"
-              >
-                {/* Frameless Museum Photo Frame Canvas */}
-                <div className={`relative w-full ${frameRatio} rounded-2xl overflow-hidden bg-stone-950 border border-stone-800/80 shadow-2xl transition-all duration-700`}>
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="w-full h-full object-cover filter brightness-[0.88] contrast-[1.05] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-75 group-hover:opacity-90 transition-opacity" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+          {products.slice(0, 6).map((product) => (
+            <div
+              key={product.id}
+              onClick={() => handleOpenDetails(product)}
+              className="relative aspect-[4/3] overflow-hidden cursor-pointer group bg-stone-950"
+            >
+              <img
+                src={product.images[0]}
+                alt={product.name}
+                className="w-full h-full object-cover filter brightness-[0.85] group-hover:scale-105 group-hover:brightness-100 transition-all duration-700"
+              />
+              <div className="absolute inset-0 bg-stone-950/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-between p-8">
+                <span className="text-xs font-mono text-amber-200 tracking-widest uppercase">
+                  {product.category} • {product.code}
+                </span>
 
-                  {/* Top Museum Plaque Tags */}
-                  <div className="absolute top-4 left-4 flex items-center gap-2">
-                    <span className="px-3 py-1 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-mono text-amber-200 rounded-full shadow-md">
-                      EXHIBIT {product.code}
-                    </span>
-                    <span className="px-2.5 py-1 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-sans font-semibold text-stone-300 rounded-full">
-                      {product.category}
-                    </span>
-                  </div>
-
-                  {/* Expand Lightbox Button on Hover */}
-                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="p-3 rounded-full bg-stone-950/90 text-white border border-stone-700 shadow-2xl flex items-center gap-2 text-xs font-semibold">
-                      <Maximize2 className="w-3.5 h-3.5 text-amber-200" />
-                      <span>Full Photo Lightbox</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Museum Exhibition Plaque Label Underneath */}
-                <div className="space-y-1.5 px-1 pt-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-serif font-extrabold text-white text-lg group-hover:text-amber-200 transition-colors line-clamp-1">
-                      {product.name}
-                    </h3>
-                    <span className="text-[11px] font-mono text-stone-400 shrink-0">
-                      ~{product.leadTimeDays} Hari
-                    </span>
-                  </div>
-
-                  <p className="text-stone-400 text-xs line-clamp-2 leading-relaxed font-light">
+                <div className="space-y-2">
+                  <h3 className="font-serif text-2xl font-bold text-white">
+                    {product.name}
+                  </h3>
+                  <p className="text-xs text-stone-300 font-light line-clamp-2">
                     {product.description}
                   </p>
-
-                  <div className="pt-2 flex items-center justify-between">
-                    <span className="text-[11px] font-mono text-amber-200">
-                      Studio Architecture Series
-                    </span>
-
-                    <a
-                      href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
-                    >
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      <span>Tanya Harga WA</span>
-                    </a>
+                  <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-emerald-400">
+                    <MessageSquare className="w-4 h-4" />
+                    <span>Tanya Harga WA</span>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PROJECT GALLERY FEED SECTION */}
+      <main id="gallery" className="max-w-7xl mx-auto px-6 sm:px-12 py-20 space-y-12">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-900 pb-8">
+          <div className="space-y-2">
+            <h2 className="text-3xl font-sans font-bold text-white tracking-tight">
+              Project Gallery
+            </h2>
+            <p className="text-stone-400 text-xs font-light max-w-md">
+              Kumpulan kurasi proyek interior dan custom furniture berdasarkan kategori ruang.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            {/* Category Filter Tabs */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4 py-2 text-xs font-semibold tracking-wider transition-all shrink-0 uppercase border ${
+                    selectedCategory === cat
+                      ? 'border-white bg-white text-stone-950 font-bold'
+                      : 'border-stone-800 text-stone-400 hover:text-white hover:border-stone-600'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* SEARCH BAR */}
+        <div className="relative max-w-md">
+          <Search className="w-4 h-4 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by keyword or SKU code..."
+            className="w-full pl-11 pr-4 py-3 bg-[#0A0908] border border-stone-800 rounded-none text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
+          />
+        </div>
+
+        {/* 5-COLUMN / 3-COLUMN PHOTOGRAPHY GALLERY FEED (ALIEN DC STYLE) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              onClick={() => handleOpenDetails(product)}
+              className="group cursor-pointer space-y-4"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-stone-950 border border-stone-900">
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700"
+                />
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-mono text-stone-300">
+                  {product.code}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-200 block">
+                  {product.category}
+                </span>
+                <h3 className="font-serif font-bold text-white text-lg group-hover:text-stone-300 transition-colors line-clamp-1">
+                  {product.name}
+                </h3>
+                <p className="text-stone-400 text-xs font-light line-clamp-2 leading-relaxed">
+                  {product.description}
+                </p>
+
+                <div className="pt-2 flex items-center justify-between">
+                  <span className="text-[11px] font-mono text-stone-500">
+                    Lead time ~{product.leadTimeDays} days
+                  </span>
+                  <a
+                    href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="px-4 py-2 border border-emerald-500/50 text-emerald-400 hover:bg-emerald-600 hover:text-white text-xs font-bold transition-all flex items-center gap-1.5"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>Inquire WA</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-stone-800/80 mt-20 py-10 bg-stone-950 text-center text-xs text-stone-500">
+      {/* FOOTER */}
+      <footer className="border-t border-stone-900 py-12 bg-[#050505] text-center text-xs text-stone-500">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-serif font-bold text-stone-300">PT InteriorCraft Studio Indonesia</span>
-            <span>• Kawasan Industri Kreatif, BSD City</span>
-          </div>
-          <div>
-            © 2026 InteriorCraft Studio. All rights reserved.
-          </div>
+          <span className="font-serif font-bold text-stone-300 tracking-wider">
+            INTERIORCRAFT STUDIO INDONESIA
+          </span>
+          <span>© 2026 InteriorCraft Studio. All rights reserved.</span>
         </div>
       </footer>
 
-      {/* Fullscreen Art Lightbox Modal */}
+      {/* Lightbox Modal */}
       {selectedProduct && (
         <Modal
           isOpen={!!selectedProduct}
           onClose={() => setSelectedProduct(null)}
-          title={`Galeri Foto: ${selectedProduct.name}`}
+          title={`Project Showcase: ${selectedProduct.name}`}
           maxWidth="max-w-4xl"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-stone-100">
-            {/* Left: Images Carousel */}
             <div className="lg:col-span-7 space-y-3">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-800 bg-stone-950 group">
+              <div className="relative aspect-[4/3] rounded-none overflow-hidden border border-stone-800 bg-stone-950 group">
                 <img
                   src={selectedProduct.images[activeImageIndex] || selectedProduct.images[0]}
                   alt={selectedProduct.name}
@@ -277,13 +315,13 @@ export const PublicCatalogView: React.FC = () => {
                   <div className="absolute inset-0 flex items-center justify-between p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : selectedProduct.images.length - 1))}
-                      className="p-2 rounded-full bg-stone-950/80 backdrop-blur-md text-white border border-stone-700 hover:bg-stone-900"
+                      className="p-2 bg-stone-950/80 text-white border border-stone-700 hover:bg-stone-900"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                       onClick={() => setActiveImageIndex((prev) => (prev < selectedProduct.images.length - 1 ? prev + 1 : 0))}
-                      className="p-2 rounded-full bg-stone-950/80 backdrop-blur-md text-white border border-stone-700 hover:bg-stone-900"
+                      className="p-2 bg-stone-950/80 text-white border border-stone-700 hover:bg-stone-900"
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
@@ -291,15 +329,14 @@ export const PublicCatalogView: React.FC = () => {
                 )}
               </div>
 
-              {/* Thumbnails */}
               {selectedProduct.images.length > 1 && (
                 <div className="flex items-center gap-2 overflow-x-auto pb-1">
                   {selectedProduct.images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActiveImageIndex(idx)}
-                      className={`w-20 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
-                        activeImageIndex === idx ? 'border-amber-300 scale-105' : 'border-stone-800 opacity-60'
+                      className={`w-20 h-16 border transition-all shrink-0 ${
+                        activeImageIndex === idx ? 'border-white scale-105' : 'border-stone-800 opacity-60'
                       }`}
                     >
                       <img src={img} alt="Thumb" className="w-full h-full object-cover" />
@@ -307,45 +344,32 @@ export const PublicCatalogView: React.FC = () => {
                   ))}
                 </div>
               )}
-
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-stone-950 border border-stone-800">
-                  <span className="text-stone-500 block">Kategori</span>
-                  <span className="font-bold text-amber-200">{selectedProduct.category}</span>
-                </div>
-                <div className="p-3 rounded-xl bg-stone-950 border border-stone-800">
-                  <span className="text-stone-500 block">Lead Time Produksi</span>
-                  <span className="font-bold text-stone-200">{selectedProduct.leadTimeDays} Hari Kerja</span>
-                </div>
-              </div>
             </div>
 
-            {/* Right: Technical Specs & WA Action */}
             <div className="lg:col-span-5 space-y-5 flex flex-col justify-between">
               <div className="space-y-3">
-                <span className="text-xs font-mono text-amber-200 px-2.5 py-0.5 rounded bg-white/10 border border-white/20 inline-block">
-                  {selectedProduct.code}
+                <span className="text-xs font-mono text-stone-400 uppercase tracking-wider block">
+                  {selectedProduct.code} • {selectedProduct.category}
                 </span>
                 <h3 className="text-2xl font-serif font-bold text-white leading-tight">{selectedProduct.name}</h3>
                 <p className="text-xs text-stone-300 leading-relaxed font-light">
                   {selectedProduct.description}
                 </p>
 
-                {/* Variant selection */}
                 {selectedProduct.variants.length > 0 && (
                   <div className="mt-4 space-y-2">
                     <label className="text-xs font-semibold text-stone-300 block">
-                      Pilih Varian Finishing / Material:
+                      Select Material Variant:
                     </label>
                     <div className="space-y-2">
                       {selectedProduct.variants.map((variant) => (
                         <button
                           key={variant.id}
                           onClick={() => setActiveVariant(variant)}
-                          className={`w-full text-left p-3 rounded-xl text-xs font-medium border flex items-center justify-between transition-all ${
+                          className={`w-full text-left p-3 text-xs font-medium border flex items-center justify-between transition-all ${
                             activeVariant?.id === variant.id
-                              ? 'bg-amber-500/20 border-amber-300 text-amber-200 font-bold'
-                              : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
+                              ? 'bg-stone-800 border-white text-white font-bold'
+                              : 'bg-stone-950 border-stone-800 text-stone-400 hover:border-stone-700'
                           }`}
                         >
                           <span>{variant.name}</span>
@@ -358,11 +382,6 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               <div className="pt-4 border-t border-stone-800 space-y-3">
-                <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4 shrink-0" />
-                  <span>Pemesanan & penyesuaian ukuran dilakukan langsung via WhatsApp.</span>
-                </div>
-
                 <a
                   href={createWhatsAppCatalogLink(
                     '6281298765432',
@@ -372,10 +391,10 @@ export const PublicCatalogView: React.FC = () => {
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-full flex items-center justify-center gap-2 shadow-xl transition-all"
+                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xl transition-all"
                 >
                   <MessageSquare className="w-4 h-4" />
-                  <span>Tanya Harga Varian ini via WA</span>
+                  <span>Inquire Price & Specs via WA</span>
                 </a>
               </div>
             </div>
@@ -383,26 +402,22 @@ export const PublicCatalogView: React.FC = () => {
         </Modal>
       )}
 
-      {/* Fitout Budget Estimator Modal */}
+      {/* Estimator Modal */}
       {isEstimatorOpen && (
         <Modal
           isOpen={isEstimatorOpen}
           onClose={() => setIsEstimatorOpen(false)}
-          title="Simulasi Estimasi Budget Custom Fitout Interior"
+          title="Custom Fitout Budget Estimator"
           maxWidth="max-w-xl"
         >
           <div className="space-y-4 text-stone-100">
-            <p className="text-xs text-stone-300">
-              Hitung gambaran kasar anggaran biaya custom furniture berdasarkan ukuran ruangan Anda:
-            </p>
-
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <label className="block text-stone-400 mb-1 font-semibold">Jenis Proyek</label>
+                <label className="block text-stone-400 mb-1 font-semibold">Project Type</label>
                 <select
                   value={estCategory}
                   onChange={(e) => setEstCategory(e.target.value)}
-                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-300"
+                  className="w-full p-2.5 bg-stone-950 border border-stone-800 text-white focus:outline-none focus:border-white"
                 >
                   <option value="Kitchen Set">Kitchen Set</option>
                   <option value="Wardrobe">Wardrobe Walk-in Closet</option>
@@ -416,7 +431,7 @@ export const PublicCatalogView: React.FC = () => {
                 <select
                   value={estFinish}
                   onChange={(e) => setEstFinish(e.target.value)}
-                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-300"
+                  className="w-full p-2.5 bg-stone-950 border border-stone-800 text-white focus:outline-none focus:border-white"
                 >
                   <option value="HPL Taco Wood Grain">HPL Taco Standard</option>
                   <option value="Duco Matte Paint">Cat Duco Premium</option>
@@ -425,41 +440,40 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-stone-400 mb-1 font-semibold">Panjang Ruangan (Meter)</label>
+                <label className="block text-stone-400 mb-1 font-semibold">Room Length (Meters)</label>
                 <input
                   type="number"
                   step="0.5"
                   min="1"
                   value={estLength}
                   onChange={(e) => setEstLength(Number(e.target.value))}
-                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-300"
+                  className="w-full p-2.5 bg-stone-950 border border-stone-800 text-white focus:outline-none focus:border-white"
                 />
               </div>
 
               <div>
-                <label className="block text-stone-400 mb-1 font-semibold">Tinggi Kabinet (Meter)</label>
+                <label className="block text-stone-400 mb-1 font-semibold">Cabinet Height (Meters)</label>
                 <input
                   type="number"
                   step="0.1"
                   min="1"
                   value={estHeight}
                   onChange={(e) => setEstHeight(Number(e.target.value))}
-                  className="w-full p-2.5 bg-stone-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
+                  className="w-full p-2.5 bg-stone-950 border border-stone-800 text-white focus:outline-none focus:border-white"
                 />
               </div>
             </div>
 
-            {/* Calculated Result Box */}
             {(() => {
               const { minEst, maxEst } = calculateEstimatedPriceRange();
               return (
-                <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-center space-y-1 shadow-xl">
-                  <span className="text-xs text-amber-200 font-semibold block">Estimasi Biaya Indikatif:</span>
+                <div className="p-5 bg-stone-950 border border-stone-800 text-center space-y-1">
+                  <span className="text-xs text-stone-400 font-semibold block">Indicative Budget Estimate:</span>
                   <div className="text-2xl font-serif font-bold text-white">
                     {formatRupiah(minEst)} - {formatRupiah(maxEst)}
                   </div>
-                  <p className="text-[10px] text-stone-400">
-                    *Termasuk multiplek 18mm, engsel soft-close, delivery & instalasi lokasi.
+                  <p className="text-[10px] text-stone-500">
+                    *Includes 18mm plywood, soft-close hardware, delivery & site installation.
                   </p>
                 </div>
               );
@@ -468,18 +482,18 @@ export const PublicCatalogView: React.FC = () => {
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setIsEstimatorOpen(false)}
-                className="px-4 py-2 rounded-full bg-stone-800 text-stone-300 text-xs font-semibold hover:bg-stone-700"
+                className="px-4 py-2 bg-stone-800 text-stone-300 text-xs font-semibold hover:bg-stone-700"
               >
-                Tutup
+                Close
               </button>
               <a
                 href={`https://wa.me/6281298765432?text=${encodeURIComponent(`Halo InteriorCraft Studio, saya telah mencoba kalkulator estimasi untuk *${estCategory}* ukuran ${estLength}m x ${estHeight}m dengan finishing ${estFinish}. Mohon konsultasi survei lokasi!`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5"
+                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
-                <span>Konsultasi Hasil Estimasi via WA</span>
+                <span>Inquire Result via WA</span>
               </a>
             </div>
           </div>
