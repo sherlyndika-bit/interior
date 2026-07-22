@@ -11,16 +11,12 @@ import {
   ChevronLeft,
   Maximize2,
   Globe,
-  Award,
-  ShieldCheck,
-  Compass,
   MapPin,
   Phone,
   Mail,
   Instagram,
   Facebook,
-  Linkedin,
-  ArrowUpRight
+  Linkedin
 } from 'lucide-react';
 
 // Genuine WhatsApp SVG Icon
@@ -230,97 +226,76 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* COMPREHENSIVE "TENTANG KAMI" (ABOUT US) SECTION */}
+      {/* CLEAN ARCHITECTURAL STUDIO EDITORIAL ABOUT US SECTION (ZERO CHEESY ICON BOXES) */}
       <section id="about-section" className="py-24 lg:py-32 px-6 sm:px-12 lg:px-16 bg-[#050505] border-b border-stone-900">
-        <div className="max-w-[1800px] mx-auto space-y-16 lg:space-y-24">
-          <div className="max-w-3xl space-y-4">
+        <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          {/* Left Column: Title & Heritage */}
+          <div className="lg:col-span-5 space-y-6">
             <span className="text-xs lg:text-sm font-mono uppercase tracking-widest text-amber-300 block">
-              {lang === 'id' ? 'TENTANG KAMI & DEDIKASI KUALITAS' : 'ABOUT US & CRAFTSMANSHIP STANDARDS'}
+              {lang === 'id' ? 'TENTANG KAMI & METODOLOGI STUDI' : 'ABOUT US & STUDIO METHODOLOGY'}
             </span>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
-              {lang === 'id' ? 'Seni Presisi dalam Setiap Detail Furniture Custom' : 'The Art of Precision in Every Custom Interior'}
+              {lang === 'id' ? 'Seni Presisi & Pengolahan Material Berkelanjutan' : 'The Art of Precision & Sustainable Crafts'}
             </h2>
-            <p className="text-stone-400 text-sm lg:text-lg font-light leading-relaxed">
+            <p className="text-stone-400 text-sm lg:text-base font-light leading-relaxed">
               {lang === 'id'
-                ? 'InteriorCraft Studio didirikan di Jakarta Selatan dengan filosofi bahwa setiap ruangan memiliki karakter unik. Kami mengombinasikan keahlian pertukangan tradisional dengan teknologi manufaktur presisi modern.'
-                : 'Founded in South Jakarta, InteriorCraft Studio operates under the philosophy that every space possesses a unique identity. We fuse traditional woodworking mastery with modern precision engineering.'
+                ? 'Didirikan di Jakarta Selatan, InteriorCraft Studio menggabungkan keahlian pertukangan kayu tradisional dengan teknologi manufaktur presisi modern untuk melahirkan karya interior yang abadi.'
+                : 'Founded in South Jakarta, InteriorCraft Studio fuses traditional woodworking heritage with modern engineering to craft timeless interior masterpieces.'
               }
             </p>
           </div>
 
-          {/* 3 CORE PILLARS OF EXCELLENCE */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-            <div className="p-8 lg:p-10 rounded-3xl bg-[#0A0908] border border-stone-900 space-y-4 hover:border-stone-700 transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-300">
-                <Award className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl lg:text-2xl font-bold text-white">
-                {lang === 'id' ? 'Material Grade A' : 'Grade-A Materials'}
-              </h3>
-              <p className="text-stone-400 text-xs lg:text-sm leading-relaxed font-light">
+          {/* Right Column: Editorial Narrative */}
+          <div className="lg:col-span-7 space-y-8 text-stone-300 text-sm lg:text-lg font-light leading-relaxed">
+            <p>
+              {lang === 'id'
+                ? 'Setiap proyek yang kami kerjakan didasari oleh pemahaman mendalam atas proporsi ruangan, pencahayaan alami, dan fungsi ergonomis. Kami tidak sekadar memproduksi lemari atau kabinet, melainkan membentuk pengalaman hidup di dalam ruangan.'
+                : 'Every project we undertake is grounded in a deep understanding of room proportions, natural illumination, and ergonomic utility. We build living experiences.'
+              }
+            </p>
+
+            <div className="border-l-2 border-amber-300/80 pl-6 py-2 space-y-2 text-stone-200 italic font-serif">
+              <p>
                 {lang === 'id'
-                  ? 'Kami secara eksklusif memilih kayu multiplek 18mm padat bebas racun, anti-rayap, dan tahan kelembapan tinggi untuk daya tahan puluhan tahun.'
-                  : 'We exclusively select dense 18mm anti-termite and moisture-resistant grade-A plywood designed to last for decades.'
+                  ? '"Konstruksi kokoh dengan multiplek 18mm grade A, mekanisme engsel Hafele soft-close, dan finishing Taco HPL dengan jaminan garansi resmi 2 tahun."'
+                  : '"Robust construction with 18mm grade-A plywood, Hafele soft-close hardware, and Taco HPL finishes backed by an official 2-year warranty."'
                 }
               </p>
             </div>
 
-            <div className="p-8 lg:p-10 rounded-3xl bg-[#0A0908] border border-stone-900 space-y-4 hover:border-stone-700 transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-300">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl lg:text-2xl font-bold text-white">
-                {lang === 'id' ? 'Garansi Resmi 2 Tahun' : '2-Year Official Warranty'}
-              </h3>
-              <p className="text-stone-400 text-xs lg:text-sm leading-relaxed font-light">
-                {lang === 'id'
-                  ? 'Jaminan garansi perawatan gratis selama 24 bulan penuh untuk engsel soft-close Hafele, rel laci hidrolik, dan ketahanan lapisan HPL Taco.'
-                  : 'Enjoy 24 full months of complimentary maintenance coverage covering Hafele soft-close hardware, runners, and Taco HPL laminates.'
-                }
-              </p>
-            </div>
+            <p>
+              {lang === 'id'
+                ? 'Seluruh proses manufaktur dilakukan secara independen di workshop pribadi kami untuk menjamin kendali mutu penuh mulai dari pemotongan presisi milimeter hingga pemasangan langsung di lokasi proyek.'
+                : 'All manufacturing is conducted in-house at our private workshop to guarantee complete quality control from millimeter-accurate cutting to final site installation.'
+              }
+            </p>
 
-            <div className="p-8 lg:p-10 rounded-3xl bg-[#0A0908] border border-stone-900 space-y-4 hover:border-stone-700 transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-300">
-                <Compass className="w-6 h-6" />
+            {/* Studio Statistical Highlights */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-stone-900 pt-8 text-left">
+              <div className="space-y-1">
+                <span className="text-3xl lg:text-5xl font-extrabold text-white">12+</span>
+                <p className="text-[11px] text-stone-400 font-mono uppercase tracking-wider">
+                  {lang === 'id' ? 'Tahun Berdiri' : 'Years Established'}
+                </p>
               </div>
-              <h3 className="text-xl lg:text-2xl font-bold text-white">
-                {lang === 'id' ? 'Survei & Desain 3D' : 'Site Survey & 3D Consult'}
-              </h3>
-              <p className="text-stone-400 text-xs lg:text-sm leading-relaxed font-light">
-                {lang === 'id'
-                  ? 'Layanan pengukuran lapangan langsung oleh arsitek interior berpengalaman lengkap dengan rendering 3D sebelum proses produksi workshop.'
-                  : 'On-site measurement services conducted by senior interior architects complete with 3D photorealistic renderings prior to production.'
-                }
-              </p>
-            </div>
-          </div>
-
-          {/* STUDIO STATISTICAL HIGHLIGHTS */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 border-t border-stone-900 pt-12 text-center">
-            <div className="space-y-1">
-              <span className="text-4xl lg:text-6xl font-extrabold text-white">12+</span>
-              <p className="text-xs lg:text-sm text-stone-400 font-mono uppercase tracking-wider">
-                {lang === 'id' ? 'Tahun Pengalaman' : 'Years Experience'}
-              </p>
-            </div>
-            <div className="space-y-1">
-              <span className="text-4xl lg:text-6xl font-extrabold text-amber-300">450+</span>
-              <p className="text-xs lg:text-sm text-stone-400 font-mono uppercase tracking-wider">
-                {lang === 'id' ? 'Proyek Selesai' : 'Completed Projects'}
-              </p>
-            </div>
-            <div className="space-y-1">
-              <span className="text-4xl lg:text-6xl font-extrabold text-emerald-400">100%</span>
-              <p className="text-xs lg:text-sm text-stone-400 font-mono uppercase tracking-wider">
-                {lang === 'id' ? 'Garansi Puas' : 'Satisfaction Rate'}
-              </p>
-            </div>
-            <div className="space-y-1">
-              <span className="text-4xl lg:text-6xl font-extrabold text-white">24m</span>
-              <p className="text-xs lg:text-sm text-stone-400 font-mono uppercase tracking-wider">
-                {lang === 'id' ? 'Garansi Servis' : 'Service Warranty'}
-              </p>
+              <div className="space-y-1">
+                <span className="text-3xl lg:text-5xl font-extrabold text-amber-300">450+</span>
+                <p className="text-[11px] text-stone-400 font-mono uppercase tracking-wider">
+                  {lang === 'id' ? 'Proyek Selesai' : 'Fitouts Completed'}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-3xl lg:text-5xl font-extrabold text-emerald-400">18mm</span>
+                <p className="text-[11px] text-stone-400 font-mono uppercase tracking-wider">
+                  {lang === 'id' ? 'Multiplek Grade A' : 'Plywood Grade A'}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-3xl lg:text-5xl font-extrabold text-white">24m</span>
+                <p className="text-[11px] text-stone-400 font-mono uppercase tracking-wider">
+                  {lang === 'id' ? 'Garansi Servis' : 'Full Warranty'}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -524,7 +499,7 @@ export const PublicCatalogView: React.FC = () => {
                 </li>
                 <li>
                   <button onClick={scrollToAbout} className="hover:text-white transition-colors">
-                    {lang === 'id' ? 'Tentang Kami & Standar Mutu' : 'About Us & Quality'}
+                    {lang === 'id' ? 'Tentang Kami & Metodologi' : 'About Us & Methodology'}
                   </button>
                 </li>
                 <li>
