@@ -150,7 +150,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS (PURE PHOTOGRAPHY ROWS, NO TEXT HEADERS) */}
+      {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS */}
       <section className="py-8 bg-[#050505] overflow-hidden space-y-4">
         {/* MARQUEE ROW 1: AUTOMATICALLY SCROLLING RIGHT TO LEFT */}
         <div className="overflow-hidden w-full relative">
@@ -217,93 +217,96 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* PROJECT GALLERY FEED SECTION */}
-      <main id="gallery-section" className="max-w-7xl mx-auto px-6 sm:px-12 py-20 space-y-12">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-900 pb-8">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-sans font-bold text-white tracking-tight">
-              Project Gallery
-            </h2>
-            <p className="text-stone-400 text-xs font-light max-w-md">
-              Kumpulan kurasi proyek interior dan custom furniture berdasarkan kategori ruang.
-            </p>
-          </div>
+      {/* ALIEN DC STYLE PURE ARCHITECTURAL PROJECT GALLERY */}
+      <main id="gallery-section" className="max-w-7xl mx-auto px-6 sm:px-12 py-24 space-y-12">
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-sans font-bold text-white tracking-tight">
+                Project Gallery
+              </h2>
+              <p className="text-stone-400 text-xs font-light mt-1">
+                A curated selection of architectural and interior fitout projects.
+              </p>
+            </div>
 
-          <div className="flex items-center gap-4 w-full md:w-auto">
-            {/* Category Filter Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 text-xs font-semibold tracking-wider transition-all shrink-0 uppercase border ${
-                    selectedCategory === cat
-                      ? 'border-white bg-white text-stone-950 font-bold'
-                      : 'border-stone-800 text-stone-400 hover:text-white hover:border-stone-600'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+            {/* Search Input */}
+            <div className="relative w-full sm:w-72">
+              <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search projects..."
+                className="w-full pl-9 pr-4 py-2 bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
+              />
             </div>
           </div>
+
+          {/* Minimalist Category Filter Pills */}
+          <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none border-b border-stone-900 pb-4">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`text-xs font-mono uppercase tracking-widest transition-colors py-1 px-3 ${
+                  selectedCategory === cat
+                    ? 'text-white border-b-2 border-white font-bold'
+                    : 'text-stone-500 hover:text-stone-300'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* SEARCH BAR */}
-        <div className="relative max-w-md">
-          <Search className="w-4 h-4 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by keyword or SKU code..."
-            className="w-full pl-11 pr-4 py-3 bg-[#0A0908] border border-stone-800 rounded-none text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
-          />
-        </div>
-
-        {/* PHOTOGRAPHY GALLERY GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* ALIEN DC PURE PHOTOGRAPHY TILE WALL (OVERLAID CAPTIONS ON HOVER) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
               onClick={() => handleOpenDetails(product)}
-              className="group cursor-pointer space-y-4"
+              className="relative aspect-[4/3] overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900 shadow-2xl"
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-stone-950 border border-stone-900">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700"
-                />
-                <div className="absolute top-3 left-3 px-2.5 py-1 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-mono text-stone-300">
+              <img
+                src={product.images[0]}
+                alt={product.name}
+                className="w-full h-full object-cover filter brightness-[0.88] group-hover:scale-105 group-hover:brightness-100 transition-all duration-700"
+              />
+
+              {/* Minimal Code Badge (Always Visible) */}
+              <div className="absolute top-4 left-4 z-10">
+                <span className="px-2.5 py-1 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-mono text-stone-300">
                   {product.code}
-                </div>
+                </span>
               </div>
 
-              <div className="space-y-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-200 block">
+              {/* Sleek Gradient Overlay & Typography (On Hover) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-end">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300 mb-1">
                   {product.category}
                 </span>
-                <h3 className="font-serif font-bold text-white text-lg group-hover:text-stone-300 transition-colors line-clamp-1">
+                <h3 className="font-serif font-bold text-white text-lg leading-snug line-clamp-1">
                   {product.name}
                 </h3>
-                <p className="text-stone-400 text-xs font-light line-clamp-2 leading-relaxed">
+                <p className="text-stone-300 text-xs font-light line-clamp-2 mt-1 leading-relaxed">
                   {product.description}
                 </p>
 
-                <div className="pt-2 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-stone-500">
-                    Lead time ~{product.leadTimeDays} days
+                <div className="pt-3 flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-stone-400">
+                    Lead time ~{product.leadTimeDays}d
                   </span>
                   <a
                     href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="px-4 py-2 border border-emerald-500/50 text-emerald-400 hover:bg-emerald-600 hover:text-white text-xs font-bold transition-all flex items-center gap-1.5"
+                    className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-lg"
                   >
                     <MessageSquare className="w-3.5 h-3.5" />
-                    <span>Inquire WA</span>
+                    <span>Tanya WA</span>
                   </a>
                 </div>
               </div>
