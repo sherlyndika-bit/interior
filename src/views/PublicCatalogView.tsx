@@ -9,7 +9,18 @@ import {
   Calculator,
   ChevronRight,
   ChevronLeft,
-  Maximize2
+  Maximize2,
+  Globe,
+  Award,
+  ShieldCheck,
+  Compass,
+  MapPin,
+  Phone,
+  Mail,
+  Instagram,
+  Facebook,
+  Linkedin,
+  ArrowUpRight
 } from 'lucide-react';
 
 // Genuine WhatsApp SVG Icon
@@ -21,6 +32,7 @@ const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
 
 export const PublicCatalogView: React.FC = () => {
   const { products } = useApp();
+  const [lang, setLang] = useState<'id' | 'en'>('id');
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -34,10 +46,12 @@ export const PublicCatalogView: React.FC = () => {
   const [estHeight, setEstHeight] = useState<number>(2.8);
   const [estFinish, setEstFinish] = useState<string>('HPL Taco Wood Grain');
 
-  const categories = ['Semua', 'Kitchen Set', 'Wardrobe', 'Bedroom', 'Living Room', 'Wall Panel', 'Office'];
+  const categories = lang === 'id'
+    ? ['Semua', 'Kitchen Set', 'Wardrobe', 'Bedroom', 'Living Room', 'Wall Panel', 'Office']
+    : ['All', 'Kitchen Set', 'Wardrobe', 'Bedroom', 'Living Room', 'Wall Panel', 'Office'];
 
   const filteredProducts = products.filter(p => {
-    const matchesCategory = selectedCategory === 'Semua' || p.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'Semua' || selectedCategory === 'All' || p.category === selectedCategory;
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           p.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           p.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -50,6 +64,10 @@ export const PublicCatalogView: React.FC = () => {
 
   const scrollToGallery = () => {
     document.getElementById('gallery-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToAbout = () => {
+    document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleOpenDetails = (product: Product) => {
@@ -89,7 +107,7 @@ export const PublicCatalogView: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-stone-100 font-sans selection:bg-stone-100 selection:text-stone-950">
-      {/* ALIEN DC STYLE FLUID WIDE HEADER */}
+      {/* HEADER WITH LANGUAGE SWITCHER (ID 🇮🇩 / EN 🇬🇧) */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 lg:px-16 py-5 transition-all">
         <div className="max-w-[1800px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -99,9 +117,37 @@ export const PublicCatalogView: React.FC = () => {
           </div>
 
           <nav className="hidden md:flex items-center gap-8 lg:gap-12 text-xs lg:text-sm font-semibold tracking-wider text-stone-300 uppercase">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">BERANDA</button>
-            <button onClick={scrollToGallery} className="hover:text-white transition-colors">GALERI PROYEK</button>
-            <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">SIMULASI BUDGET</button>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">
+              {lang === 'id' ? 'BERANDA' : 'HOME'}
+            </button>
+            <button onClick={scrollToAbout} className="hover:text-white transition-colors">
+              {lang === 'id' ? 'TENTANG KAMI' : 'ABOUT US'}
+            </button>
+            <button onClick={scrollToGallery} className="hover:text-white transition-colors">
+              {lang === 'id' ? 'GALERI PROYEK' : 'PROJECT GALLERY'}
+            </button>
+            <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">
+              {lang === 'id' ? 'SIMULASI BUDGET' : 'BUDGET ESTIMATOR'}
+            </button>
+
+            {/* BILINGUAL LANGUAGE SWITCHER */}
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-900 border border-stone-800 text-[11px] font-mono">
+              <Globe className="w-3.5 h-3.5 text-stone-400" />
+              <button
+                onClick={() => setLang('id')}
+                className={`transition-colors ${lang === 'id' ? 'text-amber-300 font-bold' : 'text-stone-500 hover:text-stone-300'}`}
+              >
+                ID
+              </button>
+              <span className="text-stone-700">|</span>
+              <button
+                onClick={() => setLang('en')}
+                className={`transition-colors ${lang === 'en' ? 'text-amber-300 font-bold' : 'text-stone-500 hover:text-stone-300'}`}
+              >
+                EN
+              </button>
+            </div>
+
             <a
               href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20konsultasi%20desain%20interior."
               target="_blank"
@@ -109,7 +155,7 @@ export const PublicCatalogView: React.FC = () => {
               className="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 font-bold"
             >
               <WhatsAppIcon className="w-4 h-4 lg:w-5 lg:h-5" />
-              <span>TANYA WA</span>
+              <span>{lang === 'id' ? 'TANYA WA' : 'INQUIRE WA'}</span>
             </a>
           </nav>
         </div>
@@ -127,12 +173,18 @@ export const PublicCatalogView: React.FC = () => {
 
         <div className="relative z-10 max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-16 w-full text-left space-y-6 lg:space-y-8">
           <h1 className="text-4xl sm:text-6xl lg:text-8xl 2xl:text-9xl font-sans font-extrabold text-white tracking-tight leading-[1.05] max-w-6xl">
-            Desain Interior & <br />
-            <span className="text-amber-200">Fitout Custom Mewah</span>
+            {lang === 'id' ? (
+              <>Desain Interior & <br /><span className="text-amber-200">Fitout Custom Mewah</span></>
+            ) : (
+              <>Bespoke Interior & <br /><span className="text-amber-200">Architectural Fitouts</span></>
+            )}
           </h1>
 
           <p className="text-stone-300 text-sm sm:text-base lg:text-xl max-w-2xl font-light leading-relaxed">
-            Koleksi portofolio eksklusif kitchen set modular, custom wardrobe, & backdrop wall panel. Konsultasikan konsep & penawaran harga presisi langsung via WhatsApp.
+            {lang === 'id'
+              ? 'Koleksi portofolio eksklusif kitchen set modular, custom wardrobe, & backdrop wall panel. Konsultasikan konsep & penawaran harga presisi langsung via WhatsApp.'
+              : 'Curated portfolio of modular kitchen sets, custom walk-in closets, & wall backdrops. Consult your vision & get precise estimates via WhatsApp.'
+            }
           </p>
 
           <div className="flex flex-wrap items-center gap-4 lg:gap-6 pt-4">
@@ -140,19 +192,19 @@ export const PublicCatalogView: React.FC = () => {
               onClick={scrollToGallery}
               className="px-8 lg:px-10 py-3.5 lg:py-4 border border-white text-white font-semibold text-xs lg:text-sm uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-all rounded-full"
             >
-              Jelajahi Galeri
+              {lang === 'id' ? 'Jelajahi Galeri' : 'Explore Gallery'}
             </button>
             <button
               onClick={() => setIsEstimatorOpen(true)}
               className="px-8 lg:px-10 py-3.5 lg:py-4 border border-stone-700 text-stone-300 font-semibold text-xs lg:text-sm uppercase tracking-widest hover:border-white hover:text-white transition-all rounded-full"
             >
-              Simulasi Budget
+              {lang === 'id' ? 'Simulasi Budget' : 'Budget Estimator'}
             </button>
           </div>
         </div>
       </section>
 
-      {/* STUDIO MANIFESTO / ABOUT STATEMENT SECTION (FLUID WIDE) */}
+      {/* STUDIO MANIFESTO SECTION */}
       <section className="py-20 lg:py-28 px-6 sm:px-12 lg:px-16 bg-[#0A0908] border-y border-stone-900">
         <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           <div className="lg:col-span-4 flex items-center justify-center lg:justify-start">
@@ -163,16 +215,118 @@ export const PublicCatalogView: React.FC = () => {
 
           <div className="lg:col-span-8 space-y-6 lg:space-y-8">
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight leading-snug">
-              InteriorCraft Studio Adalah Kolektif Pengrajin, Arsitek, & Desainer Interior yang Berkomitmen Mewujudkan Ruangan Presisi Tanpa Kompromi.
+              {lang === 'id'
+                ? 'InteriorCraft Studio Adalah Kolektif Pengrajin, Arsitek, & Desainer Interior yang Berkomitmen Mewujudkan Ruangan Presisi Tanpa Kompromi.'
+                : 'InteriorCraft Studio is a Collective of Craftsmen, Architects, and Interior Designers Committed to Transforming Vision Into Precise Spaces.'
+              }
             </h2>
             <p className="text-stone-400 text-sm lg:text-lg leading-relaxed font-light max-w-4xl">
-              Berpengalaman mengerjakan fitout residensial, apartemen mewah, & perkantoran. Kami menggunakan kayu multiplek 18mm grade A, engsel soft-close Hafele, dan finishing HPL Taco / Cat Duco berkualitas tinggi dengan garansi resmi 2 tahun.
+              {lang === 'id'
+                ? 'Berpengalaman mengerjakan fitout residensial, apartemen mewah, & perkantoran. Kami menggunakan kayu multiplek 18mm grade A, engsel soft-close Hafele, dan finishing HPL Taco / Cat Duco berkualitas tinggi dengan garansi resmi 2 tahun.'
+                : 'Over 12 years of experience crafting luxury residential, apartment, and corporate office fitouts. We utilize 18mm grade-A plywood, Hafele soft-close hardware, and premium Taco HPL / Duco finishes with an official 2-year warranty.'
+              }
             </p>
           </div>
         </div>
       </section>
 
-      {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS */}
+      {/* COMPREHENSIVE "TENTANG KAMI" (ABOUT US) SECTION */}
+      <section id="about-section" className="py-24 lg:py-32 px-6 sm:px-12 lg:px-16 bg-[#050505] border-b border-stone-900">
+        <div className="max-w-[1800px] mx-auto space-y-16 lg:space-y-24">
+          <div className="max-w-3xl space-y-4">
+            <span className="text-xs lg:text-sm font-mono uppercase tracking-widest text-amber-300 block">
+              {lang === 'id' ? 'TENTANG KAMI & DEDIKASI KUALITAS' : 'ABOUT US & CRAFTSMANSHIP STANDARDS'}
+            </span>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
+              {lang === 'id' ? 'Seni Presisi dalam Setiap Detail Furniture Custom' : 'The Art of Precision in Every Custom Interior'}
+            </h2>
+            <p className="text-stone-400 text-sm lg:text-lg font-light leading-relaxed">
+              {lang === 'id'
+                ? 'InteriorCraft Studio didirikan di Jakarta Selatan dengan filosofi bahwa setiap ruangan memiliki karakter unik. Kami mengombinasikan keahlian pertukangan tradisional dengan teknologi manufaktur presisi modern.'
+                : 'Founded in South Jakarta, InteriorCraft Studio operates under the philosophy that every space possesses a unique identity. We fuse traditional woodworking mastery with modern precision engineering.'
+              }
+            </p>
+          </div>
+
+          {/* 3 CORE PILLARS OF EXCELLENCE */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            <div className="p-8 lg:p-10 rounded-3xl bg-[#0A0908] border border-stone-900 space-y-4 hover:border-stone-700 transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-300">
+                <Award className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl lg:text-2xl font-bold text-white">
+                {lang === 'id' ? 'Material Grade A' : 'Grade-A Materials'}
+              </h3>
+              <p className="text-stone-400 text-xs lg:text-sm leading-relaxed font-light">
+                {lang === 'id'
+                  ? 'Kami secara eksklusif memilih kayu multiplek 18mm padat bebas racun, anti-rayap, dan tahan kelembapan tinggi untuk daya tahan puluhan tahun.'
+                  : 'We exclusively select dense 18mm anti-termite and moisture-resistant grade-A plywood designed to last for decades.'
+                }
+              </p>
+            </div>
+
+            <div className="p-8 lg:p-10 rounded-3xl bg-[#0A0908] border border-stone-900 space-y-4 hover:border-stone-700 transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-300">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl lg:text-2xl font-bold text-white">
+                {lang === 'id' ? 'Garansi Resmi 2 Tahun' : '2-Year Official Warranty'}
+              </h3>
+              <p className="text-stone-400 text-xs lg:text-sm leading-relaxed font-light">
+                {lang === 'id'
+                  ? 'Jaminan garansi perawatan gratis selama 24 bulan penuh untuk engsel soft-close Hafele, rel laci hidrolik, dan ketahanan lapisan HPL Taco.'
+                  : 'Enjoy 24 full months of complimentary maintenance coverage covering Hafele soft-close hardware, runners, and Taco HPL laminates.'
+                }
+              </p>
+            </div>
+
+            <div className="p-8 lg:p-10 rounded-3xl bg-[#0A0908] border border-stone-900 space-y-4 hover:border-stone-700 transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-300">
+                <Compass className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl lg:text-2xl font-bold text-white">
+                {lang === 'id' ? 'Survei & Desain 3D' : 'Site Survey & 3D Consult'}
+              </h3>
+              <p className="text-stone-400 text-xs lg:text-sm leading-relaxed font-light">
+                {lang === 'id'
+                  ? 'Layanan pengukuran lapangan langsung oleh arsitek interior berpengalaman lengkap dengan rendering 3D sebelum proses produksi workshop.'
+                  : 'On-site measurement services conducted by senior interior architects complete with 3D photorealistic renderings prior to production.'
+                }
+              </p>
+            </div>
+          </div>
+
+          {/* STUDIO STATISTICAL HIGHLIGHTS */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 border-t border-stone-900 pt-12 text-center">
+            <div className="space-y-1">
+              <span className="text-4xl lg:text-6xl font-extrabold text-white">12+</span>
+              <p className="text-xs lg:text-sm text-stone-400 font-mono uppercase tracking-wider">
+                {lang === 'id' ? 'Tahun Pengalaman' : 'Years Experience'}
+              </p>
+            </div>
+            <div className="space-y-1">
+              <span className="text-4xl lg:text-6xl font-extrabold text-amber-300">450+</span>
+              <p className="text-xs lg:text-sm text-stone-400 font-mono uppercase tracking-wider">
+                {lang === 'id' ? 'Proyek Selesai' : 'Completed Projects'}
+              </p>
+            </div>
+            <div className="space-y-1">
+              <span className="text-4xl lg:text-6xl font-extrabold text-emerald-400">100%</span>
+              <p className="text-xs lg:text-sm text-stone-400 font-mono uppercase tracking-wider">
+                {lang === 'id' ? 'Garansi Puas' : 'Satisfaction Rate'}
+              </p>
+            </div>
+            <div className="space-y-1">
+              <span className="text-4xl lg:text-6xl font-extrabold text-white">24m</span>
+              <p className="text-xs lg:text-sm text-stone-400 font-mono uppercase tracking-wider">
+                {lang === 'id' ? 'Garansi Servis' : 'Service Warranty'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* INFINITE MARQUEE SLIDERS */}
       <section className="py-8 bg-[#050505] overflow-hidden space-y-6">
         {/* ROW 1 */}
         <div className="overflow-hidden w-full relative">
@@ -197,7 +351,7 @@ export const PublicCatalogView: React.FC = () => {
                     <p className="text-xs lg:text-sm text-stone-300 font-light line-clamp-1">{product.description}</p>
                     <div className="pt-2 flex items-center gap-2 text-xs lg:text-sm font-bold text-emerald-400">
                       <WhatsAppIcon className="w-4 h-4" />
-                      <span>Tanya Harga WA</span>
+                      <span>{lang === 'id' ? 'Tanya Harga WA' : 'Inquire Price WA'}</span>
                     </div>
                   </div>
                 </div>
@@ -229,7 +383,7 @@ export const PublicCatalogView: React.FC = () => {
                     <p className="text-xs lg:text-sm text-stone-300 font-light line-clamp-1">{product.description}</p>
                     <div className="pt-2 flex items-center gap-2 text-xs lg:text-sm font-bold text-emerald-400">
                       <WhatsAppIcon className="w-4 h-4" />
-                      <span>Tanya Harga WA</span>
+                      <span>{lang === 'id' ? 'Tanya Harga WA' : 'Inquire Price WA'}</span>
                     </div>
                   </div>
                 </div>
@@ -239,15 +393,18 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* FLUID AUTO-ADJUSTING ARCHITECTURAL GALLERY GRID (ADJUSTS TO 3, 4, 5, 6 COLUMNS ON WIDE SCREENS / ZOOM OUT) */}
+      {/* PROJECT GALLERY SECTION */}
       <main id="gallery-section" className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-16 py-24 lg:py-32 space-y-12 lg:space-y-16">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-900 pb-8">
           <div className="space-y-2 max-w-xl">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-white tracking-tight">
-              Galeri Portofolio Proyek
+              {lang === 'id' ? 'Galeri Portofolio Proyek' : 'Project Portfolio Gallery'}
             </h2>
             <p className="text-stone-400 text-xs sm:text-sm font-light leading-relaxed">
-              Kumpulan kurasi proyek arsitektur & fitout desain interior studio kami.
+              {lang === 'id'
+                ? 'Kumpulan kurasi proyek arsitektur & fitout desain interior studio kami.'
+                : 'A curated selection of architectural fitouts and bespoke interior design projects.'
+              }
             </p>
           </div>
 
@@ -278,12 +435,12 @@ export const PublicCatalogView: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari nama proyek interior..."
+            placeholder={lang === 'id' ? "Cari nama proyek interior..." : "Search project by name..."}
             className="w-full pl-11 lg:pl-12 pr-4 py-2.5 lg:py-3 bg-[#0A0908] border border-stone-800 rounded-full text-xs lg:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
           />
         </div>
 
-        {/* FLUID DYNAMIC AUTO-SCALING GRID (3 -> 4 -> 5 -> 6 COLUMNS ON WIDE DISPLAY / ZOOM OUT) */}
+        {/* FLUID GALLERY GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-6 lg:gap-8">
           {filteredProducts.map((product) => (
             <div
@@ -291,21 +448,18 @@ export const PublicCatalogView: React.FC = () => {
               onClick={() => handleOpenDetails(product)}
               className="relative aspect-[4/3] rounded-3xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900/80 shadow-2xl transition-all duration-500"
             >
-              {/* High Resolution Photography Canvas */}
               <img
                 src={product.images[0]}
                 alt={product.name}
                 className="w-full h-full object-cover filter brightness-[0.9] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
               />
 
-              {/* Permanent Minimalist Category Tag */}
               <div className="absolute top-4 left-4 z-10">
                 <span className="px-3.5 py-1.5 bg-stone-950/80 backdrop-blur-md border border-stone-800/80 text-[10px] lg:text-xs font-mono uppercase tracking-widest text-amber-300 rounded-full shadow-lg">
                   {product.category}
                 </span>
               </div>
 
-              {/* Sleek Gradient Overlay on Hover (Title, Lead Time, & Instant WA Action) */}
               <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 lg:p-8 flex flex-col justify-end">
                 <h3 className="font-extrabold text-white text-lg lg:text-2xl leading-snug line-clamp-1">
                   {product.name}
@@ -316,11 +470,11 @@ export const PublicCatalogView: React.FC = () => {
 
                 <div className="pt-4 flex items-center justify-between">
                   <span className="text-[11px] lg:text-xs font-mono text-stone-400">
-                    Lead time ~{product.leadTimeDays} hari
+                    Lead time ~{product.leadTimeDays} {lang === 'id' ? 'hari' : 'days'}
                   </span>
                   <div className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs lg:text-sm flex items-center gap-1.5 transition-all shadow-xl">
                     <WhatsAppIcon className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
-                    <span>Tanya Harga WA</span>
+                    <span>{lang === 'id' ? 'Tanya Harga WA' : 'Inquire WA'}</span>
                   </div>
                 </div>
               </div>
@@ -329,17 +483,110 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </main>
 
-      {/* FOOTER */}
-      <footer className="border-t border-stone-900 py-12 lg:py-16 bg-[#050505] text-center text-xs lg:text-sm text-stone-500">
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="font-bold text-stone-300 tracking-wider">
-            INTERIORCRAFT STUDIO INDONESIA
-          </span>
-          <span>© 2026 InteriorCraft Studio. All rights reserved.</span>
+      {/* RICH ARCHITECTURAL STUDIO FOOTER */}
+      <footer className="border-t border-stone-900 bg-[#070605] pt-20 pb-12 text-stone-400 text-xs lg:text-sm">
+        <div className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-16 space-y-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-16">
+            {/* Col 1: Studio Info */}
+            <div className="lg:col-span-2 space-y-6">
+              <span className="font-bold text-white text-2xl tracking-widest uppercase block">
+                INTERIORCRAFT <span className="font-light text-stone-400 text-sm tracking-normal">STUDIO</span>
+              </span>
+              <p className="text-stone-400 text-xs lg:text-sm leading-relaxed font-light max-w-md">
+                {lang === 'id'
+                  ? 'Studio konsultan arsitektur & manufaktur furniture custom terpercaya di Indonesia. Menghadirkan karya interior berkualitas tinggi dengan ketelitian presisi milimeter.'
+                  : 'Indonesia’s leading architectural interior consultant & custom furniture manufacturer. Delivering high-caliber interior masterpieces engineered with millimeter precision.'
+                }
+              </p>
+              <div className="flex items-center gap-4 text-stone-300">
+                <a href="#" className="p-2.5 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-800 transition-colors">
+                  <Instagram className="w-4 h-4" />
+                </a>
+                <a href="#" className="p-2.5 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-800 transition-colors">
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a href="#" className="p-2.5 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-800 transition-colors">
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+            {/* Col 2: Navigation Links */}
+            <div className="space-y-4">
+              <h4 className="font-bold text-white text-sm uppercase tracking-wider">
+                {lang === 'id' ? 'NAVIGASI STUDIO' : 'STUDIO NAVIGATION'}
+              </h4>
+              <ul className="space-y-2.5 font-light">
+                <li>
+                  <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">
+                    {lang === 'id' ? 'Beranda Utama' : 'Main Home'}
+                  </button>
+                </li>
+                <li>
+                  <button onClick={scrollToAbout} className="hover:text-white transition-colors">
+                    {lang === 'id' ? 'Tentang Kami & Standar Mutu' : 'About Us & Quality'}
+                  </button>
+                </li>
+                <li>
+                  <button onClick={scrollToGallery} className="hover:text-white transition-colors">
+                    {lang === 'id' ? 'Galeri Portofolio Proyek' : 'Project Portfolio'}
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">
+                    {lang === 'id' ? 'Kalkulator Simulasi Budget' : 'Budget Estimator Calculator'}
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Col 3: Specialized Services */}
+            <div className="space-y-4">
+              <h4 className="font-bold text-white text-sm uppercase tracking-wider">
+                {lang === 'id' ? 'SPESIALISASI LAYANAN' : 'SPECIALIZED SERVICES'}
+              </h4>
+              <ul className="space-y-2.5 font-light">
+                <li className="hover:text-white transition-colors">Kitchen Set Modular & Island Table</li>
+                <li className="hover:text-white transition-colors">Wardrobe Walk-in Closet Glass</li>
+                <li className="hover:text-white transition-colors">Wall Panel WPC & TV Backdrop</li>
+                <li className="hover:text-white transition-colors">Bed Frame Floating & Headboard</li>
+                <li className="hover:text-white transition-colors">Fitout Komersial & Kantor Direksi</li>
+              </ul>
+            </div>
+
+            {/* Col 4: Studio Contact & Location */}
+            <div className="space-y-4">
+              <h4 className="font-bold text-white text-sm uppercase tracking-wider">
+                {lang === 'id' ? 'KANTOR & WORKSHOP' : 'STUDIO & WORKSHOP'}
+              </h4>
+              <div className="space-y-3 font-light leading-relaxed">
+                <p className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                  <span>Jl. Interior Craftsman No. 88, Cilandak, Jakarta Selatan 12430</span>
+                </p>
+                <p className="flex items-center gap-2.5">
+                  <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>+62 812-9876-5432 (WhatsApp)</span>
+                </p>
+                <p className="flex items-center gap-2.5">
+                  <Mail className="w-4 h-4 text-blue-400 shrink-0" />
+                  <span>info@interiorcraft.co.id</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-stone-900 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-stone-500 text-xs">
+            <span>© 2026 PT InteriorCraft Studio Indonesia. All rights reserved.</span>
+            <div className="flex items-center gap-6">
+              <a href="#" className="hover:text-stone-300 transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-stone-300 transition-colors">Terms of Service</a>
+            </div>
+          </div>
         </div>
       </footer>
 
-      {/* FRAMELESS DYNAMICALLY SYNCHRONIZED LIGHTBOX MODAL */}
+      {/* LIGHTBOX MODAL */}
       {selectedProduct && (
         <Modal
           isOpen={!!selectedProduct}
@@ -348,7 +595,6 @@ export const PublicCatalogView: React.FC = () => {
           maxWidth="max-w-5xl"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-stone-100 pt-2">
-            {/* Left: Interactive Synchronized Image Canvas */}
             <div className="lg:col-span-7 space-y-3">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-800 bg-stone-950 group">
                 <img
@@ -375,7 +621,6 @@ export const PublicCatalogView: React.FC = () => {
                 )}
               </div>
 
-              {/* Thumbnails Navigation */}
               {selectedProduct.images.length > 1 && (
                 <div className="flex items-center gap-2 overflow-x-auto pb-1">
                   {selectedProduct.images.map((img, idx) => (
@@ -393,12 +638,11 @@ export const PublicCatalogView: React.FC = () => {
               )}
             </div>
 
-            {/* Right: Specs & Material Variant Selection */}
             <div className="lg:col-span-5 space-y-6 flex flex-col justify-between">
               <div className="space-y-4">
                 <div>
                   <span className="text-xs font-mono uppercase tracking-widest text-amber-300 block mb-1">
-                    Koleksi {selectedProduct.category}
+                    {lang === 'id' ? 'Koleksi' : 'Collection'} {selectedProduct.category}
                   </span>
                   <h3 className="text-2xl lg:text-3xl font-extrabold text-white leading-tight">
                     {selectedProduct.name}
@@ -410,15 +654,16 @@ export const PublicCatalogView: React.FC = () => {
                 </p>
 
                 <div className="p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-xs lg:text-sm space-y-1">
-                  <span className="text-stone-400 block">Estimasi Waktu Pengerjaan (Lead Time):</span>
-                  <span className="font-bold text-amber-300">~{selectedProduct.leadTimeDays} Hari Kerja (Custom Fitout)</span>
+                  <span className="text-stone-400 block">
+                    {lang === 'id' ? 'Estimasi Waktu Pengerjaan (Lead Time):' : 'Estimated Lead Time:'}
+                  </span>
+                  <span className="font-bold text-amber-300">~{selectedProduct.leadTimeDays} {lang === 'id' ? 'Hari Kerja (Custom Fitout)' : 'Working Days (Bespoke)'}</span>
                 </div>
 
-                {/* 2-WAY SYNCHRONIZED MATERIAL VARIANT BUTTONS */}
                 {selectedProduct.variants.length > 0 && (
                   <div className="space-y-2">
                     <label className="text-xs lg:text-sm font-semibold text-stone-300 block">
-                      Pilih Varian Finishing / Material:
+                      {lang === 'id' ? 'Pilih Varian Finishing / Material:' : 'Select Finishing Variant:'}
                     </label>
                     <div className="space-y-2">
                       {selectedProduct.variants.map((variant, idx) => (
@@ -433,7 +678,9 @@ export const PublicCatalogView: React.FC = () => {
                         >
                           <span>{variant.name}</span>
                           {activeVariant?.id === variant.id && (
-                            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">TERPILIH</span>
+                            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">
+                              {lang === 'id' ? 'TERPILIH' : 'SELECTED'}
+                            </span>
                           )}
                         </button>
                       ))}
@@ -442,7 +689,6 @@ export const PublicCatalogView: React.FC = () => {
                 )}
               </div>
 
-              {/* Genuine WhatsApp Inquiry Action */}
               <div className="pt-4 border-t border-stone-800 space-y-3">
                 <a
                   href={createWhatsAppCatalogLink(
@@ -456,7 +702,7 @@ export const PublicCatalogView: React.FC = () => {
                   className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs lg:text-sm rounded-full flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/20 transition-all hover:scale-105"
                 >
                   <WhatsAppIcon className="w-4 h-4" />
-                  <span>Konsultasi Harga & Spesifikasi via WA</span>
+                  <span>{lang === 'id' ? 'Konsultasi Harga & Spesifikasi via WA' : 'Inquire Price & Specs via WA'}</span>
                 </a>
               </div>
             </div>
@@ -464,18 +710,20 @@ export const PublicCatalogView: React.FC = () => {
         </Modal>
       )}
 
-      {/* ELEGANT MINIMALIST ARCHITECTURAL FITOUT BUDGET ESTIMATOR MODAL */}
+      {/* ESTIMATOR MODAL */}
       {isEstimatorOpen && (
         <Modal
           isOpen={isEstimatorOpen}
           onClose={() => setIsEstimatorOpen(false)}
-          title="Simulasi Estimasi Budget Custom Fitout"
+          title={lang === 'id' ? "Simulasi Estimasi Budget Custom Fitout" : "Custom Fitout Budget Estimator"}
           maxWidth="max-w-2xl"
         >
           <div className="space-y-5 text-stone-100">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs lg:text-sm">
               <div className="space-y-1">
-                <label className="block text-stone-400 font-semibold">Jenis Proyek</label>
+                <label className="block text-stone-400 font-semibold">
+                  {lang === 'id' ? 'Jenis Proyek' : 'Project Type'}
+                </label>
                 <select
                   value={estCategory}
                   onChange={(e) => setEstCategory(e.target.value)}
@@ -489,7 +737,9 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-stone-400 font-semibold">Finishing Material</label>
+                <label className="block text-stone-400 font-semibold">
+                  {lang === 'id' ? 'Finishing Material' : 'Finishing Material'}
+                </label>
                 <select
                   value={estFinish}
                   onChange={(e) => setEstFinish(e.target.value)}
@@ -502,7 +752,9 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-stone-400 font-semibold">Panjang Ruangan (Meter)</label>
+                <label className="block text-stone-400 font-semibold">
+                  {lang === 'id' ? 'Panjang Ruangan (Meter)' : 'Room Length (Meters)'}
+                </label>
                 <input
                   type="number"
                   step="0.5"
@@ -515,7 +767,9 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-stone-400 font-semibold">Tinggi Kabinet (Meter)</label>
+                <label className="block text-stone-400 font-semibold">
+                  {lang === 'id' ? 'Tinggi Kabinet (Meter)' : 'Cabinet Height (Meters)'}
+                </label>
                 <input
                   type="number"
                   step="0.1"
@@ -528,13 +782,12 @@ export const PublicCatalogView: React.FC = () => {
               </div>
             </div>
 
-            {/* ELEGANT SUBTLE WHITE/CREAM DISPLAY */}
             {(() => {
               const { minEst, maxEst } = calculateEstimatedPriceRange();
               return (
                 <div className="p-6 rounded-2xl bg-stone-950 border border-stone-800 text-center space-y-2">
                   <span className="text-xs font-mono uppercase tracking-widest text-stone-400 block">
-                    Perkiraan Anggaran Biaya Indikatif:
+                    {lang === 'id' ? 'Perkiraan Anggaran Biaya Indikatif:' : 'Indicative Budget Estimate:'}
                   </span>
 
                   <div className="text-xl sm:text-3xl font-bold text-white tracking-wide">
@@ -542,7 +795,10 @@ export const PublicCatalogView: React.FC = () => {
                   </div>
 
                   <p className="text-[11px] lg:text-xs text-stone-500 font-light">
-                    *Termasuk kayu multiplek 18mm grade A, engsel soft-close Hafele, pengiriman & instalasi lokasi.
+                    {lang === 'id'
+                      ? '*Termasuk kayu multiplek 18mm grade A, engsel soft-close Hafele, pengiriman & instalasi lokasi.'
+                      : '*Includes 18mm grade-A plywood, Hafele soft-close hardware, delivery & site installation.'
+                    }
                   </p>
                 </div>
               );
@@ -553,7 +809,7 @@ export const PublicCatalogView: React.FC = () => {
                 onClick={() => setIsEstimatorOpen(false)}
                 className="px-5 py-2.5 rounded-full bg-stone-800 text-stone-300 text-xs lg:text-sm font-semibold hover:bg-stone-700 transition-colors"
               >
-                Tutup
+                {lang === 'id' ? 'Tutup' : 'Close'}
               </button>
               <a
                 href={`https://wa.me/6281298765432?text=${encodeURIComponent(`Halo InteriorCraft Studio, saya telah mencoba kalkulator estimasi untuk *${estCategory}* ukuran ${estLength}m x ${estHeight}m dengan finishing ${estFinish}. Mohon konsultasi survei lokasi!`)}`}
@@ -562,7 +818,7 @@ export const PublicCatalogView: React.FC = () => {
                 className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs lg:text-sm font-extrabold flex items-center gap-2 shadow-xl hover:scale-105"
               >
                 <WhatsAppIcon className="w-4 h-4" />
-                <span>Konsultasi Hasil Estimasi via WA</span>
+                <span>{lang === 'id' ? 'Konsultasi Hasil Estimasi via WA' : 'Inquire Estimate Result via WA'}</span>
               </a>
             </div>
           </div>
