@@ -10,9 +10,7 @@ import {
   Calculator,
   ChevronRight,
   ChevronLeft,
-  Maximize2,
-  Sparkles,
-  CheckCircle2
+  Maximize2
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -472,35 +470,22 @@ export const PublicCatalogView: React.FC = () => {
         </Modal>
       )}
 
-      {/* ULTRA-MODERN FITOUT BUDGET ESTIMATOR MODAL */}
+      {/* ELEGANT MINIMALIST ARCHITECTURAL FITOUT BUDGET ESTIMATOR MODAL */}
       {isEstimatorOpen && (
         <Modal
           isOpen={isEstimatorOpen}
           onClose={() => setIsEstimatorOpen(false)}
-          hideHeader={true}
+          title="Simulasi Estimasi Budget Custom Fitout"
           maxWidth="max-w-xl"
         >
-          <div className="space-y-6 text-stone-100 pt-2">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 text-xs font-semibold text-amber-400 uppercase tracking-widest">
-                <Calculator className="w-4 h-4" />
-                <span>Kalkulator Estimasi Anggaran Proyek</span>
-              </div>
-              <h3 className="text-2xl font-sans font-extrabold text-white tracking-tight">
-                Simulasi Budget Custom Fitout
-              </h3>
-              <p className="text-xs text-stone-400 font-light">
-                Hitung perkiraan biaya desain & pengerjaan furniture custom secara presisi.
-              </p>
-            </div>
-
+          <div className="space-y-5 text-stone-100">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="space-y-1.5">
-                <label className="block text-stone-300 font-semibold">Kategori Proyek</label>
+              <div className="space-y-1">
+                <label className="block text-stone-400 font-semibold">Jenis Proyek</label>
                 <select
                   value={estCategory}
                   onChange={(e) => setEstCategory(e.target.value)}
-                  className="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white font-medium focus:outline-none focus:border-amber-400 transition-colors"
+                  className="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white font-medium focus:outline-none focus:border-stone-500 transition-colors"
                 >
                   <option value="Kitchen Set">Kitchen Set Modular</option>
                   <option value="Wardrobe">Wardrobe Walk-in Closet</option>
@@ -509,12 +494,12 @@ export const PublicCatalogView: React.FC = () => {
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="block text-stone-300 font-semibold">Pilihan Finishing Material</label>
+              <div className="space-y-1">
+                <label className="block text-stone-400 font-semibold">Finishing Material</label>
                 <select
                   value={estFinish}
                   onChange={(e) => setEstFinish(e.target.value)}
-                  className="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white font-medium focus:outline-none focus:border-amber-400 transition-colors"
+                  className="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white font-medium focus:outline-none focus:border-stone-500 transition-colors"
                 >
                   <option value="HPL Taco Wood Grain">HPL Taco Standard</option>
                   <option value="Duco Matte Paint">Cat Duco Matte Premium</option>
@@ -522,8 +507,8 @@ export const PublicCatalogView: React.FC = () => {
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="block text-stone-300 font-semibold">Panjang Ruangan: <span className="text-amber-400 font-bold">{estLength} Meter</span></label>
+              <div className="space-y-1">
+                <label className="block text-stone-400 font-semibold">Panjang Ruangan (Meter)</label>
                 <input
                   type="number"
                   step="0.5"
@@ -531,12 +516,12 @@ export const PublicCatalogView: React.FC = () => {
                   max="20"
                   value={estLength}
                   onChange={(e) => setEstLength(Number(e.target.value))}
-                  className="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white font-medium focus:outline-none focus:border-amber-400 transition-colors"
+                  className="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white font-medium focus:outline-none focus:border-stone-500 transition-colors"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="block text-stone-300 font-semibold">Tinggi Kabinet: <span className="text-amber-400 font-bold">{estHeight} Meter</span></label>
+              <div className="space-y-1">
+                <label className="block text-stone-400 font-semibold">Tinggi Kabinet (Meter)</label>
                 <input
                   type="number"
                   step="0.1"
@@ -544,40 +529,27 @@ export const PublicCatalogView: React.FC = () => {
                   max="5"
                   value={estHeight}
                   onChange={(e) => setEstHeight(Number(e.target.value))}
-                  className="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white font-medium focus:outline-none focus:border-amber-400 transition-colors"
+                  className="w-full p-3 bg-stone-950 border border-stone-800 rounded-xl text-white font-medium focus:outline-none focus:border-stone-500 transition-colors"
                 />
               </div>
             </div>
 
-            {/* ULTRA-CLEAN MODERN SANS-SERIF ESTIMATE RESULT DISPLAY */}
+            {/* ELEGANT SUBTLE WHITE/CREAM DISPLAY (NO GIANT NEON GREEN NUMBERS) */}
             {(() => {
               const { minEst, maxEst } = calculateEstimatedPriceRange();
               return (
-                <div className="p-6 rounded-2xl bg-gradient-to-br from-stone-950 via-[#0A0908] to-stone-950 border border-stone-800/80 text-center space-y-3 shadow-2xl relative overflow-hidden">
-                  <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-500 via-emerald-400 to-amber-500" />
-                  
-                  <span className="text-xs font-mono uppercase tracking-widest text-amber-300 block">
+                <div className="p-6 rounded-2xl bg-stone-950 border border-stone-800 text-center space-y-2">
+                  <span className="text-xs font-mono uppercase tracking-widest text-stone-400 block">
                     Perkiraan Anggaran Biaya Indikatif:
                   </span>
 
-                  {/* Clean Modern Sans-Serif Currency Numbers */}
-                  <div className="text-2xl sm:text-4xl font-sans font-extrabold text-white tracking-tight flex items-center justify-center gap-2">
-                    <span className="text-emerald-400">{formatRupiah(minEst)}</span>
-                    <span className="text-stone-500 text-lg font-light">—</span>
-                    <span className="text-emerald-400">{formatRupiah(maxEst)}</span>
+                  <div className="text-xl sm:text-2xl font-serif font-bold text-white tracking-wide">
+                    {formatRupiah(minEst)} &nbsp;—&nbsp; {formatRupiah(maxEst)}
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-[11px] text-stone-400">
-                    <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Multiplek 18mm Grade A
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Soft-close Hafele
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Garansi Resmi 2 Tahun
-                    </span>
-                  </div>
+                  <p className="text-[11px] text-stone-500 font-light">
+                    *Termasuk kayu multiplek 18mm grade A, engsel soft-close Hafele, pengiriman & instalasi lokasi.
+                  </p>
                 </div>
               );
             })()}
@@ -593,7 +565,7 @@ export const PublicCatalogView: React.FC = () => {
                 href={`https://wa.me/6281298765432?text=${encodeURIComponent(`Halo InteriorCraft Studio, saya telah mencoba kalkulator estimasi untuk *${estCategory}* ukuran ${estLength}m x ${estHeight}m dengan finishing ${estFinish}. Mohon konsultasi survei lokasi!`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold flex items-center gap-2 shadow-xl shadow-emerald-600/20 transition-all hover:scale-105"
+                className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold flex items-center gap-2 transition-all shadow-xl hover:scale-105"
               >
                 <MessageSquare className="w-4 h-4" />
                 <span>Konsultasi Hasil Estimasi via WA</span>
