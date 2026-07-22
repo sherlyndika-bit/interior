@@ -6,13 +6,13 @@ export interface User {
   email: string;
   username: string;
   role: UserRole;
-  avatar: string;
+  initials: string; // e.g. "SD", "AW", "BS", "RH"
   permissions: string[]; // e.g. ['pos', 'inventory', 'reports', 'payroll', 'schedule', 'users']
 }
 
 export interface ProductVariant {
   id: string;
-  name: string; // e.g. "Walnut Wood / Gold Accent", "Finishing HPL Natural"
+  name: string;
   colorHex?: string;
   dimensions?: string;
   additionalCost: number;
@@ -45,7 +45,7 @@ export interface RawMaterial {
   code: string;
   name: string;
   category: 'Papan Wood' | 'HPL & Veneer' | 'Hardware & Aksesoris' | 'Cat & Finishing' | 'Kaca & Cermin' | 'Busa & Kain';
-  unit: string; // 'lembar', 'meter', 'pcs', 'kaleng'
+  unit: string;
   stock: number;
   minStock: number;
   costPerUnit: number;
@@ -82,7 +82,7 @@ export interface OrderItem {
 
 export interface MilestonePayment {
   id: string;
-  name: string; // e.g. "DP 50%", "Pelunasan Sebelum Kirim"
+  name: string;
   amount: number;
   percentage: number;
   status: 'Pending' | 'Paid';
@@ -139,8 +139,8 @@ export interface InstallationSchedule {
   phone: string;
   address: string;
   scheduledDate: string;
-  timeSlot: string; // e.g. "09:00 - 13:00 WIB"
-  assignedTeam: string[]; // e.g. ["Budi (Teknisi 1)", "Randi (Driver)"]
+  timeSlot: string;
+  assignedTeam: string[];
   status: 'Scheduled' | 'In Transit' | 'In Progress' | 'Installed' | 'Rescheduled';
   notes: string;
   completionPhoto?: string;
@@ -150,10 +150,10 @@ export interface Employee {
   id: string;
   employeeCode: string;
   name: string;
-  role: string; // e.g. "Draftsman Interior", "Tukang Kayu Senior", "Teknisi Instalasi", "Sales Consultant"
+  role: string;
   baseSalary: number;
   allowance: number;
-  commissionRate: number; // percentage per installed project
+  commissionRate: number;
   phone: string;
   status: 'Active' | 'Inactive';
 }
@@ -163,7 +163,7 @@ export interface PayrollRecord {
   employeeId: string;
   employeeName: string;
   employeeRole: string;
-  period: string; // e.g. "2026-07"
+  period: string;
   baseSalary: number;
   allowance: number;
   commissionAmount: number;
@@ -177,7 +177,7 @@ export interface PayrollRecord {
 
 export interface TaxSetting {
   enablePPN: boolean;
-  ppnRate: number; // e.g. 11%
+  ppnRate: number;
   enablePPh21: boolean;
   companyNPWP: string;
   companyName: string;
@@ -191,7 +191,7 @@ export interface PromoVoucher {
   code: string;
   description: string;
   type: 'fixed' | 'percentage';
-  value: number; // e.g. 500000 or 10 (%)
+  value: number;
   minSpend: number;
   validUntil: string;
   isActive: boolean;
@@ -200,8 +200,8 @@ export interface PromoVoucher {
 export interface QuotationItem {
   id: string;
   title: string;
-  specification: string; // e.g. "Multiplek 18mm, Finishing HPL Taco, Engsel Slowmotion Hafele"
-  dimensions: string; // e.g. "240 x 60 x 280 cm"
+  specification: string;
+  dimensions: string;
   unit: string;
   quantity: number;
   unitPrice: number;

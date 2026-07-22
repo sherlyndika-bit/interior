@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { User, UserRole } from '../types';
 import { Modal } from '../components/Modal';
-import { ShieldCheck, UserPlus, Shield, Edit, Trash2, Key, CheckCircle2, Lock } from 'lucide-react';
+import { ShieldCheck, UserPlus, Edit, Trash2, CheckCircle2, Lock } from 'lucide-react';
 
 export const UserManagementView: React.FC = () => {
   const { users, addUser, updateUser, deleteUser, currentUser } = useAuth();
@@ -30,6 +30,8 @@ export const UserManagementView: React.FC = () => {
     e.preventDefault();
     if (!name || !username) return;
 
+    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
     if (editingUser) {
       updateUser({
         ...editingUser,
@@ -37,6 +39,7 @@ export const UserManagementView: React.FC = () => {
         email,
         username,
         role,
+        initials,
         permissions: role === 'owner' ? ['all'] : selectedPermissions
       });
     } else {
@@ -46,7 +49,7 @@ export const UserManagementView: React.FC = () => {
         email,
         username,
         role,
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+        initials,
         permissions: role === 'owner' ? ['all'] : selectedPermissions
       });
     }
@@ -79,7 +82,7 @@ export const UserManagementView: React.FC = () => {
         <div>
           <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <ShieldCheck className="w-6 h-6 text-amber-400" />
-            Manajemen Akses User & Role (RBAC)
+            Manajemen Akses Staff & Permisi Modul (RBAC)
           </h1>
           <p className="text-xs text-slate-400 mt-1">
             Pengaturan akun staff kasir, gudang, teknisi & hak akses per modul sistem.
@@ -98,13 +101,15 @@ export const UserManagementView: React.FC = () => {
         </button>
       </div>
 
-      {/* Users Grid */}
+      {/* Users Grid (Initials Badge Only, No User Photos) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {users.map((usr) => (
           <div key={usr.id} className="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col justify-between space-y-4">
             <div>
               <div className="flex items-center gap-3">
-                <img src={usr.avatar} alt={usr.name} className="w-12 h-12 rounded-full object-cover border-2 border-amber-500/40" />
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-500 text-slate-950 font-extrabold text-sm flex items-center justify-center border border-amber-400/40 shadow-md">
+                  {usr.initials}
+                </div>
                 <div>
                   <h3 className="font-bold text-white text-sm">{usr.name}</h3>
                   <span className="text-xs text-slate-400 font-mono">@{usr.username}</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
-import { LogOut, Shield, Eye, Store, Sparkles, Bell, UserCheck } from 'lucide-react';
+import { LogOut, Sparkles, Bell, Globe, Shield } from 'lucide-react';
 import { UserRole } from '../types';
 
 interface HeaderProps {
@@ -13,7 +13,6 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
   const { currentUser, loginAsRole, logout } = useAuth();
   const { products, rawMaterials } = useApp();
 
-  // Count low stock items for alert badge
   const lowStockCount = products.filter(p => p.stock <= p.minStock).length +
                         rawMaterials.filter(m => m.stock <= m.minStock).length;
 
@@ -27,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
 
   return (
     <header className="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 px-6 flex items-center justify-between">
-      {/* Left section */}
+      {/* Left branding */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/20">
@@ -35,50 +34,46 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
           </div>
           <div>
             <h1 className="font-extrabold text-slate-100 tracking-tight text-base flex items-center gap-2">
-              InteriorCraft <span className="text-amber-400 font-semibold text-xs px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20">STUDIO</span>
+              InteriorCraft <span className="text-amber-400 font-semibold text-xs px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20">ADMIN</span>
             </h1>
-            <p className="text-[11px] text-slate-400">Custom Furniture & Fitout System</p>
+            <p className="text-[11px] text-slate-400">Portal Sistem Internal Studio</p>
           </div>
         </div>
 
-        {/* Catalog shortcut button */}
+        {/* Shortcut to view Public Website */}
         <button
-          onClick={() => onTabChange('catalog')}
-          className={`ml-4 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
-            currentTab === 'catalog'
-              ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-              : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
-          }`}
+          onClick={() => window.location.hash = ''}
+          className="ml-4 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-all border border-slate-700"
+          title="Buka Website Katalog Publik Klien"
         >
-          <Store className="w-3.5 h-3.5" />
-          <span>Cek Katalog (Publik)</span>
+          <Globe className="w-3.5 h-3.5 text-amber-400" />
+          <span>Lihat Website Publik</span>
         </button>
       </div>
 
-      {/* Right section: Role switcher & User info */}
+      {/* Right section: User Badge (Initials Only, No Photo) & Logout */}
       <div className="flex items-center gap-4">
-        {/* Low Stock Alert */}
         {lowStockCount > 0 && (
           <button
             onClick={() => onTabChange('inventory')}
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs hover:bg-rose-500/20 transition-all"
-            title="Ada barang/bahan stok menipis!"
+            title="Ada stok menipis"
           >
             <Bell className="w-3.5 h-3.5 animate-pulse text-rose-400" />
-            <span className="font-semibold">{lowStockCount} Stok Low</span>
+            <span className="font-semibold">{lowStockCount} Alert Stok</span>
           </button>
         )}
 
-        {/* Role Fast Switcher (For Demo & Access Testing) */}
-        <div className="hidden md:flex items-center gap-1 bg-slate-950/60 p-1 rounded-xl border border-slate-800 text-xs">
-          <span className="px-2 text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Simulasi Akses:</span>
+        {/* Quick Role Simulation Selector for Staff */}
+        <div className="hidden lg:flex items-center gap-1 bg-slate-950/60 p-1 rounded-xl border border-slate-800 text-xs">
+          <span className="px-2 text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Ganti Akun Staff:</span>
           {(['owner', 'kasir', 'gudang', 'teknisi'] as UserRole[]).map((r) => (
             <button
               key={r}
               onClick={() => loginAsRole(r)}
-              className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
+              className={`px-2 py-0.5 rounded-md font-medium transition-all text-[11px] ${
                 currentUser?.role === r
-                  ? 'bg-amber-500 text-slate-950 shadow-sm font-bold'
+                  ? 'bg-amber-500 text-slate-950 font-bold'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
               }`}
             >
@@ -87,38 +82,31 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
           ))}
         </div>
 
-        {/* Current User Badge */}
-        {currentUser ? (
+        {/* Logged in User Initials Badge (No User Photo) */}
+        {currentUser && (
           <div className="flex items-center gap-3 border-l border-slate-800 pl-4">
-            <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
-              className="w-8 h-8 rounded-full object-cover border border-amber-500/40"
-            />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-600 to-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center border border-amber-400/40 shadow-sm">
+              {currentUser.initials}
+            </div>
             <div className="hidden sm:block text-left">
-              <div className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+              <div className="text-xs font-bold text-slate-200">
                 {currentUser.name}
               </div>
               <span className={`inline-block px-1.5 py-0.2 text-[10px] font-medium rounded border ${roleLabels[currentUser.role]?.color}`}>
                 {roleLabels[currentUser.role]?.title}
               </span>
             </div>
+
             <button
-              onClick={logout}
-              title="Keluar / Switch Account"
-              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition-colors"
+              onClick={() => {
+                logout();
+                window.location.hash = '';
+              }}
+              title="Keluar dari Portal Admin"
+              className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition-colors flex items-center gap-1 text-xs font-semibold"
             >
               <LogOut className="w-4 h-4" />
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 border-l border-slate-800 pl-4">
-            <span className="text-xs text-slate-400">Mode Tamu Katalog</span>
-            <button
-              onClick={() => onTabChange('login')}
-              className="px-3 py-1.5 bg-amber-500 text-slate-950 text-xs font-bold rounded-lg hover:bg-amber-400 transition-all shadow-md shadow-amber-500/20"
-            >
-              Login Staff / Admin
+              <span className="hidden md:inline">Keluar</span>
             </button>
           </div>
         )}

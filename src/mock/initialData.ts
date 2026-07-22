@@ -19,7 +19,7 @@ export const initialUsers: User[] = [
     email: 'owner@interiorcraft.id',
     username: 'owner',
     role: 'owner',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
+    initials: 'SD',
     permissions: ['all']
   },
   {
@@ -28,7 +28,7 @@ export const initialUsers: User[] = [
     email: 'sales@interiorcraft.id',
     username: 'kasir',
     role: 'kasir',
-    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&auto=format&fit=crop&q=80',
+    initials: 'AW',
     permissions: ['pos', 'preorder', 'customers', 'quotations', 'catalog']
   },
   {
@@ -37,7 +37,7 @@ export const initialUsers: User[] = [
     email: 'gudang@interiorcraft.id',
     username: 'gudang',
     role: 'gudang',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80',
+    initials: 'BS',
     permissions: ['inventory', 'raw_materials', 'stock_movement']
   },
   {
@@ -46,7 +46,7 @@ export const initialUsers: User[] = [
     email: 'teknisi@interiorcraft.id',
     username: 'teknisi',
     role: 'teknisi',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&auto=format&fit=crop&q=80',
+    initials: 'RH',
     permissions: ['schedule', 'installation_status']
   }
 ];

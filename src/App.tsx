@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';
 import { Header } from './components/Header';
@@ -18,36 +18,43 @@ import { UserManagementView } from './views/UserManagementView';
 import { Lock } from 'lucide-react';
 
 const MainLayout: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState<string>('catalog');
+  const [routeHash, setRouteHash] = useState<string>(() => window.location.hash || '#/');
+  const [currentTab, setCurrentTab] = useState<string>('orders');
   const { hasPermission, currentUser } = useAuth();
 
-  // 1. PUBLIC CATALOG MODE: Render clean full-width storefront homepage without admin sidebar
-  if (currentTab === 'catalog') {
+  useEffect(() => {
+    const handleHashChange = () => {
+      setRouteHash(window.location.hash || '#/');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const isAdminRoute = routeHash.includes('admin');
+
+  // 1. PUBLIC STOREFRONT MODE (Default Route `/` or `/#/`):
+  // 100% clean storefront homepage without any admin entry buttons!
+  if (!isAdminRoute) {
     return (
       <>
-        <PublicCatalogView
-          onLoginClick={() => setCurrentTab('login')}
-          onGoToAdmin={() => setCurrentTab('orders')}
-        />
+        <PublicCatalogView />
         <Toast />
       </>
     );
   }
 
-  // 2. LOGIN PAGE MODE: Render login portal
-  if (currentTab === 'login') {
+  // 2. ADMIN ROUTE (`/#/admin` or `/#admin`):
+  // MANDATORY LOGIN CHECK: If user is not logged in, force Login Page first!
+  if (isAdminRoute && !currentUser) {
     return (
       <>
-        <LoginView
-          onSuccessLogin={() => setCurrentTab('orders')}
-          onGoToCatalog={() => setCurrentTab('catalog')}
-        />
+        <LoginView onSuccessLogin={() => setCurrentTab('orders')} />
         <Toast />
       </>
     );
   }
 
-  // 3. ADMIN DASHBOARD MODE: Render Admin layout with Sidebar & Header
+  // 3. AUTHENTICATED ADMIN DASHBOARD: Render layout with Header & Sidebar
   const renderAdminContent = () => {
     const permissionMap: Record<string, string> = {
       inventory: 'inventory',
@@ -71,13 +78,13 @@ const MainLayout: React.FC = () => {
           </div>
           <h2 className="text-xl font-bold text-white mb-2">Akses Modul Dibatasi</h2>
           <p className="text-sm text-slate-400 max-w-md mb-6 leading-relaxed">
-            Peran Anda saat ini (<strong>{currentUser?.role || 'Guest'}</strong>) tidak memiliki izin untuk membuka modul ini. Silakan hubungi Owner / Super Admin atau switch akun di bar atas.
+            Peran Anda saat ini (<strong>{currentUser?.role || 'Guest'}</strong>) tidak memiliki izin untuk membuka modul ini.
           </p>
           <button
-            onClick={() => setCurrentTab('catalog')}
+            onClick={() => setCurrentTab('orders')}
             className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition-all"
           >
-            Kembali ke Katalog Publik
+            Kembali ke Modul Utama
           </button>
         </div>
       );

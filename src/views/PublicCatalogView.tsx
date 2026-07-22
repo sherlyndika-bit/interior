@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { useAuth } from '../context/AuthContext';
 import { Product, ProductVariant } from '../types';
 import { createWhatsAppCatalogLink, formatRupiah } from '../utils/formatters';
 import { Modal } from '../components/Modal';
@@ -9,28 +8,14 @@ import {
   Search,
   Filter,
   Sparkles,
-  Ruler,
   Clock,
   ShieldCheck,
   Calculator,
-  ArrowRight,
-  Eye,
-  LogIn,
-  PhoneCall,
-  LayoutDashboard,
-  CheckCircle2,
-  Award,
-  ChevronRight
+  Eye
 } from 'lucide-react';
 
-interface PublicCatalogViewProps {
-  onLoginClick?: () => void;
-  onGoToAdmin?: () => void;
-}
-
-export const PublicCatalogView: React.FC<PublicCatalogViewProps> = ({ onLoginClick, onGoToAdmin }) => {
+export const PublicCatalogView: React.FC = () => {
   const { products } = useApp();
-  const { currentUser } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -73,8 +58,8 @@ export const PublicCatalogView: React.FC<PublicCatalogViewProps> = ({ onLoginCli
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950">
-      {/* Public Storefront Top Navbar */}
-      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-6 py-3">
+      {/* Public Storefront Top Navbar (No Admin Login Buttons) */}
+      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-6 py-3.5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/20">
@@ -91,36 +76,18 @@ export const PublicCatalogView: React.FC<PublicCatalogViewProps> = ({ onLoginCli
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsEstimatorOpen(true)}
-              className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-amber-300 transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-amber-300 transition-all shadow-sm"
             >
               <Calculator className="w-4 h-4 text-amber-400" />
-              <span>Simulasi Budget</span>
+              <span>Simulasi Budget Fitout</span>
             </button>
-
-            {currentUser ? (
-              <button
-                onClick={onGoToAdmin}
-                className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 transition-all"
-              >
-                <LayoutDashboard className="w-4 h-4" />
-                <span>Masuk Portal Staff / Admin</span>
-              </button>
-            ) : (
-              <button
-                onClick={onLoginClick}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-2 transition-all"
-              >
-                <LogIn className="w-4 h-4 text-amber-400" />
-                <span>Login Staff / Admin</span>
-              </button>
-            )}
           </div>
         </div>
       </header>
 
       {/* Main Public Body Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-10">
-        {/* Full-width Hero Landing Banner */}
+        {/* Hero Landing Banner */}
         <div className="relative rounded-3xl overflow-hidden glass-panel border border-slate-800 p-8 sm:p-14 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/40 shadow-2xl">
           <div className="max-w-2xl space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
