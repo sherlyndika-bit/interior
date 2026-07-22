@@ -4,7 +4,6 @@ import { Product, ProductVariant } from '../types';
 import { createWhatsAppCatalogLink, formatRupiah } from '../utils/formatters';
 import { Modal } from '../components/Modal';
 import {
-  MessageSquare,
   Search,
   Clock,
   Calculator,
@@ -12,6 +11,13 @@ import {
   ChevronLeft,
   Maximize2
 } from 'lucide-react';
+
+// Genuine WhatsApp SVG Icon
+const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-1.157 4.228 4.22-1.107zm10.741-6.732c-.301-.15-1.784-.881-2.06-.982-.275-.1-.476-.15-.676.15-.2.3-.776.982-.951 1.182-.175.2-.351.225-.652.075-1.921-.963-3.183-1.722-4.444-3.882-.334-.572.334-.53.956-1.772.1-.2.05-.375-.025-.525-.075-.15-.676-1.627-.926-2.226-.243-.583-.49-.504-.676-.513-.175-.008-.376-.008-.576-.008-.2 0-.526.075-.802.375-.275.3-1.052 1.028-1.052 2.508 0 1.48 1.077 2.907 1.227 3.107.15.2 2.119 3.236 5.134 4.54.718.311 1.278.498 1.714.636.721.23 1.378.197 1.898.12.578-.087 1.784-.729 2.034-1.431.25-.702.25-1.303.175-1.43-.075-.128-.275-.228-.576-.378z"/>
+  </svg>
+);
 
 export const PublicCatalogView: React.FC = () => {
   const { products } = useApp();
@@ -100,9 +106,9 @@ export const PublicCatalogView: React.FC = () => {
               href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20konsultasi%20desain%20interior."
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5"
+              className="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 font-bold"
             >
-              <MessageSquare className="w-3.5 h-3.5" />
+              <WhatsAppIcon className="w-4 h-4" />
               <span>TANYA WA</span>
             </a>
           </nav>
@@ -189,8 +195,8 @@ export const PublicCatalogView: React.FC = () => {
                   <div className="space-y-1">
                     <h3 className="font-serif text-lg font-bold text-white line-clamp-1">{product.name}</h3>
                     <p className="text-xs text-stone-300 font-light line-clamp-1">{product.description}</p>
-                    <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-emerald-400">
-                      <MessageSquare className="w-3.5 h-3.5" />
+                    <div className="pt-2 flex items-center gap-2 text-xs font-bold text-emerald-400">
+                      <WhatsAppIcon className="w-4 h-4" />
                       <span>Tanya Harga WA</span>
                     </div>
                   </div>
@@ -221,8 +227,8 @@ export const PublicCatalogView: React.FC = () => {
                   <div className="space-y-1">
                     <h3 className="font-serif text-lg font-bold text-white line-clamp-1">{product.name}</h3>
                     <p className="text-xs text-stone-300 font-light line-clamp-1">{product.description}</p>
-                    <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-emerald-400">
-                      <MessageSquare className="w-3.5 h-3.5" />
+                    <div className="pt-2 flex items-center gap-2 text-xs font-bold text-emerald-400">
+                      <WhatsAppIcon className="w-4 h-4" />
                       <span>Tanya Harga WA</span>
                     </div>
                   </div>
@@ -325,7 +331,7 @@ export const PublicCatalogView: React.FC = () => {
                     onClick={(e) => e.stopPropagation()}
                     className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
                   >
-                    <MessageSquare className="w-3.5 h-3.5" />
+                    <WhatsAppIcon className="w-3.5 h-3.5" />
                     <span>Tanya Harga WA</span>
                   </a>
                 </div>
@@ -448,7 +454,7 @@ export const PublicCatalogView: React.FC = () => {
                 )}
               </div>
 
-              {/* Clean WhatsApp Inquiry Action */}
+              {/* Genuine WhatsApp Inquiry Action */}
               <div className="pt-4 border-t border-stone-800 space-y-3">
                 <a
                   href={createWhatsAppCatalogLink(
@@ -461,7 +467,7 @@ export const PublicCatalogView: React.FC = () => {
                   rel="noopener noreferrer"
                   className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-full flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/20 transition-all hover:scale-105"
                 >
-                  <MessageSquare className="w-4 h-4" />
+                  <WhatsAppIcon className="w-4 h-4" />
                   <span>Konsultasi Harga & Spesifikasi via WA</span>
                 </a>
               </div>
@@ -534,7 +540,7 @@ export const PublicCatalogView: React.FC = () => {
               </div>
             </div>
 
-            {/* ELEGANT SUBTLE WHITE/CREAM DISPLAY (NO GIANT NEON GREEN NUMBERS) */}
+            {/* ELEGANT SUBTLE WHITE/CREAM DISPLAY */}
             {(() => {
               const { minEst, maxEst } = calculateEstimatedPriceRange();
               return (
@@ -567,7 +573,7 @@ export const PublicCatalogView: React.FC = () => {
                 rel="noopener noreferrer"
                 className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold flex items-center gap-2 transition-all shadow-xl hover:scale-105"
               >
-                <MessageSquare className="w-4 h-4" />
+                <WhatsAppIcon className="w-4 h-4" />
                 <span>Konsultasi Hasil Estimasi via WA</span>
               </a>
             </div>
