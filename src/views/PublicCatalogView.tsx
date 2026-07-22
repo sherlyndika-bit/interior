@@ -226,7 +226,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* CLEAN ARCHITECTURAL STUDIO EDITORIAL ABOUT US SECTION (ZERO CHEESY ICON BOXES) */}
+      {/* PURE EDITORIAL ARCHITECTURAL STUDIO ABOUT US SECTION (NO STAT COUNTERS, NO CHEESY BOXES) */}
       <section id="about-section" className="py-24 lg:py-32 px-6 sm:px-12 lg:px-16 bg-[#050505] border-b border-stone-900">
         <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
           {/* Left Column: Title & Heritage */}
@@ -269,34 +269,6 @@ export const PublicCatalogView: React.FC = () => {
                 : 'All manufacturing is conducted in-house at our private workshop to guarantee complete quality control from millimeter-accurate cutting to final site installation.'
               }
             </p>
-
-            {/* Studio Statistical Highlights */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-stone-900 pt-8 text-left">
-              <div className="space-y-1">
-                <span className="text-3xl lg:text-5xl font-extrabold text-white">12+</span>
-                <p className="text-[11px] text-stone-400 font-mono uppercase tracking-wider">
-                  {lang === 'id' ? 'Tahun Berdiri' : 'Years Established'}
-                </p>
-              </div>
-              <div className="space-y-1">
-                <span className="text-3xl lg:text-5xl font-extrabold text-amber-300">450+</span>
-                <p className="text-[11px] text-stone-400 font-mono uppercase tracking-wider">
-                  {lang === 'id' ? 'Proyek Selesai' : 'Fitouts Completed'}
-                </p>
-              </div>
-              <div className="space-y-1">
-                <span className="text-3xl lg:text-5xl font-extrabold text-emerald-400">18mm</span>
-                <p className="text-[11px] text-stone-400 font-mono uppercase tracking-wider">
-                  {lang === 'id' ? 'Multiplek Grade A' : 'Plywood Grade A'}
-                </p>
-              </div>
-              <div className="space-y-1">
-                <span className="text-3xl lg:text-5xl font-extrabold text-white">24m</span>
-                <p className="text-[11px] text-stone-400 font-mono uppercase tracking-wider">
-                  {lang === 'id' ? 'Garansi Servis' : 'Full Warranty'}
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
