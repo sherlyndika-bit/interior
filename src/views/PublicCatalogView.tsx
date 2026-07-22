@@ -11,7 +11,15 @@ import {
   Clock,
   ShieldCheck,
   Calculator,
-  Eye
+  Eye,
+  ChevronRight,
+  ChevronLeft,
+  Ruler,
+  Award,
+  ArrowUpRight,
+  Maximize2,
+  SlidersHorizontal,
+  CheckCircle2
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -20,15 +28,24 @@ export const PublicCatalogView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeVariant, setActiveVariant] = useState<ProductVariant | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 
   // Custom Fitout Estimator Modal State
   const [isEstimatorOpen, setIsEstimatorOpen] = useState<boolean>(false);
   const [estCategory, setEstCategory] = useState<string>('Kitchen Set');
-  const [estLength, setEstLength] = useState<number>(3);
-  const [estHeight, setEstHeight] = useState<number>(2.4);
+  const [estLength, setEstLength] = useState<number>(3.5);
+  const [estHeight, setEstHeight] = useState<number>(2.8);
   const [estFinish, setEstFinish] = useState<string>('HPL Taco Wood Grain');
 
-  const categories = ['Semua', 'Kitchen Set', 'Bedroom', 'Living Room', 'Office', 'Wardrobe', 'Wall Panel'];
+  const categories = [
+    { name: 'Semua', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&auto=format&fit=crop&q=80' },
+    { name: 'Kitchen Set', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&auto=format&fit=crop&q=80' },
+    { name: 'Wardrobe', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&auto=format&fit=crop&q=80' },
+    { name: 'Bedroom', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&auto=format&fit=crop&q=80' },
+    { name: 'Living Room', image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&auto=format&fit=crop&q=80' },
+    { name: 'Wall Panel', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&auto=format&fit=crop&q=80' },
+    { name: 'Office', image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&auto=format&fit=crop&q=80' }
+  ];
 
   const filteredProducts = products.filter(p => {
     const matchesCategory = selectedCategory === 'Semua' || p.category === selectedCategory;
@@ -41,6 +58,7 @@ export const PublicCatalogView: React.FC = () => {
   const handleOpenDetails = (product: Product) => {
     setSelectedProduct(product);
     setActiveVariant(product.variants.length > 0 ? product.variants[0] : null);
+    setActiveImageIndex(0);
   };
 
   const calculateEstimatedPriceRange = () => {
@@ -58,109 +76,171 @@ export const PublicCatalogView: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950">
-      {/* Public Storefront Top Navbar (No Admin Login Buttons) */}
-      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-6 py-3.5">
+      {/* Luxury Full-Bleed Storefront Top Header */}
+      <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80 px-6 py-4 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/20">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-600 via-amber-500 to-amber-300 flex items-center justify-center shadow-xl shadow-amber-500/20">
               <Sparkles className="w-6 h-6 text-slate-950 font-bold" />
             </div>
             <div>
-              <span className="font-extrabold text-white text-lg tracking-tight flex items-center gap-2">
-                InteriorCraft <span className="text-amber-400 font-semibold text-xs px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20">STUDIO</span>
+              <span className="font-extrabold text-white text-xl tracking-tight flex items-center gap-2">
+                InteriorCraft <span className="text-amber-400 font-semibold text-xs px-2.5 py-0.5 rounded-lg bg-amber-500/10 border border-amber-500/20">STUDIO</span>
               </span>
-              <p className="text-[10px] text-slate-400">Custom Fitout & Fine Furniture</p>
+              <p className="text-[11px] text-slate-400">Architecture, Custom Furniture & Fine Interior</p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsEstimatorOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-amber-300 transition-all shadow-sm"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-xs font-bold text-amber-300 transition-all shadow-lg shadow-amber-500/5"
             >
               <Calculator className="w-4 h-4 text-amber-400" />
-              <span>Simulasi Budget Fitout</span>
+              <span className="hidden sm:inline">Simulasi Budget Fitout</span>
             </button>
+
+            <a
+              href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20untuk%20konsultasi%20desain%20interior."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-2 transition-all shadow-lg shadow-emerald-600/20"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>Hubungi WA Studio</span>
+            </a>
           </div>
         </div>
       </header>
 
-      {/* Main Public Body Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-10">
-        {/* Hero Landing Banner */}
-        <div className="relative rounded-3xl overflow-hidden glass-panel border border-slate-800 p-8 sm:p-14 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/40 shadow-2xl">
-          <div className="max-w-2xl space-y-5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
-              <Sparkles className="w-4 h-4" />
-              <span>Katalog Portofolio Interior & Custom Furniture 2026</span>
+      {/* Hero Section: Full-Bleed Visual Showcase Banner */}
+      <section className="relative overflow-hidden min-h-[580px] flex items-center justify-center py-16 px-6">
+        {/* Full-bleed background gallery slider simulation */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&auto=format&fit=crop&q=80"
+            alt="Luxury Interior Architecture Banner"
+            className="w-full h-full object-cover opacity-30 filter brightness-90 scale-105 transition-all duration-1000"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
+        </div>
+
+        <div className="max-w-7xl mx-auto w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold backdrop-blur-md">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>Katalog Eksklusif Desain Interior & Fitout Custom 2026</span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Wujudkan Interior Impian, <br />
-              <span className="text-amber-400">Konsultasikan Harga Langsung via WA</span>
+
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
+              Ruang Mewah Impian, <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600">
+                Pilih Model & Tanya Harga via WA
+              </span>
             </h1>
-            <p className="text-slate-300 text-sm leading-relaxed max-w-xl">
-              Setiap karya furniture & fitout ruang dibuat secara <strong>custom-fit</strong> menyesuaikan luas ruangan & selera material Anda. Pilih model impian dari rumah, lalu tekan tombol WhatsApp untuk diskusi penawaran harga presisi!
+
+            <p className="text-slate-300 text-base leading-relaxed max-w-2xl font-light">
+              Setiap karya furniture, kitchen set, & walk-in closet dibuat secara khusus (<strong>custom-fit</strong>) sesuai ukuran ruangan Anda. Cek portofolio visual lengkap dari rumah, lalu tekan konsultasi WhatsApp untuk penawaran harga presisi!
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2 justify-center sm:justify-start">
+            <div className="flex flex-wrap items-center gap-4 pt-2 justify-center lg:justify-start">
               <button
                 onClick={() => setIsEstimatorOpen(true)}
-                className="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs flex items-center gap-2 transition-all shadow-xl shadow-amber-500/20 hover:scale-105"
+                className="px-7 py-3.5 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold rounded-2xl text-xs flex items-center gap-2.5 transition-all shadow-xl shadow-amber-500/25 hover:scale-105"
               >
                 <Calculator className="w-4 h-4" />
-                <span>Hitung Simulasi Budget Custom</span>
+                <span>Simulasi Estimasi Budget Custom</span>
               </button>
 
               <a
                 href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20ingin%20konsultasi%20desain%20interior%20bebas%20biaya."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-xl shadow-emerald-600/20 hover:scale-105"
+                className="px-7 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-2xl text-xs flex items-center gap-2.5 transition-all shadow-xl shadow-emerald-600/25 hover:scale-105"
               >
                 <MessageSquare className="w-4 h-4" />
-                <span>Konsultasi Gratis via WA</span>
+                <span>Konsultasi Gratis via WhatsApp</span>
               </a>
+            </div>
+
+            <div className="flex items-center justify-center lg:justify-start gap-6 pt-4 text-xs text-slate-400 font-medium">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Garansi Kayu Multiplek & Engsel 2 Thn</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-amber-400" />
+                <span>Bahan Grade A Multiplek 18mm & HPL Taco</span>
+              </div>
             </div>
           </div>
 
-          <div className="w-full sm:w-80 shrink-0 relative">
-            <img
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80"
-              alt="Interior Studio Portfolio Showcase"
-              className="w-full h-64 object-cover rounded-2xl border-2 border-amber-500/30 shadow-2xl rotate-1 group-hover:rotate-0 transition-transform duration-500"
-            />
-            <div className="absolute -bottom-4 -left-4 bg-slate-950/90 backdrop-blur-md border border-slate-800 p-3 rounded-xl shadow-xl flex items-center gap-3">
-              <ShieldCheck className="w-6 h-6 text-emerald-400 shrink-0" />
-              <div>
-                <span className="text-xs font-bold text-white block">Garansi Resmi 2 Tahun</span>
-                <span className="text-[10px] text-slate-400">Engsel Hafele & Kayu Multiplek</span>
+          {/* Hero Visual Card Showcase */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative rounded-3xl overflow-hidden border-2 border-amber-500/30 shadow-2xl group">
+              <img
+                src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1000&auto=format&fit=crop&q=80"
+                alt="Kitchen Set Luxury Custom Showcase"
+                className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90" />
+              <div className="absolute bottom-6 left-6 right-6 space-y-1">
+                <span className="text-[10px] font-mono uppercase text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20 inline-block">
+                  Kitchen Set Scandinavian Oak
+                </span>
+                <h3 className="font-extrabold text-white text-lg">Proyek Cluster BSD Signature</h3>
+                <p className="text-xs text-slate-300">Custom multiplek 18mm, quartz white top, indirect strip LED.</p>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Filter and Search Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-4">
-          {/* Category Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
-            <Filter className="w-4 h-4 text-slate-400 shrink-0 mr-1" />
+      {/* Main Content Area */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+        {/* Visual Category Filters */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-extrabold text-white tracking-tight flex items-center gap-2">
+              <SlidersHorizontal className="w-5 h-5 text-amber-400" />
+              Jelajahi Berdasarkan Kategori Ruang
+            </h2>
+            <span className="text-xs text-slate-400">Pilih kategori untuk memfilter</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
             {categories.map((cat) => (
               <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                  selectedCategory === cat
-                    ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
-                    : 'bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white'
+                key={cat.name}
+                onClick={() => setSelectedCategory(cat.name)}
+                className={`relative rounded-2xl overflow-hidden border h-24 text-left p-3 flex flex-col justify-end transition-all group ${
+                  selectedCategory === cat.name
+                    ? 'border-amber-500 ring-2 ring-amber-500/30 scale-[1.02] shadow-xl shadow-amber-500/10'
+                    : 'border-slate-800/80 opacity-80 hover:opacity-100 hover:border-slate-700'
                 }`}
               >
-                {cat}
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-75"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                <span className="relative z-10 text-xs font-bold text-white group-hover:text-amber-300 transition-colors">
+                  {cat.name}
+                </span>
               </button>
             ))}
           </div>
+        </div>
 
-          {/* Search Bar */}
-          <div className="relative w-full md:w-80">
+        {/* Search & Filter Header */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-800">
+          <div className="text-xs text-slate-400">
+            Menampilkan <strong className="text-amber-400">{filteredProducts.length}</strong> model furniture custom
+          </div>
+
+          <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
@@ -172,43 +252,43 @@ export const PublicCatalogView: React.FC = () => {
           </div>
         </div>
 
-        {/* Product Cards Grid */}
+        {/* Full-Bleed Product Cards Gallery */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="glass-card rounded-2xl border border-slate-800/80 overflow-hidden flex flex-col justify-between glass-card-hover group shadow-xl"
+              className="glass-card rounded-3xl border border-slate-800/80 overflow-hidden flex flex-col justify-between glass-card-hover group shadow-2xl"
             >
               <div>
                 {/* Product Image Showcase */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-slate-950">
+                <div className="relative aspect-[4/3] overflow-hidden bg-slate-950 cursor-pointer" onClick={() => handleOpenDetails(product)}>
                   <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-85" />
 
                   {/* Category & Code badges */}
-                  <div className="absolute top-3 left-3 flex items-center gap-2">
-                    <span className="px-2.5 py-1 bg-slate-950/90 backdrop-blur-md border border-slate-800 text-[10px] font-bold text-amber-400 rounded-lg">
+                  <div className="absolute top-4 left-4 flex items-center gap-2">
+                    <span className="px-3 py-1 bg-slate-950/90 backdrop-blur-md border border-slate-800 text-[10px] font-bold text-amber-400 rounded-xl">
                       {product.category}
                     </span>
-                    <span className="px-2.5 py-1 bg-slate-950/90 backdrop-blur-md border border-slate-800 text-[10px] font-mono text-slate-300 rounded-lg">
+                    <span className="px-3 py-1 bg-slate-950/90 backdrop-blur-md border border-slate-800 text-[10px] font-mono text-slate-300 rounded-xl">
                       {product.code}
                     </span>
                   </div>
 
                   {/* Lead time badge */}
-                  <div className="absolute bottom-3 left-3 flex items-center gap-1 text-[11px] text-slate-300 font-medium bg-slate-950/90 px-2.5 py-1 rounded-lg border border-slate-800 backdrop-blur-sm">
-                    <Clock className="w-3 h-3 text-amber-400" />
+                  <div className="absolute bottom-4 left-4 flex items-center gap-1.5 text-[11px] text-slate-200 font-semibold bg-slate-950/90 px-3 py-1 rounded-xl border border-slate-800 backdrop-blur-sm">
+                    <Clock className="w-3.5 h-3.5 text-amber-400" />
                     <span>Lead Time ~{product.leadTimeDays} Hari</span>
                   </div>
                 </div>
 
                 {/* Card Details */}
                 <div className="p-6 space-y-3">
-                  <h3 className="font-bold text-slate-100 text-base group-hover:text-amber-300 transition-colors line-clamp-1">
+                  <h3 className="font-extrabold text-slate-100 text-base group-hover:text-amber-300 transition-colors line-clamp-1">
                     {product.name}
                   </h3>
                   <p className="text-slate-400 text-xs line-clamp-2 leading-relaxed">
@@ -219,7 +299,7 @@ export const PublicCatalogView: React.FC = () => {
                   {product.variants.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {product.variants.map(v => (
-                        <span key={v.id} className="text-[10px] px-2 py-0.5 rounded bg-slate-950 text-slate-300 border border-slate-800">
+                        <span key={v.id} className="text-[10px] px-2.5 py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">
                           {v.name}
                         </span>
                       ))}
@@ -229,13 +309,13 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               {/* Bottom Actions */}
-              <div className="p-6 pt-0 flex items-center gap-2">
+              <div className="p-6 pt-0 flex items-center gap-3">
                 <button
                   onClick={() => handleOpenDetails(product)}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors"
-                  title="Lihat Rincian Specs"
+                  className="p-3 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors"
+                  title="Lihat Galeri & Detail Specs"
                 >
-                  <Eye className="w-4 h-4" />
+                  <Maximize2 className="w-4 h-4" />
                 </button>
 
                 {/* Primary "Harga by WA" Button */}
@@ -243,7 +323,7 @@ export const PublicCatalogView: React.FC = () => {
                   href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-600/20 hover:scale-[1.02]"
+                  className="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-extrabold text-xs flex items-center justify-center gap-2 transition-all shadow-xl shadow-emerald-600/20 hover:scale-[1.02]"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Tanya Harga via WA</span>
@@ -255,11 +335,11 @@ export const PublicCatalogView: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 mt-16 py-8 bg-slate-950 text-center text-xs text-slate-500">
+      <footer className="border-t border-slate-800 mt-20 py-10 bg-slate-950 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-200">PT InteriorCraft Studio Indonesia</span>
-            <span>• BSD City, Tangerang</span>
+            <span>• Kawasan Industri Kreatif, BSD City, Tangerang</span>
           </div>
           <div>
             © 2026 InteriorCraft Studio. All rights reserved.
@@ -267,22 +347,60 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </footer>
 
-      {/* Product Detail Modal */}
+      {/* Full Visual Gallery & Detail Modal */}
       {selectedProduct && (
         <Modal
           isOpen={!!selectedProduct}
           onClose={() => setSelectedProduct(null)}
-          title={`Detail Produk: ${selectedProduct.name}`}
-          maxWidth="max-w-3xl"
+          title={`Galeri & Spesifikasi: ${selectedProduct.name}`}
+          maxWidth="max-w-4xl"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <img
-                src={selectedProduct.images[0]}
-                alt={selectedProduct.name}
-                className="w-full h-60 object-cover rounded-xl border border-slate-800"
-              />
-              <div className="grid grid-cols-2 gap-2 text-xs">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Left: Interactive Image Carousel */}
+            <div className="lg:col-span-7 space-y-3">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 group">
+                <img
+                  src={selectedProduct.images[activeImageIndex] || selectedProduct.images[0]}
+                  alt={selectedProduct.name}
+                  className="w-full h-full object-cover transition-all duration-500"
+                />
+
+                {selectedProduct.images.length > 1 && (
+                  <div className="absolute inset-0 flex items-center justify-between p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : selectedProduct.images.length - 1))}
+                      className="p-2 rounded-full bg-slate-950/80 backdrop-blur-md text-white border border-slate-700 hover:bg-slate-900"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setActiveImageIndex((prev) => (prev < selectedProduct.images.length - 1 ? prev + 1 : 0))}
+                      className="p-2 rounded-full bg-slate-950/80 backdrop-blur-md text-white border border-slate-700 hover:bg-slate-900"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Thumbnails */}
+              {selectedProduct.images.length > 1 && (
+                <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                  {selectedProduct.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImageIndex(idx)}
+                      className={`w-20 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
+                        activeImageIndex === idx ? 'border-amber-500 scale-105' : 'border-slate-800 opacity-60'
+                      }`}
+                    >
+                      <img src={img} alt="Thumb" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-3 text-xs">
                 <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
                   <span className="text-slate-500 block">Kategori</span>
                   <span className="font-bold text-amber-400">{selectedProduct.category}</span>
@@ -294,13 +412,14 @@ export const PublicCatalogView: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-4 flex flex-col justify-between">
-              <div>
-                <span className="text-xs font-mono text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+            {/* Right: Technical Specs & WA Order Action */}
+            <div className="lg:col-span-5 space-y-5 flex flex-col justify-between">
+              <div className="space-y-3">
+                <span className="text-xs font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 inline-block">
                   {selectedProduct.code}
                 </span>
-                <h3 className="text-xl font-bold text-white mt-1">{selectedProduct.name}</h3>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                <h3 className="text-2xl font-extrabold text-white leading-tight">{selectedProduct.name}</h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
                   {selectedProduct.description}
                 </p>
 
@@ -310,14 +429,14 @@ export const PublicCatalogView: React.FC = () => {
                     <label className="text-xs font-semibold text-slate-400 block">
                       Pilih Varian Finishing / Material:
                     </label>
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       {selectedProduct.variants.map((variant) => (
                         <button
                           key={variant.id}
                           onClick={() => setActiveVariant(variant)}
-                          className={`w-full text-left p-2.5 rounded-xl text-xs font-medium border flex items-center justify-between transition-all ${
+                          className={`w-full text-left p-3 rounded-xl text-xs font-medium border flex items-center justify-between transition-all ${
                             activeVariant?.id === variant.id
-                              ? 'bg-amber-500/20 border-amber-500 text-amber-300'
+                              ? 'bg-amber-500/20 border-amber-500 text-amber-300 font-bold'
                               : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                           }`}
                         >
@@ -331,9 +450,9 @@ export const PublicCatalogView: React.FC = () => {
               </div>
 
               <div className="pt-4 border-t border-slate-800 space-y-3">
-                <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+                <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
                   <MessageSquare className="w-4 h-4 shrink-0" />
-                  <span>Pesan & penyesuaian ukuran dilakukan secara konsultatif via WhatsApp.</span>
+                  <span>Pemesanan & penyesuaian ukuran dilakukan langsung via WhatsApp.</span>
                 </div>
 
                 <a
@@ -345,7 +464,7 @@ export const PublicCatalogView: React.FC = () => {
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition-all"
+                  className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/20 transition-all"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Tanya Harga Varian ini via WA</span>
@@ -426,9 +545,9 @@ export const PublicCatalogView: React.FC = () => {
             {(() => {
               const { minEst, maxEst } = calculateEstimatedPriceRange();
               return (
-                <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-center space-y-1">
+                <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-center space-y-1 shadow-xl">
                   <span className="text-xs text-amber-300 font-semibold block">Estimasi Biaya Indikatif:</span>
-                  <div className="text-xl font-extrabold text-white">
+                  <div className="text-2xl font-extrabold text-white">
                     {formatRupiah(minEst)} - {formatRupiah(maxEst)}
                   </div>
                   <p className="text-[10px] text-slate-400">
