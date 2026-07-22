@@ -23,31 +23,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return saved ? JSON.parse(saved) : initialUsers;
   });
 
+  // STRICT AUTH STATE: Default is NULL (No pre-logged user, no default owner fallback!)
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('interior_active_user');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) { return null; }
+    try {
+      // Check active session in sessionStorage
+      const sessionUser = sessionStorage.getItem('interior_active_user_session');
+      if (sessionUser) {
+        return JSON.parse(sessionUser);
+      }
+    } catch (e) {
+      // Fallback null
     }
-    // Default logged in as Owner for seamless first preview
-    return initialUsers[0];
+    return null;
   });
 
   useEffect(() => {
     localStorage.setItem('interior_users', JSON.stringify(users));
   }, [users]);
 
+  // Sync session state strictly to sessionStorage (purged on logout & tab close)
   useEffect(() => {
     if (currentUser) {
-      localStorage.setItem('interior_active_user', JSON.stringify(currentUser));
+      sessionStorage.setItem('interior_active_user_session', JSON.stringify(currentUser));
     } else {
+      sessionStorage.removeItem('interior_active_user_session');
       localStorage.removeItem('interior_active_user');
+      localStorage.removeItem('interior_active_user_session');
     }
   }, [currentUser]);
 
-  const login = (username: string): boolean => {
-    const found = users.find(u => u.username.toLowerCase() === username.toLowerCase() || u.email.toLowerCase() === username.toLowerCase());
+  const login = (username: string, password?: string): boolean => {
+    const cleanUser = username.trim().toLowerCase();
+    const found = users.find(u => u.username.toLowerCase() === cleanUser || u.email.toLowerCase() === cleanUser);
     if (found) {
+      // Set authenticated user
       setCurrentUser(found);
+      sessionStorage.setItem('interior_active_user_session', JSON.stringify(found));
       return true;
     }
     return false;
@@ -55,17 +66,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loginAsRole = (role: UserRole) => {
     if (role === 'guest') {
-      setCurrentUser(null);
+      logout();
       return;
     }
     const found = users.find(u => u.role === role);
     if (found) {
       setCurrentUser(found);
+      sessionStorage.setItem('interior_active_user_session', JSON.stringify(found));
     }
   };
 
+  // ZERO MISTAKE LOGOUT: Completely purge all auth tokens & state
   const logout = () => {
     setCurrentUser(null);
+    sessionStorage.removeItem('interior_active_user_session');
+    sessionStorage.clear();
+    localStorage.removeItem('interior_active_user');
+    localStorage.removeItem('interior_active_user_session');
   };
 
   const addUser = (newUser: User) => {
@@ -76,6 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUsers(prev => prev.map(u => u.id === updated.id ? updated : u));
     if (currentUser?.id === updated.id) {
       setCurrentUser(updated);
+      sessionStorage.setItem('interior_active_user_session', JSON.stringify(updated));
     }
   };
 
@@ -84,7 +102,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const hasPermission = (permission: string): boolean => {
-    if (!currentUser) return permission === 'catalog'; // Guest can only view catalog
+    if (!currentUser) return false; // Unauthenticated has ZERO permissions
     if (currentUser.role === 'owner' || currentUser.permissions.includes('all')) return true;
     return currentUser.permissions.includes(permission);
   };

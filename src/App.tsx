@@ -20,7 +20,7 @@ import { Lock } from 'lucide-react';
 const MainLayout: React.FC = () => {
   const [routeHash, setRouteHash] = useState<string>(() => window.location.hash || '#/');
   const [currentTab, setCurrentTab] = useState<string>('orders');
-  const { hasPermission, currentUser } = useAuth();
+  const { hasPermission, currentUser, logout } = useAuth();
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -30,10 +30,10 @@ const MainLayout: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const isAdminRoute = routeHash.includes('admin');
+  const isAdminRoute = routeHash.includes('admin') || window.location.pathname.includes('admin');
 
   // 1. PUBLIC STOREFRONT MODE (Default Route `/` or `/#/`):
-  // 100% clean storefront homepage without any admin entry buttons!
+  // 100% clean storefront homepage without any admin buttons
   if (!isAdminRoute) {
     return (
       <>
@@ -43,8 +43,8 @@ const MainLayout: React.FC = () => {
     );
   }
 
-  // 2. ADMIN ROUTE (`/#/admin` or `/#admin`):
-  // MANDATORY LOGIN CHECK: If user is not logged in, force Login Page first!
+  // 2. ADMIN ROUTE (`/#/admin` or `/admin`):
+  // MANDATORY AUTHENTICATION CHECK: If currentUser is null, strictly render LoginView
   if (isAdminRoute && !currentUser) {
     return (
       <>
