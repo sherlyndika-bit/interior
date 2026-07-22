@@ -93,8 +93,8 @@ export const PublicCatalogView: React.FC = () => {
       <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 py-5 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <span className="font-serif font-extrabold text-white text-2xl tracking-widest uppercase">
-              INTERIORCRAFT <span className="font-sans font-light text-stone-400 text-xs tracking-normal">STUDIO</span>
+            <span className="font-bold text-white text-2xl tracking-widest uppercase">
+              INTERIORCRAFT <span className="font-light text-stone-400 text-xs tracking-normal">STUDIO</span>
             </span>
           </div>
 
@@ -115,7 +115,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </header>
 
-      {/* HERO SECTION: ARCHITECTURAL MONUMENTAL CANVAS */}
+      {/* HERO SECTION: ARCHITECTURAL MONUMENTAL CANVAS WITH UNIFIED TYPOGRAPHY */}
       <section className="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden pt-16">
         <img
           src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&auto=format&fit=crop&q=85"
@@ -126,9 +126,9 @@ export const PublicCatalogView: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-[#050505]/60" />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 w-full text-left space-y-6">
-          <h1 className="text-4xl sm:text-7xl font-sans font-bold text-white tracking-tight leading-[1.08] max-w-3xl">
+          <h1 className="text-4xl sm:text-7xl font-sans font-extrabold text-white tracking-tight leading-[1.08] max-w-3xl">
             Desain Interior & <br />
-            <span className="font-serif italic font-normal text-stone-200">Fitout Custom Mewah</span>
+            <span className="text-amber-200">Fitout Custom Mewah</span>
           </h1>
 
           <p className="text-stone-300 text-sm sm:text-base max-w-xl font-light leading-relaxed">
@@ -156,7 +156,7 @@ export const PublicCatalogView: React.FC = () => {
       <section className="py-20 px-6 sm:px-12 bg-[#0A0908] border-y border-stone-900">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 flex items-center justify-center">
-            <span className="font-serif text-9xl font-bold text-stone-800 tracking-tighter select-none">
+            <span className="text-9xl font-extrabold text-stone-800 tracking-tighter select-none">
               IC
             </span>
           </div>
@@ -193,7 +193,7 @@ export const PublicCatalogView: React.FC = () => {
                     {product.category}
                   </span>
                   <div className="space-y-1">
-                    <h3 className="font-serif text-lg font-bold text-white line-clamp-1">{product.name}</h3>
+                    <h3 className="text-lg font-bold text-white line-clamp-1">{product.name}</h3>
                     <p className="text-xs text-stone-300 font-light line-clamp-1">{product.description}</p>
                     <div className="pt-2 flex items-center gap-2 text-xs font-bold text-emerald-400">
                       <WhatsAppIcon className="w-4 h-4" />
@@ -225,7 +225,7 @@ export const PublicCatalogView: React.FC = () => {
                     {product.category}
                   </span>
                   <div className="space-y-1">
-                    <h3 className="font-serif text-lg font-bold text-white line-clamp-1">{product.name}</h3>
+                    <h3 className="text-lg font-bold text-white line-clamp-1">{product.name}</h3>
                     <p className="text-xs text-stone-300 font-light line-clamp-1">{product.description}</p>
                     <div className="pt-2 flex items-center gap-2 text-xs font-bold text-emerald-400">
                       <WhatsAppIcon className="w-4 h-4" />
@@ -313,7 +313,7 @@ export const PublicCatalogView: React.FC = () => {
                 <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300 block">
                   {product.category}
                 </span>
-                <h3 className="font-serif font-extrabold text-white text-xl group-hover:text-stone-300 transition-colors">
+                <h3 className="font-extrabold text-white text-xl group-hover:text-stone-300 transition-colors">
                   {product.name}
                 </h3>
                 <p className="text-stone-400 text-xs font-light line-clamp-2 leading-relaxed">
@@ -344,7 +344,7 @@ export const PublicCatalogView: React.FC = () => {
       {/* FOOTER */}
       <footer className="border-t border-stone-900 py-12 bg-[#050505] text-center text-xs text-stone-500">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="font-serif font-bold text-stone-300 tracking-wider">
+          <span className="font-bold text-stone-300 tracking-wider">
             INTERIORCRAFT STUDIO INDONESIA
           </span>
           <span>© 2026 InteriorCraft Studio. All rights reserved.</span>
@@ -412,7 +412,7 @@ export const PublicCatalogView: React.FC = () => {
                   <span className="text-xs font-mono uppercase tracking-widest text-amber-300 block mb-1">
                     Koleksi {selectedProduct.category}
                   </span>
-                  <h3 className="text-2xl font-serif font-extrabold text-white leading-tight">
+                  <h3 className="text-2xl font-extrabold text-white leading-tight">
                     {selectedProduct.name}
                   </h3>
                 </div>
@@ -549,7 +549,7 @@ export const PublicCatalogView: React.FC = () => {
                     Perkiraan Anggaran Biaya Indikatif:
                   </span>
 
-                  <div className="text-xl sm:text-2xl font-serif font-bold text-white tracking-wide">
+                  <div className="text-xl sm:text-2xl font-bold text-white tracking-wide">
                     {formatRupiah(minEst)} &nbsp;—&nbsp; {formatRupiah(maxEst)}
                   </div>
 
