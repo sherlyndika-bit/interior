@@ -12,8 +12,7 @@ import {
   ChevronLeft,
   Maximize2,
   SlidersHorizontal,
-  Sparkles,
-  ArrowRight
+  Sparkles
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -41,6 +40,14 @@ export const PublicCatalogView: React.FC = () => {
     return matchesCategory && matchesSearch;
   });
 
+  // Duplicate items for continuous infinite marquee scrolling
+  const marqueeRow1 = [...products, ...products];
+  const marqueeRow2 = [...products].reverse().concat([...products].reverse());
+
+  const scrollToGallery = () => {
+    document.getElementById('gallery-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const handleOpenDetails = (product: Product) => {
     setSelectedProduct(product);
     setActiveVariant(product.variants.length > 0 ? product.variants[0] : null);
@@ -62,18 +69,18 @@ export const PublicCatalogView: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-stone-100 font-sans selection:bg-stone-100 selection:text-stone-950">
-      {/* ALIEN DC STYLE MINIMALIST MONOCHROMATIC HEADER */}
+      {/* ALIEN DC STYLE MINIMALIST MONOCHROMATIC HEADER (CLEAN NO HASH LINKS) */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 py-5 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <span className="font-serif font-extrabold text-white text-2xl tracking-widest uppercase">
               INTERIORCRAFT <span className="font-sans font-light text-stone-400 text-xs tracking-normal">STUDIO</span>
             </span>
           </div>
 
           <nav className="hidden md:flex items-center gap-8 text-xs font-semibold tracking-wider text-stone-300 uppercase">
-            <a href="#hero" className="hover:text-white transition-colors border-b-2 border-white pb-0.5">HOME</a>
-            <a href="#gallery" className="hover:text-white transition-colors">PROJECT GALLERY</a>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">HOME</button>
+            <button onClick={scrollToGallery} className="hover:text-white transition-colors">PROJECT GALLERY</button>
             <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">SIMULASI BUDGET</button>
             <a
               href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20konsultasi%20desain%20interior."
@@ -89,7 +96,7 @@ export const PublicCatalogView: React.FC = () => {
       </header>
 
       {/* HERO SECTION: ARCHITECTURAL MONUMENTAL CANVAS */}
-      <section id="hero" className="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden pt-16">
+      <section className="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden pt-16">
         <img
           src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&auto=format&fit=crop&q=85"
           alt="Architectural Masterpiece Canvas"
@@ -109,12 +116,12 @@ export const PublicCatalogView: React.FC = () => {
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-4">
-            <a
-              href="#gallery"
+            <button
+              onClick={scrollToGallery}
               className="px-8 py-3.5 border border-white text-white font-semibold text-xs uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-all"
             >
               Explore Gallery
-            </a>
+            </button>
             <button
               onClick={() => setIsEstimatorOpen(true)}
               className="px-8 py-3.5 border border-stone-700 text-stone-300 font-semibold text-xs uppercase tracking-widest hover:border-white hover:text-white transition-all"
@@ -126,7 +133,7 @@ export const PublicCatalogView: React.FC = () => {
       </section>
 
       {/* STUDIO MANIFESTO / ABOUT STATEMENT SECTION */}
-      <section className="py-24 px-6 sm:px-12 bg-[#0A0908] border-y border-stone-900">
+      <section className="py-20 px-6 sm:px-12 bg-[#0A0908] border-y border-stone-900">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 flex items-center justify-center">
             <span className="font-serif text-9xl font-bold text-stone-800 tracking-tighter select-none">
@@ -139,58 +146,89 @@ export const PublicCatalogView: React.FC = () => {
               InteriorCraft Studio is a collective of Craftsmen, Architects, and Interior Designers Committed to Transforming Vision Into Precise Spaces.
             </h2>
             <p className="text-stone-400 text-sm leading-relaxed font-light">
-              Berpengalaman mengerjakan fitout residensial, apartemen mewah, & perkantoran. Kami menggunakan kayu multiplek 18mm grade A, engsel soft-closeHafele, dan finishing HPL Taco / Cat Duco berkualitas tinggi dengan garansi resmi 2 tahun.
+              Berpengalaman mengerjakan fitout residensial, apartemen mewah, & perkantoran. Kami menggunakan kayu multiplek 18mm grade A, engsel soft-close Hafele, dan finishing HPL Taco / Cat Duco berkualitas tinggi dengan garansi resmi 2 tahun.
             </p>
           </div>
         </div>
       </section>
 
-      {/* SEAMLESS EDGE-TO-EDGE PHOTOGRAPHY SHOWCASE WALL (ALIEN DC SHOWCASE) */}
-      <section className="py-12 bg-[#050505]">
-        <div className="px-6 mb-6 flex items-center justify-between max-w-7xl mx-auto">
-          <span className="text-xs font-mono uppercase tracking-widest text-stone-400">
-            SELECTED ARCHITECTURAL WORKS
+      {/* INFINITE HORIZONTAL AUTOMATIC MARQUEE SLIDERS (RIGHT-TO-LEFT & LEFT-TO-RIGHT) */}
+      <section className="py-16 bg-[#050505] overflow-hidden space-y-8">
+        <div className="px-6 flex items-center justify-between max-w-7xl mx-auto">
+          <span className="text-xs font-mono uppercase tracking-widest text-stone-400 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            LIVE AUTOMATIC SHOWCASE GALLERY (MOVE & HOVER TO PAUSE)
           </span>
-          <span className="text-xs text-stone-500">Klik foto untuk perbesar galeri</span>
+          <span className="text-xs text-stone-500 hidden sm:inline">Arahkan kursor untuk menghentikan & perbesar</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
-          {products.slice(0, 6).map((product) => (
-            <div
-              key={product.id}
-              onClick={() => handleOpenDetails(product)}
-              className="relative aspect-[4/3] overflow-hidden cursor-pointer group bg-stone-950"
-            >
-              <img
-                src={product.images[0]}
-                alt={product.name}
-                className="w-full h-full object-cover filter brightness-[0.85] group-hover:scale-105 group-hover:brightness-100 transition-all duration-700"
-              />
-              <div className="absolute inset-0 bg-stone-950/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-between p-8">
-                <span className="text-xs font-mono text-amber-200 tracking-widest uppercase">
-                  {product.category} • {product.code}
-                </span>
-
-                <div className="space-y-2">
-                  <h3 className="font-serif text-2xl font-bold text-white">
-                    {product.name}
-                  </h3>
-                  <p className="text-xs text-stone-300 font-light line-clamp-2">
-                    {product.description}
-                  </p>
-                  <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-emerald-400">
-                    <MessageSquare className="w-4 h-4" />
-                    <span>Tanya Harga WA</span>
+        {/* MARQUEE ROW 1: AUTOMATICALLY SCROLLING RIGHT TO LEFT */}
+        <div className="overflow-hidden w-full relative">
+          <div className="animate-marquee-left gap-4">
+            {marqueeRow1.map((product, idx) => (
+              <div
+                key={`row1-${product.id}-${idx}`}
+                onClick={() => handleOpenDetails(product)}
+                className="relative w-80 sm:w-96 aspect-[16/10] shrink-0 overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900"
+              >
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover filter brightness-[0.85] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
+                />
+                <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
+                  <span className="text-[10px] font-mono text-amber-300 tracking-widest uppercase">
+                    {product.category} • {product.code}
+                  </span>
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-lg font-bold text-white line-clamp-1">{product.name}</h3>
+                    <p className="text-xs text-stone-300 font-light line-clamp-1">{product.description}</p>
+                    <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-emerald-400">
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>Tanya Harga WA</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* MARQUEE ROW 2: AUTOMATICALLY SCROLLING LEFT TO RIGHT */}
+        <div className="overflow-hidden w-full relative">
+          <div className="animate-marquee-right gap-4">
+            {marqueeRow2.map((product, idx) => (
+              <div
+                key={`row2-${product.id}-${idx}`}
+                onClick={() => handleOpenDetails(product)}
+                className="relative w-80 sm:w-96 aspect-[16/10] shrink-0 overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900"
+              >
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover filter brightness-[0.85] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
+                />
+                <div className="absolute inset-0 bg-stone-950/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
+                  <span className="text-[10px] font-mono text-amber-300 tracking-widest uppercase">
+                    {product.category} • {product.code}
+                  </span>
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-lg font-bold text-white line-clamp-1">{product.name}</h3>
+                    <p className="text-xs text-stone-300 font-light line-clamp-1">{product.description}</p>
+                    <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-emerald-400">
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>Tanya Harga WA</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* PROJECT GALLERY FEED SECTION */}
-      <main id="gallery" className="max-w-7xl mx-auto px-6 sm:px-12 py-20 space-y-12">
+      <main id="gallery-section" className="max-w-7xl mx-auto px-6 sm:px-12 py-20 space-y-12">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-900 pb-8">
           <div className="space-y-2">
             <h2 className="text-3xl font-sans font-bold text-white tracking-tight">
@@ -233,7 +271,7 @@ export const PublicCatalogView: React.FC = () => {
           />
         </div>
 
-        {/* 5-COLUMN / 3-COLUMN PHOTOGRAPHY GALLERY FEED (ALIEN DC STYLE) */}
+        {/* PHOTOGRAPHY GALLERY GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
             <div
