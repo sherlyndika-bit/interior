@@ -6,15 +6,12 @@ import { Modal } from '../components/Modal';
 import {
   MessageSquare,
   Search,
-  Sparkles,
   Clock,
-  ShieldCheck,
   Calculator,
   ChevronRight,
   ChevronLeft,
   Maximize2,
-  SlidersHorizontal,
-  ArrowRight
+  SlidersHorizontal
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -99,7 +96,7 @@ export const PublicCatalogView: React.FC = () => {
               href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20untuk%20konsultasi%20desain%20interior."
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2 rounded-full bg-stone-100 hover:bg-white text-stone-950 font-bold text-xs flex items-center gap-2 transition-all shadow-xl hover:scale-105"
+              className="px-5 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 transition-all shadow-xl hover:scale-105"
             >
               <MessageSquare className="w-3.5 h-3.5" />
               <span>Tanya Harga via WA</span>
@@ -108,20 +105,20 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </header>
 
-      {/* REFINED ULTRA-LUXURY ARCHITECTURAL GALLERY HERO */}
-      <section className="relative h-[88vh] min-h-[580px] w-full flex items-center justify-center overflow-hidden">
+      {/* PURE BREATHTAKING ARCHITECTURAL PHOTOGRAPHY HERO (NO DISTRACTING HERO BUTTONS) */}
+      <section className="relative h-[88vh] min-h-[550px] w-full flex items-center justify-center overflow-hidden">
         {/* Full-bleed photography background */}
         <img
           src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&auto=format&fit=crop&q=85"
           alt="Luxury Architecture Portfolio Hero"
-          className="absolute inset-0 w-full h-full object-cover filter contrast-[1.03] brightness-[0.82] scale-105"
+          className="absolute inset-0 w-full h-full object-cover filter contrast-[1.03] brightness-[0.85] scale-105"
         />
 
         {/* Natural Smooth Vignette Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0C0B0A] via-[#0C0B0A]/30 to-stone-950/60" />
 
-        {/* OVERLAID REFINED TYPOGRAPHY (NO BULKY SEARCH BAR, UNIFIED ELEVATED STYLING) */}
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6 pt-20">
+        {/* ELEGANT MINIMALIST TYPOGRAPHY OVERLAY */}
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-5 pt-16">
           <span className="text-[11px] font-mono tracking-[0.25em] text-stone-300 uppercase block font-medium">
             Fine Interior Architecture & Custom Fitout
           </span>
@@ -136,26 +133,6 @@ export const PublicCatalogView: React.FC = () => {
           <p className="text-stone-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto font-light drop-shadow-sm">
             Jelajahi galeri karya furniture & fitout interior custom kami dari rumah. Klik foto favorit Anda dan hubungi konsultan kami via WhatsApp untuk penawaran presisi.
           </p>
-
-          <div className="flex items-center justify-center gap-4 pt-4">
-            <button
-              onClick={() => setIsEstimatorOpen(true)}
-              className="px-7 py-3 rounded-full bg-white/90 hover:bg-white text-stone-950 font-semibold text-xs flex items-center gap-2 shadow-2xl transition-all hover:scale-105"
-            >
-              <Calculator className="w-4 h-4 text-stone-700" />
-              <span>Simulasi Budget Custom</span>
-            </button>
-
-            <a
-              href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20konsultasi%20desain%20interior."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-7 py-3 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs flex items-center gap-2 shadow-2xl transition-all hover:scale-105"
-            >
-              <MessageSquare className="w-4 h-4" />
-              <span>Tanya Harga via WA</span>
-            </a>
-          </div>
         </div>
       </section>
 
@@ -165,7 +142,7 @@ export const PublicCatalogView: React.FC = () => {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <h2 className="text-xl font-serif text-white tracking-tight flex items-center gap-2">
-              <SlidersHorizontal className="w-4 h-4 text-amber-300" />
+              <SlidersHorizontal className="w-4 h-4 text-amber-200" />
               Koleksi Kategori Ruangan
             </h2>
 
@@ -270,7 +247,7 @@ export const PublicCatalogView: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="px-4 py-2 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
+                    className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
                   >
                     <MessageSquare className="w-3.5 h-3.5" />
                     <span>Tanya Harga WA</span>
@@ -472,7 +449,7 @@ export const PublicCatalogView: React.FC = () => {
                   min="1"
                   value={estLength}
                   onChange={(e) => setEstLength(Number(e.target.value))}
-                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-300"
+                  className="w-full p-2.5 bg-stone-950 border border-stone-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
                 />
               </div>
 
@@ -484,7 +461,7 @@ export const PublicCatalogView: React.FC = () => {
                   min="1"
                   value={estHeight}
                   onChange={(e) => setEstHeight(Number(e.target.value))}
-                  className="w-full p-2.5 bg-stone-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-300"
+                  className="w-full p-2.5 bg-stone-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
                 />
               </div>
             </div>
