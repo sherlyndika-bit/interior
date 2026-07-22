@@ -15,25 +15,41 @@ import { ScheduleView } from './views/ScheduleView';
 import { PayrollTaxView } from './views/PayrollTaxView';
 import { InvoiceQuotationView } from './views/InvoiceQuotationView';
 import { UserManagementView } from './views/UserManagementView';
-import { Lock, ShieldAlert } from 'lucide-react';
+import { Lock } from 'lucide-react';
 
 const MainLayout: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>('catalog');
   const { hasPermission, currentUser } = useAuth();
 
-  if (currentTab === 'login') {
+  // 1. PUBLIC CATALOG MODE: Render clean full-width storefront homepage without admin sidebar
+  if (currentTab === 'catalog') {
     return (
-      <LoginView
-        onSuccessLogin={() => setCurrentTab('orders')}
-        onGoToCatalog={() => setCurrentTab('catalog')}
-      />
+      <>
+        <PublicCatalogView
+          onLoginClick={() => setCurrentTab('login')}
+          onGoToAdmin={() => setCurrentTab('orders')}
+        />
+        <Toast />
+      </>
     );
   }
 
-  const renderContent = () => {
-    // Map permissions
+  // 2. LOGIN PAGE MODE: Render login portal
+  if (currentTab === 'login') {
+    return (
+      <>
+        <LoginView
+          onSuccessLogin={() => setCurrentTab('orders')}
+          onGoToCatalog={() => setCurrentTab('catalog')}
+        />
+        <Toast />
+      </>
+    );
+  }
+
+  // 3. ADMIN DASHBOARD MODE: Render Admin layout with Sidebar & Header
+  const renderAdminContent = () => {
     const permissionMap: Record<string, string> = {
-      catalog: 'catalog',
       inventory: 'inventory',
       orders: 'pos',
       customers: 'customers',
@@ -44,7 +60,7 @@ const MainLayout: React.FC = () => {
       users: 'all'
     };
 
-    const requiredPerm = permissionMap[currentTab] || 'catalog';
+    const requiredPerm = permissionMap[currentTab] || 'all';
     const allowed = hasPermission(requiredPerm);
 
     if (!allowed) {
@@ -68,8 +84,6 @@ const MainLayout: React.FC = () => {
     }
 
     switch (currentTab) {
-      case 'catalog':
-        return <PublicCatalogView />;
       case 'inventory':
         return <InventoryView />;
       case 'orders':
@@ -87,7 +101,7 @@ const MainLayout: React.FC = () => {
       case 'users':
         return <UserManagementView />;
       default:
-        return <PublicCatalogView />;
+        return <OrdersPosView />;
     }
   };
 
@@ -99,7 +113,7 @@ const MainLayout: React.FC = () => {
         <Sidebar currentTab={currentTab} onTabChange={setCurrentTab} />
 
         <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
-          {renderContent()}
+          {renderAdminContent()}
         </main>
       </div>
 

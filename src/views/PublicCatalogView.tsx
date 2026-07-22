@@ -1,12 +1,36 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { Product, ProductVariant } from '../types';
 import { createWhatsAppCatalogLink, formatRupiah } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { MessageSquare, Search, Filter, Sparkles, Ruler, Clock, ShieldCheck, Calculator, ArrowRight, Eye } from 'lucide-react';
+import {
+  MessageSquare,
+  Search,
+  Filter,
+  Sparkles,
+  Ruler,
+  Clock,
+  ShieldCheck,
+  Calculator,
+  ArrowRight,
+  Eye,
+  LogIn,
+  PhoneCall,
+  LayoutDashboard,
+  CheckCircle2,
+  Award,
+  ChevronRight
+} from 'lucide-react';
 
-export const PublicCatalogView: React.FC = () => {
+interface PublicCatalogViewProps {
+  onLoginClick?: () => void;
+  onGoToAdmin?: () => void;
+}
+
+export const PublicCatalogView: React.FC<PublicCatalogViewProps> = ({ onLoginClick, onGoToAdmin }) => {
   const { products } = useApp();
+  const { currentUser } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -34,7 +58,6 @@ export const PublicCatalogView: React.FC = () => {
     setActiveVariant(product.variants.length > 0 ? product.variants[0] : null);
   };
 
-  // Estimate calculation math
   const calculateEstimatedPriceRange = () => {
     let ratePerMeter = 2800000;
     if (estCategory === 'Wardrobe') ratePerMeter = 3200000;
@@ -49,159 +72,233 @@ export const PublicCatalogView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* Hero Banner for Public Catalog */}
-      <div className="relative rounded-3xl overflow-hidden glass-panel border border-slate-800 p-8 sm:p-12 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/40">
-        <div className="max-w-2xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Katalog Interior & Custom Furniture 2026</span>
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950">
+      {/* Public Storefront Top Navbar */}
+      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-6 py-3">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <Sparkles className="w-6 h-6 text-slate-950 font-bold" />
+            </div>
+            <div>
+              <span className="font-extrabold text-white text-lg tracking-tight flex items-center gap-2">
+                InteriorCraft <span className="text-amber-400 font-semibold text-xs px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20">STUDIO</span>
+              </span>
+              <p className="text-[10px] text-slate-400">Custom Fitout & Fine Furniture</p>
+            </div>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-            Desain Interior Impian Anda, <br />
-            <span className="text-amber-400">Tanyakan Harga Langsung via WA!</span>
-          </h1>
-          <p className="text-slate-300 text-sm leading-relaxed">
-            Jelajahi koleksi kitchen set, walk-in closet, wall panel & furniture custom kami dari rumah. Karena setiap proyek bersifat <strong>custom-fit</strong>, klik tombol konsultasi WhatsApp untuk penawaran harga presisi!
-          </p>
 
-          <div className="flex flex-wrap items-center gap-3 pt-2 justify-center sm:justify-start">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setIsEstimatorOpen(true)}
-              className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-lg shadow-amber-500/20"
+              className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-amber-300 transition-all"
             >
-              <Calculator className="w-4 h-4" />
-              <span>Simulasi Budget Custom Fitout</span>
+              <Calculator className="w-4 h-4 text-amber-400" />
+              <span>Simulasi Budget</span>
             </button>
-            <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Garansi Engsel & Kayu 2 Tahun</span>
-            </div>
+
+            {currentUser ? (
+              <button
+                onClick={onGoToAdmin}
+                className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 transition-all"
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                <span>Masuk Portal Staff / Admin</span>
+              </button>
+            ) : (
+              <button
+                onClick={onLoginClick}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-2 transition-all"
+              >
+                <LogIn className="w-4 h-4 text-amber-400" />
+                <span>Login Staff / Admin</span>
+              </button>
+            )}
           </div>
         </div>
+      </header>
 
-        <div className="hidden lg:block w-72 shrink-0">
-          <img
-            src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&auto=format&fit=crop&q=80"
-            alt="Interior Studio Showcase"
-            className="w-full h-48 object-cover rounded-2xl border border-amber-500/30 shadow-2xl rotate-2"
-          />
-        </div>
-      </div>
-
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
-          <Filter className="w-4 h-4 text-slate-400 shrink-0 mr-1" />
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                selectedCategory === cat
-                  ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
-                  : 'bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Search Bar */}
-        <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari model furniture / kode..."
-            className="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
-          />
-        </div>
-      </div>
-
-      {/* Product Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="glass-card rounded-2xl border border-slate-800/80 overflow-hidden flex flex-col justify-between glass-card-hover group"
-          >
-            <div>
-              {/* Product Image Showcase */}
-              <div className="relative aspect-[4/3] overflow-hidden bg-slate-950">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
-
-                {/* Category & Code badges */}
-                <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="px-2.5 py-1 bg-slate-950/80 backdrop-blur-md border border-slate-800 text-[10px] font-bold text-amber-400 rounded-lg">
-                    {product.category}
-                  </span>
-                  <span className="px-2.5 py-1 bg-slate-950/80 backdrop-blur-md border border-slate-800 text-[10px] font-mono text-slate-300 rounded-lg">
-                    {product.code}
-                  </span>
-                </div>
-
-                {/* Lead time badge */}
-                <div className="absolute bottom-3 left-3 flex items-center gap-1 text-[11px] text-slate-300 font-medium bg-slate-950/90 px-2.5 py-1 rounded-lg border border-slate-800 backdrop-blur-sm">
-                  <Clock className="w-3 h-3 text-amber-400" />
-                  <span>Lead Time ~{product.leadTimeDays} Hari</span>
-                </div>
-              </div>
-
-              {/* Card Details */}
-              <div className="p-5 space-y-3">
-                <h3 className="font-bold text-slate-100 text-base group-hover:text-amber-300 transition-colors line-clamp-1">
-                  {product.name}
-                </h3>
-                <p className="text-slate-400 text-xs line-clamp-2 leading-relaxed">
-                  {product.description}
-                </p>
-
-                {/* Available Variants Tag */}
-                {product.variants.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {product.variants.map(v => (
-                      <span key={v.id} className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                        {v.name}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+      {/* Main Public Body Container */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-10">
+        {/* Full-width Hero Landing Banner */}
+        <div className="relative rounded-3xl overflow-hidden glass-panel border border-slate-800 p-8 sm:p-14 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/40 shadow-2xl">
+          <div className="max-w-2xl space-y-5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+              <Sparkles className="w-4 h-4" />
+              <span>Katalog Portofolio Interior & Custom Furniture 2026</span>
             </div>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Wujudkan Interior Impian, <br />
+              <span className="text-amber-400">Konsultasikan Harga Langsung via WA</span>
+            </h1>
+            <p className="text-slate-300 text-sm leading-relaxed max-w-xl">
+              Setiap karya furniture & fitout ruang dibuat secara <strong>custom-fit</strong> menyesuaikan luas ruangan & selera material Anda. Pilih model impian dari rumah, lalu tekan tombol WhatsApp untuk diskusi penawaran harga presisi!
+            </p>
 
-            {/* Bottom Actions */}
-            <div className="p-5 pt-0 flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-4 pt-2 justify-center sm:justify-start">
               <button
-                onClick={() => handleOpenDetails(product)}
-                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
-                title="Lihat Detail Specs"
+                onClick={() => setIsEstimatorOpen(true)}
+                className="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs flex items-center gap-2 transition-all shadow-xl shadow-amber-500/20 hover:scale-105"
               >
-                <Eye className="w-4 h-4" />
+                <Calculator className="w-4 h-4" />
+                <span>Hitung Simulasi Budget Custom</span>
               </button>
 
-              {/* Primary "Harga by WA" Button */}
               <a
-                href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
+                href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20ingin%20konsultasi%20desain%20interior%20bebas%20biaya."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/20"
+                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-xl shadow-emerald-600/20 hover:scale-105"
               >
                 <MessageSquare className="w-4 h-4" />
-                <span>Tanya Harga via WA</span>
+                <span>Konsultasi Gratis via WA</span>
               </a>
             </div>
           </div>
-        ))}
-      </div>
+
+          <div className="w-full sm:w-80 shrink-0 relative">
+            <img
+              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80"
+              alt="Interior Studio Portfolio Showcase"
+              className="w-full h-64 object-cover rounded-2xl border-2 border-amber-500/30 shadow-2xl rotate-1 group-hover:rotate-0 transition-transform duration-500"
+            />
+            <div className="absolute -bottom-4 -left-4 bg-slate-950/90 backdrop-blur-md border border-slate-800 p-3 rounded-xl shadow-xl flex items-center gap-3">
+              <ShieldCheck className="w-6 h-6 text-emerald-400 shrink-0" />
+              <div>
+                <span className="text-xs font-bold text-white block">Garansi Resmi 2 Tahun</span>
+                <span className="text-[10px] text-slate-400">Engsel Hafele & Kayu Multiplek</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Filter and Search Bar */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-4">
+          {/* Category Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
+            <Filter className="w-4 h-4 text-slate-400 shrink-0 mr-1" />
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                    : 'bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative w-full md:w-80">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari model furniture, kitchen set, wardrobe..."
+              className="w-full pl-9 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+            />
+          </div>
+        </div>
+
+        {/* Product Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="glass-card rounded-2xl border border-slate-800/80 overflow-hidden flex flex-col justify-between glass-card-hover group shadow-xl"
+            >
+              <div>
+                {/* Product Image Showcase */}
+                <div className="relative aspect-[4/3] overflow-hidden bg-slate-950">
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
+
+                  {/* Category & Code badges */}
+                  <div className="absolute top-3 left-3 flex items-center gap-2">
+                    <span className="px-2.5 py-1 bg-slate-950/90 backdrop-blur-md border border-slate-800 text-[10px] font-bold text-amber-400 rounded-lg">
+                      {product.category}
+                    </span>
+                    <span className="px-2.5 py-1 bg-slate-950/90 backdrop-blur-md border border-slate-800 text-[10px] font-mono text-slate-300 rounded-lg">
+                      {product.code}
+                    </span>
+                  </div>
+
+                  {/* Lead time badge */}
+                  <div className="absolute bottom-3 left-3 flex items-center gap-1 text-[11px] text-slate-300 font-medium bg-slate-950/90 px-2.5 py-1 rounded-lg border border-slate-800 backdrop-blur-sm">
+                    <Clock className="w-3 h-3 text-amber-400" />
+                    <span>Lead Time ~{product.leadTimeDays} Hari</span>
+                  </div>
+                </div>
+
+                {/* Card Details */}
+                <div className="p-6 space-y-3">
+                  <h3 className="font-bold text-slate-100 text-base group-hover:text-amber-300 transition-colors line-clamp-1">
+                    {product.name}
+                  </h3>
+                  <p className="text-slate-400 text-xs line-clamp-2 leading-relaxed">
+                    {product.description}
+                  </p>
+
+                  {/* Available Variants Tag */}
+                  {product.variants.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {product.variants.map(v => (
+                        <span key={v.id} className="text-[10px] px-2 py-0.5 rounded bg-slate-950 text-slate-300 border border-slate-800">
+                          {v.name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Bottom Actions */}
+              <div className="p-6 pt-0 flex items-center gap-2">
+                <button
+                  onClick={() => handleOpenDetails(product)}
+                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors"
+                  title="Lihat Rincian Specs"
+                >
+                  <Eye className="w-4 h-4" />
+                </button>
+
+                {/* Primary "Harga by WA" Button */}
+                <a
+                  href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-600/20 hover:scale-[1.02]"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Tanya Harga via WA</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-800/80 mt-16 py-8 bg-slate-950 text-center text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-slate-200">PT InteriorCraft Studio Indonesia</span>
+            <span>• BSD City, Tangerang</span>
+          </div>
+          <div>
+            © 2026 InteriorCraft Studio. All rights reserved.
+          </div>
+        </div>
+      </footer>
 
       {/* Product Detail Modal */}
       {selectedProduct && (
