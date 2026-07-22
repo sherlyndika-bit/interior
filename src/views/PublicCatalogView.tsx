@@ -13,7 +13,9 @@ import {
   Maximize2,
   SlidersHorizontal,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Eye,
+  Camera
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -23,9 +25,6 @@ export const PublicCatalogView: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeVariant, setActiveVariant] = useState<ProductVariant | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
-
-  // Lookbook Featured Slider State
-  const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
 
   // Custom Fitout Estimator Modal State
   const [isEstimatorOpen, setIsEstimatorOpen] = useState<boolean>(false);
@@ -43,8 +42,6 @@ export const PublicCatalogView: React.FC = () => {
                           p.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
-  const featuredProducts = products.slice(0, 4);
 
   const handleOpenDetails = (product: Product) => {
     setSelectedProduct(product);
@@ -66,7 +63,7 @@ export const PublicCatalogView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0C0B0A] text-stone-100 font-sans selection:bg-stone-200 selection:text-stone-950">
+    <div className="min-h-screen bg-[#080706] text-stone-100 font-sans selection:bg-stone-200 selection:text-stone-950">
       {/* Overlay Minimalist Top Header */}
       <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-stone-950/90 via-stone-950/40 to-transparent backdrop-blur-sm px-6 py-5 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -76,9 +73,9 @@ export const PublicCatalogView: React.FC = () => {
             </div>
             <div>
               <span className="font-serif font-bold text-white text-xl tracking-tight flex items-center gap-2">
-                INTERIORCRAFT <span className="font-sans text-[10px] font-semibold tracking-widest text-amber-200 uppercase px-2 py-0.5 rounded bg-white/10 border border-white/20">GALLERY</span>
+                INTERIORCRAFT <span className="font-sans text-[10px] font-semibold tracking-widest text-amber-200 uppercase px-2 py-0.5 rounded bg-white/10 border border-white/20">EXHIBITION</span>
               </span>
-              <p className="text-[10px] text-stone-300 tracking-wider uppercase font-medium">Architecture & Custom Fitout</p>
+              <p className="text-[10px] text-stone-300 tracking-wider uppercase font-medium">Fine Architectural Photography</p>
             </div>
           </div>
 
@@ -114,12 +111,12 @@ export const PublicCatalogView: React.FC = () => {
         />
 
         {/* Natural Smooth Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0C0B0A] via-[#0C0B0A]/30 to-stone-950/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#080706] via-[#080706]/30 to-stone-950/60" />
 
         {/* ELEGANT MINIMALIST TYPOGRAPHY OVERLAY */}
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-5 pt-16">
-          <span className="text-[11px] font-mono tracking-[0.25em] text-stone-300 uppercase block font-medium">
-            Fine Interior Architecture & Custom Fitout
+          <span className="text-[11px] font-mono tracking-[0.3em] text-stone-300 uppercase block font-medium">
+            MUSEUM ARCHITECTURAL EXHIBITION • 2026
           </span>
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-normal text-white tracking-tight leading-[1.12] drop-shadow-lg">
@@ -135,177 +132,113 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* MAIN GALLERY SECTION: INTERACTIVE FEATURED LOOKBOOK SLIDER + EDITORIAL COLLECTION */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16 space-y-16">
-        {/* FEATURED ARCHITECTURAL LOOKBOOK SLIDER */}
-        {featuredProducts.length > 0 && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-widest text-amber-200 flex items-center gap-2">
-                <Sparkles className="w-4 h-4" />
-                Sorotan Portofolio Lookbook Studio
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : featuredProducts.length - 1))}
-                  className="p-2.5 rounded-full bg-stone-900 border border-stone-800 hover:bg-stone-800 text-white transition-colors"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setCurrentSlideIndex((prev) => (prev < featuredProducts.length - 1 ? prev + 1 : 0))}
-                  className="p-2.5 rounded-full bg-stone-900 border border-stone-800 hover:bg-stone-800 text-white transition-colors"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Lookbook Full-Width Showcase Canvas */}
-            <div className="relative aspect-[16/9] sm:aspect-[21/9] min-h-[380px] rounded-3xl overflow-hidden border border-stone-800/80 shadow-2xl bg-stone-950 group">
-              <img
-                src={featuredProducts[currentSlideIndex].images[0]}
-                alt={featuredProducts[currentSlideIndex].name}
-                className="w-full h-full object-cover transition-all duration-1000 filter brightness-90 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
-
-              {/* Overlaid Lookbook Specs */}
-              <div className="absolute bottom-8 left-8 right-8 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-                <div className="space-y-2 max-w-2xl">
-                  <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-semibold text-amber-200">
-                      {featuredProducts[currentSlideIndex].category}
-                    </span>
-                    <span className="text-[10px] font-mono text-stone-300">
-                      {featuredProducts[currentSlideIndex].code}
-                    </span>
-                  </div>
-                  <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-white leading-tight">
-                    {featuredProducts[currentSlideIndex].name}
-                  </h2>
-                  <p className="text-xs sm:text-sm text-stone-300 font-light line-clamp-2">
-                    {featuredProducts[currentSlideIndex].description}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 shrink-0">
-                  <button
-                    onClick={() => handleOpenDetails(featuredProducts[currentSlideIndex])}
-                    className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md text-white font-medium text-xs flex items-center gap-2 transition-all"
-                  >
-                    <Maximize2 className="w-3.5 h-3.5 text-amber-200" />
-                    <span>Lihat Multi-Foto</span>
-                  </button>
-
-                  <a
-                    href={createWhatsAppCatalogLink('6281298765432', featuredProducts[currentSlideIndex].name, featuredProducts[currentSlideIndex].code)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-xl hover:scale-105"
-                  >
-                    <MessageSquare className="w-3.5 h-3.5" />
-                    <span>Tanya Harga WA</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* FULL COLLECTION EXHIBITION */}
-        <div className="space-y-6 pt-6">
-          {/* Header Filter & Search */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-stone-800/80 pb-6">
-            {/* Category Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-xs font-medium transition-all shrink-0 ${
-                    selectedCategory === cat
-                      ? 'bg-white text-stone-950 font-bold shadow-lg scale-105'
-                      : 'bg-stone-900/60 text-stone-400 hover:text-white hover:bg-stone-800 border border-stone-800'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Bar */}
-            <div className="relative w-full md:w-72 shrink-0">
-              <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari model fitout / kode..."
-                className="w-full pl-9 pr-4 py-2 bg-stone-900/80 border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors shadow-inner"
-              />
-            </div>
+      {/* MUSEUM-GRADE FINE ART & ARCHITECTURE EXHIBITION GALLERY */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16 space-y-12">
+        {/* Gallery Exhibition Filter Header */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-stone-800/80 pb-6">
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full text-xs font-medium transition-all shrink-0 ${
+                  selectedCategory === cat
+                    ? 'bg-white text-stone-950 font-bold shadow-lg scale-105'
+                    : 'bg-stone-900/60 text-stone-400 hover:text-white hover:bg-stone-800 border border-stone-800'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
 
-          {/* EDITORIAL EXHIBITION TILES (Clean 2-Column Wide Photography Feed) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredProducts.map((product) => (
+          <div className="relative w-full md:w-72 shrink-0">
+            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari karya / kode..."
+              className="w-full pl-9 pr-4 py-2 bg-stone-900/80 border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors shadow-inner"
+            />
+          </div>
+        </div>
+
+        {/* FINE ART EXHIBITION FRAMES WALL (Alternating Portrait, Panoramic & Square Museum Frames) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-start">
+          {filteredProducts.map((product, idx) => {
+            // Alternating Museum Frame Ratios: 0 = Portrait (3/4), 1 = Wide (16/10), 2 = Square (1/1)
+            const frameRatio = idx % 3 === 0 ? 'aspect-[3/4]' : idx % 3 === 1 ? 'aspect-[16/10]' : 'aspect-square';
+
+            return (
               <div
                 key={product.id}
                 onClick={() => handleOpenDetails(product)}
-                className="group cursor-pointer space-y-4"
+                className="group cursor-pointer space-y-3 transition-all duration-500"
               >
-                {/* Photo Canvas Tile */}
-                <div className="relative aspect-[16/10] rounded-3xl overflow-hidden border border-stone-800/80 bg-stone-950 shadow-2xl">
+                {/* Frameless Museum Photo Frame Canvas */}
+                <div className={`relative w-full ${frameRatio} rounded-2xl overflow-hidden bg-stone-950 border border-stone-800/80 shadow-2xl transition-all duration-700`}>
                   <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700"
+                    className="w-full h-full object-cover filter brightness-[0.88] contrast-[1.05] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-75 group-hover:opacity-90 transition-opacity" />
 
+                  {/* Top Museum Plaque Tags */}
                   <div className="absolute top-4 left-4 flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-bold text-amber-200">
-                      {product.category}
+                    <span className="px-3 py-1 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-mono text-amber-200 rounded-full shadow-md">
+                      EXHIBIT {product.code}
                     </span>
-                    <span className="px-2.5 py-1 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-mono text-stone-300">
-                      {product.code}
+                    <span className="px-2.5 py-1 bg-stone-950/80 backdrop-blur-md border border-stone-800 text-[10px] font-sans font-semibold text-stone-300 rounded-full">
+                      {product.category}
                     </span>
                   </div>
 
-                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="p-3 rounded-full bg-stone-950/90 text-white border border-stone-700 shadow-xl flex items-center gap-1.5 text-xs font-semibold">
-                      <span>Perbesar Galeri</span>
+                  {/* Expand Lightbox Button on Hover */}
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="p-3 rounded-full bg-stone-950/90 text-white border border-stone-700 shadow-2xl flex items-center gap-2 text-xs font-semibold">
                       <Maximize2 className="w-3.5 h-3.5 text-amber-200" />
+                      <span>Full Photo Lightbox</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Editorial Details Underneath */}
-                <div className="flex items-start justify-between gap-4 px-1">
-                  <div className="space-y-1">
-                    <h3 className="font-serif font-extrabold text-white text-xl group-hover:text-amber-200 transition-colors">
+                {/* Museum Exhibition Plaque Label Underneath */}
+                <div className="space-y-1.5 px-1 pt-1">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-serif font-extrabold text-white text-lg group-hover:text-amber-200 transition-colors line-clamp-1">
                       {product.name}
                     </h3>
-                    <p className="text-stone-400 text-xs line-clamp-2 leading-relaxed font-light">
-                      {product.description}
-                    </p>
+                    <span className="text-[11px] font-mono text-stone-400 shrink-0">
+                      ~{product.leadTimeDays} Hari
+                    </span>
                   </div>
 
-                  <a
-                    href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-lg shrink-0"
-                  >
-                    <MessageSquare className="w-3.5 h-3.5" />
-                    <span>Tanya WA</span>
-                  </a>
+                  <p className="text-stone-400 text-xs line-clamp-2 leading-relaxed font-light">
+                    {product.description}
+                  </p>
+
+                  <div className="pt-2 flex items-center justify-between">
+                    <span className="text-[11px] font-mono text-amber-200">
+                      Studio Architecture Series
+                    </span>
+
+                    <a
+                      href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>Tanya Harga WA</span>
+                    </a>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </main>
 
@@ -322,7 +255,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </footer>
 
-      {/* Lightbox Modal */}
+      {/* Fullscreen Art Lightbox Modal */}
       {selectedProduct && (
         <Modal
           isOpen={!!selectedProduct}
