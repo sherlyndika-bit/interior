@@ -115,7 +115,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </header>
 
-      {/* HERO SECTION: ARCHITECTURAL MONUMENTAL CANVAS WITH UNIFIED TYPOGRAPHY */}
+      {/* HERO SECTION: ARCHITECTURAL MONUMENTAL CANVAS */}
       <section className="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden pt-16">
         <img
           src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&auto=format&fit=crop&q=85"
@@ -239,7 +239,7 @@ export const PublicCatalogView: React.FC = () => {
         </div>
       </section>
 
-      {/* CLEAN SPACIOUS ARCHITECTURAL PROJECT GALLERY */}
+      {/* PURE ARCHITECTURAL STUDIO PROJECT GALLERY (ZERO E-COMMERCE CLUTTER) */}
       <main id="gallery-section" className="max-w-7xl mx-auto px-6 sm:px-12 py-24 space-y-12">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-900 pb-8">
           <div className="space-y-2 max-w-xl">
@@ -283,57 +283,45 @@ export const PublicCatalogView: React.FC = () => {
           />
         </div>
 
-        {/* ELEGANT SPACIOUS 3-COLUMN PHOTOGRAPHY TILES */}
+        {/* PURE PHOTOGRAPHY PORTFOLIO GRID (CLEAN TILES WITH HOVER OVERLAY, ZERO TEXT NOISE BELOW) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
               onClick={() => handleOpenDetails(product)}
-              className="group cursor-pointer space-y-4"
+              className="relative aspect-[4/3] rounded-3xl overflow-hidden cursor-pointer group bg-stone-950 border border-stone-900/80 shadow-2xl transition-all duration-500"
             >
-              {/* Photo Frame Canvas */}
-              <div className="relative aspect-[16/11] rounded-3xl overflow-hidden bg-stone-950 border border-stone-900 shadow-2xl">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="w-full h-full object-cover filter brightness-[0.9] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
+              {/* High Resolution Photography Canvas */}
+              <img
+                src={product.images[0]}
+                alt={product.name}
+                className="w-full h-full object-cover filter brightness-[0.9] group-hover:scale-108 group-hover:brightness-100 transition-all duration-700"
+              />
 
-                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="p-2.5 rounded-full bg-stone-950/90 text-white border border-stone-700 shadow-xl flex items-center gap-1.5 text-xs font-semibold">
-                    <span>Perbesar Galeri</span>
-                    <Maximize2 className="w-3.5 h-3.5 text-amber-200" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Title & Info Underneath */}
-              <div className="space-y-1.5 px-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300 block">
+              {/* Permanent Minimalist Category Tag */}
+              <div className="absolute top-4 left-4 z-10">
+                <span className="px-3.5 py-1.5 bg-stone-950/80 backdrop-blur-md border border-stone-800/80 text-[10px] font-mono uppercase tracking-widest text-amber-300 rounded-full shadow-lg">
                   {product.category}
                 </span>
-                <h3 className="font-extrabold text-white text-xl group-hover:text-stone-300 transition-colors">
+              </div>
+
+              {/* Sleek Gradient Overlay on Hover (Title, Lead Time, & Instant WA Action) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-end">
+                <h3 className="font-extrabold text-white text-xl leading-snug line-clamp-1">
                   {product.name}
                 </h3>
-                <p className="text-stone-400 text-xs font-light line-clamp-2 leading-relaxed">
+                <p className="text-stone-300 text-xs font-light line-clamp-2 mt-1 leading-relaxed">
                   {product.description}
                 </p>
 
-                <div className="pt-2 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-stone-500">
+                <div className="pt-4 flex items-center justify-between">
+                  <span className="text-[11px] font-mono text-stone-400">
                     Lead time ~{product.leadTimeDays} hari
                   </span>
-                  <a
-                    href={createWhatsAppCatalogLink('6281298765432', product.name, product.code)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl hover:scale-105"
-                  >
+                  <div className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl">
                     <WhatsAppIcon className="w-3.5 h-3.5" />
                     <span>Tanya Harga WA</span>
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
