@@ -99,8 +99,8 @@ export const PublicCatalogView: React.FC = () => {
           </div>
 
           <nav className="hidden md:flex items-center gap-8 text-xs font-semibold tracking-wider text-stone-300 uppercase">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">HOME</button>
-            <button onClick={scrollToGallery} className="hover:text-white transition-colors">PROJECT GALLERY</button>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">BERANDA</button>
+            <button onClick={scrollToGallery} className="hover:text-white transition-colors">GALERI PROYEK</button>
             <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">SIMULASI BUDGET</button>
             <a
               href="https://wa.me/6281298765432?text=Halo%20InteriorCraft%20Studio%2C%20saya%20tertarik%20konsultasi%20desain%20interior."
@@ -127,12 +127,12 @@ export const PublicCatalogView: React.FC = () => {
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 w-full text-left space-y-6">
           <h1 className="text-4xl sm:text-7xl font-sans font-bold text-white tracking-tight leading-[1.08] max-w-3xl">
-            We Design Your <br />
-            <span className="font-serif italic font-normal text-stone-200">Bespoke Spaces</span>
+            Desain Interior & <br />
+            <span className="font-serif italic font-normal text-stone-200">Fitout Custom Mewah</span>
           </h1>
 
           <p className="text-stone-300 text-sm sm:text-base max-w-xl font-light leading-relaxed">
-            Koleksi lengkap portofolio desain interior, kitchen set modular, wardrobe custom, & wall panel. Konsultasikan harga presisi langsung via WhatsApp.
+            Koleksi portofolio eksklusif kitchen set modular, custom wardrobe, & backdrop wall panel. Konsultasikan konsep & penawaran harga presisi langsung via WhatsApp.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-4">
@@ -140,7 +140,7 @@ export const PublicCatalogView: React.FC = () => {
               onClick={scrollToGallery}
               className="px-8 py-3.5 border border-white text-white font-semibold text-xs uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-all rounded-full"
             >
-              Explore Gallery
+              Jelajahi Galeri
             </button>
             <button
               onClick={() => setIsEstimatorOpen(true)}
@@ -163,7 +163,7 @@ export const PublicCatalogView: React.FC = () => {
 
           <div className="lg:col-span-7 space-y-6">
             <h2 className="text-2xl sm:text-3xl font-sans font-bold text-white tracking-tight leading-snug">
-              InteriorCraft Studio is a collective of Craftsmen, Architects, and Interior Designers Committed to Transforming Vision Into Precise Spaces.
+              InteriorCraft Studio Adalah Kolektif Pengrajin, Arsitek, & Desainer Interior yang Berkomitmen Mewujudkan Ruangan Presisi Tanpa Kompromi.
             </h2>
             <p className="text-stone-400 text-sm leading-relaxed font-light">
               Berpengalaman mengerjakan fitout residensial, apartemen mewah, & perkantoran. Kami menggunakan kayu multiplek 18mm grade A, engsel soft-close Hafele, dan finishing HPL Taco / Cat Duco berkualitas tinggi dengan garansi resmi 2 tahun.
@@ -244,10 +244,10 @@ export const PublicCatalogView: React.FC = () => {
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 border-b border-stone-900 pb-8">
           <div className="space-y-2 max-w-xl">
             <h2 className="text-3xl sm:text-4xl font-sans font-bold text-white tracking-tight">
-              Project Gallery
+              Galeri Portofolio Proyek
             </h2>
             <p className="text-stone-400 text-xs font-light leading-relaxed">
-              A curated selection of architectural and interior fitout projects.
+              Kumpulan kurasi proyek arsitektur & fitout desain interior studio kami.
             </p>
           </div>
 
@@ -278,7 +278,7 @@ export const PublicCatalogView: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search projects..."
+            placeholder="Cari nama proyek interior..."
             className="w-full pl-11 pr-4 py-2.5 bg-[#0A0908] border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
           />
         </div>
