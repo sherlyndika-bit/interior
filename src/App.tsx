@@ -20,7 +20,7 @@ import { Lock } from 'lucide-react';
 const MainLayout: React.FC = () => {
   const [routeHash, setRouteHash] = useState<string>(() => window.location.hash || '#/');
   const [currentTab, setCurrentTab] = useState<string>('orders');
-  const { hasPermission, currentUser, logout } = useAuth();
+  const { hasPermission, currentUser } = useAuth();
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -30,7 +30,8 @@ const MainLayout: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const isAdminRoute = routeHash.includes('admin') || window.location.pathname.includes('admin');
+  const isDemoRoute = routeHash.includes('demo');
+  const isAdminRoute = routeHash.includes('admin') || isDemoRoute;
 
   // 1. PUBLIC STOREFRONT MODE (Default Route `/` or `/#/`):
   // 100% clean storefront homepage without any admin buttons
@@ -43,18 +44,35 @@ const MainLayout: React.FC = () => {
     );
   }
 
-  // 2. ADMIN ROUTE (`/#/admin` or `/admin`):
-  // MANDATORY AUTHENTICATION CHECK: If currentUser is null, strictly render LoginView
-  if (isAdminRoute && !currentUser) {
+  // 2. DEMO PORTAL ROUTE (`/#/demo`):
+  // Renders LoginView with Quick Access Cards enabled for effortless demo testing
+  if (isDemoRoute && !currentUser) {
     return (
       <>
-        <LoginView onSuccessLogin={() => setCurrentTab('orders')} />
+        <LoginView
+          isDemoMode={true}
+          onSuccessLogin={() => setCurrentTab('orders')}
+        />
         <Toast />
       </>
     );
   }
 
-  // 3. AUTHENTICATED ADMIN DASHBOARD: Render layout with Header & Sidebar
+  // 3. STRICT REAL ADMIN ROUTE (`/#/admin`):
+  // MANDATORY AUTHENTICATION CHECK: Requires real password login, no quick cards
+  if (isAdminRoute && !currentUser) {
+    return (
+      <>
+        <LoginView
+          isDemoMode={false}
+          onSuccessLogin={() => setCurrentTab('orders')}
+        />
+        <Toast />
+      </>
+    );
+  }
+
+  // 4. AUTHENTICATED ADMIN DASHBOARD: Render layout with Header & Sidebar
   const renderAdminContent = () => {
     const permissionMap: Record<string, string> = {
       inventory: 'inventory',
