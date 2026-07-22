@@ -6,15 +6,13 @@ import { Modal } from '../components/Modal';
 import {
   MessageSquare,
   Search,
-  Sparkles,
   Clock,
   ShieldCheck,
   Calculator,
   ChevronRight,
   ChevronLeft,
   Maximize2,
-  SlidersHorizontal,
-  CheckCircle2
+  SlidersHorizontal
 } from 'lucide-react';
 
 export const PublicCatalogView: React.FC = () => {
@@ -71,8 +69,8 @@ export const PublicCatalogView: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0F0E0D] text-stone-100 font-sans selection:bg-amber-400 selection:text-stone-950">
-      {/* Overlay Minimalist Top Header */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-stone-950/90 via-stone-950/40 to-transparent backdrop-blur-sm px-6 py-5 transition-all">
+      {/* Overlay Minimalist Top Header (Clean Layout) */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-stone-950/90 via-stone-950/60 to-transparent backdrop-blur-md px-6 py-4 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-amber-300 font-bold text-sm shadow-xl">
@@ -121,13 +119,8 @@ export const PublicCatalogView: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#0F0E0D] via-[#0F0E0D]/40 to-[#0F0E0D]/60" />
         <div className="absolute inset-0 bg-stone-950/30 backdrop-brightness-95" />
 
-        {/* OVERLAID CONTENT ON TOP OF IMAGE */}
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6 pt-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-200 text-xs font-medium">
-            <Sparkles className="w-4 h-4 text-amber-300" />
-            <span>Koleksi Eksklusif Portofolio Gallery 2026</span>
-          </div>
-
+        {/* OVERLAID CONTENT ON TOP OF IMAGE (Clean spacing without overlapping pill badge) */}
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6 pt-24">
           <h1 className="text-4xl sm:text-7xl font-serif font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-2xl">
             Ruang Elegan & Custom, <br />
             <span className="italic font-serif text-amber-300 font-normal">
