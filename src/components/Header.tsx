@@ -12,46 +12,55 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
   const { currentUser, loginAsRole, logout } = useAuth();
   const { products, rawMaterials } = useApp();
+
   const [isDark, setIsDark] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark') ||
-        window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return document.documentElement.classList.contains('dark');
     }
     return false;
   });
 
+  // Sync state with HTML element
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   const toggleTheme = () => {
-    setIsDark(prev => !prev);
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('app-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('app-theme', 'light');
+    }
   };
 
   const lowStockCount = products.filter(p => p.stock <= p.minStock).length +
                         rawMaterials.filter(m => m.stock <= m.minStock).length;
 
   const roleLabels: Record<UserRole, { title: string; color: string }> = {
-    owner: { title: 'Owner / Super Admin', color: 'bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/30' },
-    kasir: { title: 'Kasir & Sales POS', color: 'bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-500/20 dark:text-blue-300 dark:border-blue-500/30' },
-    gudang: { title: 'Manajer Gudang', color: 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/30' },
-    teknisi: { title: 'Teknisi & Logistik', color: 'bg-purple-100 text-purple-800 border-purple-300 dark:bg-purple-500/20 dark:text-purple-300 dark:border-purple-500/30' },
-    guest: { title: 'Tamu / Pelanggan', color: 'bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700' }
+    owner: { title: 'Owner / Super Admin', color: 'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700' },
+    kasir: { title: 'Kasir & Sales POS', color: 'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700' },
+    gudang: { title: 'Manajer Gudang', color: 'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700' },
+    teknisi: { title: 'Teknisi & Logistik', color: 'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700' },
+    guest: { title: 'Tamu / Pelanggan', color: 'bg-zinc-100 text-zinc-700 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700' }
   };
 
   return (
-    <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md sticky top-0 z-30 px-6 flex items-center justify-between transition-colors">
+    <header className="h-16 border-b border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md sticky top-0 z-30 px-6 flex items-center justify-between transition-colors">
       {/* Left branding */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.hash = ''}>
-          <span className="font-bold text-slate-900 dark:text-white text-lg tracking-wider uppercase">
-            INTERIORCRAFT <span className="font-light text-slate-500 dark:text-slate-400 text-xs tracking-normal">STUDIO</span>
+          <span className="font-bold text-zinc-900 dark:text-white text-base tracking-tight">
+            INTERIORCRAFT <span className="font-normal text-zinc-500 dark:text-zinc-400 text-xs">STUDIO</span>
           </span>
-          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-400/10 dark:border-amber-400/30 dark:text-amber-300 uppercase tracking-wider">
+          <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
             ADMIN
           </span>
         </div>
@@ -59,10 +68,10 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
         {/* Shortcut to view Public Website */}
         <button
           onClick={() => window.location.hash = ''}
-          className="ml-4 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium flex items-center gap-1.5 transition-all border border-slate-200 dark:border-slate-700"
+          className="ml-4 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs font-medium flex items-center gap-1.5 transition-all border border-zinc-200 dark:border-zinc-700"
           title="Buka Website Katalog Publik Klien"
         >
-          <Globe className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+          <Globe className="w-3.5 h-3.5 text-zinc-600 dark:text-zinc-400" />
           <span>Website Publik</span>
         </button>
       </div>
@@ -72,10 +81,20 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
         {/* Dark / Light System Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors"
+          className="p-2 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition-colors flex items-center gap-1.5 text-xs font-medium"
           title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
         >
-          {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
+          {isDark ? (
+            <>
+              <Sun className="w-4 h-4 text-amber-400" />
+              <span className="hidden sm:inline text-xs">Light Mode</span>
+            </>
+          ) : (
+            <>
+              <Moon className="w-4 h-4 text-zinc-700" />
+              <span className="hidden sm:inline text-xs">Dark Mode</span>
+            </>
+          )}
         </button>
 
         {lowStockCount > 0 && (
@@ -90,16 +109,16 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
         )}
 
         {/* Quick Role Simulation Selector */}
-        <div className="hidden lg:flex items-center gap-1 bg-slate-100 dark:bg-slate-950 p-1 rounded-lg border border-slate-200 dark:border-slate-800 text-xs">
-          <span className="px-2 text-[10px] text-slate-500 font-semibold uppercase">Simulasi Peran:</span>
+        <div className="hidden lg:flex items-center gap-1 bg-zinc-100 dark:bg-zinc-950 p-1 rounded-lg border border-zinc-200 dark:border-zinc-800 text-xs">
+          <span className="px-2 text-[10px] text-zinc-500 font-medium uppercase">Simulasi Peran:</span>
           {(['owner', 'kasir', 'gudang', 'teknisi'] as UserRole[]).map((r) => (
             <button
               key={r}
               onClick={() => loginAsRole(r)}
               className={`px-2.5 py-1 rounded-md font-medium transition-all text-[11px] ${
                 currentUser?.role === r
-                  ? 'bg-amber-500 text-slate-950 font-bold shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
               {r.charAt(0).toUpperCase() + r.slice(1)}
@@ -109,12 +128,12 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
 
         {/* Logged in User Initials Badge */}
         {currentUser && (
-          <div className="flex items-center gap-3 border-l border-slate-200 dark:border-slate-800 pl-3">
-            <div className="w-8 h-8 rounded-full bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-extrabold text-xs flex items-center justify-center shadow-sm">
+          <div className="flex items-center gap-3 border-l border-zinc-200 dark:border-zinc-800 pl-3">
+            <div className="w-8 h-8 rounded-full bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-bold text-xs flex items-center justify-center shadow-sm">
               {currentUser.initials}
             </div>
             <div className="hidden sm:block text-left">
-              <div className="text-xs font-bold text-slate-900 dark:text-white leading-tight">
+              <div className="text-xs font-bold text-zinc-900 dark:text-white leading-tight">
                 {currentUser.name}
               </div>
               <span className={`inline-block px-1.5 py-0.2 text-[9px] font-medium rounded border ${roleLabels[currentUser.role]?.color}`}>
@@ -128,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
                 window.location.hash = '';
               }}
               title="Keluar dari Portal Admin"
-              className="p-2 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-1 text-xs font-semibold"
+              className="p-2 rounded-lg text-zinc-500 hover:text-rose-600 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex items-center gap-1 text-xs font-medium"
             >
               <LogOut className="w-4 h-4" />
               <span className="hidden md:inline">Keluar</span>

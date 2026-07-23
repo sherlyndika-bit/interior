@@ -50,27 +50,27 @@ export const ReportsView: React.FC = () => {
   return (
     <div className="space-y-6 pb-12 font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-            <BarChart3 className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          <h1 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
             Laporan Keuangan & Penjualan
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
             Analisis omzet penjualan, estimasi laba kotor, HPP material, dan ekspor laporan resmi.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-1 text-xs shadow-sm">
+          <div className="flex items-center gap-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-1 text-xs shadow-sm">
             {(['all', 'this_month', 'today'] as const).map((p) => (
               <button
                 key={p}
                 onClick={() => setSelectedPeriod(p)}
                 className={`px-3 py-1.5 rounded-md font-mono text-[11px] uppercase tracking-wider transition-all ${
                   selectedPeriod === p
-                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-bold shadow-sm'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                 }`}
               >
                 {p === 'all' ? 'Semua' : p === 'this_month' ? 'Bulan Ini' : 'Hari Ini'}
@@ -80,7 +80,7 @@ export const ReportsView: React.FC = () => {
 
           <button
             onClick={exportCSV}
-            className="px-3.5 py-2.5 rounded-lg bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs flex items-center gap-1.5 transition-all border border-slate-200 dark:border-slate-800 shadow-sm"
+            className="px-3.5 py-2.5 rounded-lg bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold text-xs flex items-center gap-1.5 transition-all border border-zinc-200 dark:border-zinc-800 shadow-sm"
           >
             <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             <span>Ekspor CSV</span>
@@ -90,31 +90,31 @@ export const ReportsView: React.FC = () => {
 
       {/* Financial KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Total Omzet (Gross Revenue):</span>
-          <div className="text-xl font-extrabold text-slate-900 dark:text-white">{formatRupiah(totalRevenue)}</div>
+        <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1 shadow-sm">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">Total Omzet (Gross Revenue):</span>
+          <div className="text-xl font-extrabold text-zinc-900 dark:text-white">{formatRupiah(totalRevenue)}</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Estimasi HPP Material:</span>
+        <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1 shadow-sm">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">Estimasi HPP Material:</span>
           <div className="text-xl font-extrabold text-rose-600 dark:text-rose-400">{formatRupiah(totalHPP)}</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Laba Kotor (Gross Profit):</span>
-          <div className="text-xl font-extrabold text-amber-700 dark:text-amber-300">{formatRupiah(grossProfit)}</div>
+        <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1 shadow-sm">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">Laba Kotor (Gross Profit):</span>
+          <div className="text-xl font-extrabold text-zinc-900 dark:text-white">{formatRupiah(grossProfit)}</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Estimasi Laba Bersih:</span>
+        <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1 shadow-sm">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">Estimasi Laba Bersih:</span>
           <div className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400">{formatRupiah(netProfit)}</div>
         </div>
       </div>
 
       {/* Orders Table Breakdown */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-        <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
-          <thead className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-medium uppercase text-[10px]">
+      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+        <table className="w-full text-left text-xs text-zinc-700 dark:text-zinc-300">
+          <thead className="bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 font-medium uppercase text-[10px]">
             <tr>
               <th className="p-4">No. Order</th>
               <th className="p-4">Tanggal</th>
@@ -125,15 +125,15 @@ export const ReportsView: React.FC = () => {
               <th className="p-4 text-right">Tahap</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
             {filteredOrders.map((o) => (
-              <tr key={o.id} className="hover:bg-slate-50 dark:hover:bg-slate-950/60 transition-colors">
-                <td className="p-4 font-mono font-bold text-slate-900 dark:text-amber-300">{o.orderNumber}</td>
-                <td className="p-4 font-mono text-slate-500 dark:text-slate-400">{o.date}</td>
-                <td className="p-4 font-bold text-slate-900 dark:text-white">{o.customerName}</td>
+              <tr key={o.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-950/60 transition-colors">
+                <td className="p-4 font-mono font-bold text-zinc-900 dark:text-white">{o.orderNumber}</td>
+                <td className="p-4 font-mono text-zinc-500 dark:text-zinc-400">{o.date}</td>
+                <td className="p-4 font-bold text-zinc-900 dark:text-white">{o.customerName}</td>
                 <td className="p-4">{o.type}</td>
                 <td className="p-4 font-mono font-bold text-emerald-600 dark:text-emerald-400">{formatRupiah(o.grandTotal)}</td>
-                <td className="p-4 font-mono text-slate-500 dark:text-slate-400">{formatRupiah(o.totalCost)}</td>
+                <td className="p-4 font-mono text-zinc-500 dark:text-zinc-400">{formatRupiah(o.totalCost)}</td>
                 <td className="p-4 text-right font-mono uppercase text-[10px]">{o.stage}</td>
               </tr>
             ))}

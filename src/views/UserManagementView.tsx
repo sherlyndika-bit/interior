@@ -57,13 +57,13 @@ export const UserManagementView: React.FC = () => {
   return (
     <div className="space-y-6 pb-12 font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          <h1 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
             Manajemen Akses Staff (RBAC)
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
             Pengaturan kredensial login staff, penugasan peran manajerial, dan hak akses modul internal.
           </p>
         </div>
@@ -81,9 +81,9 @@ export const UserManagementView: React.FC = () => {
       </div>
 
       {/* Users Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-        <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
-          <thead className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-medium uppercase text-[10px]">
+      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+        <table className="w-full text-left text-xs text-zinc-700 dark:text-zinc-300">
+          <thead className="bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 font-medium uppercase text-[10px]">
             <tr>
               <th className="p-4">Akun Staff</th>
               <th className="p-4">Username</th>
@@ -92,25 +92,25 @@ export const UserManagementView: React.FC = () => {
               <th className="p-4 text-right">Aksi</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
             {users.map((u) => (
-              <tr key={u.id} className="hover:bg-slate-50 dark:hover:bg-slate-950/60 transition-colors">
+              <tr key={u.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-950/60 transition-colors">
                 <td className="p-4 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-extrabold text-xs flex items-center justify-center shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-bold text-xs flex items-center justify-center shadow-sm">
                     {u.initials}
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 dark:text-white">{u.name}</p>
-                    <p className="text-slate-500 dark:text-slate-400 text-[11px] font-mono">{u.email}</p>
+                    <p className="font-bold text-zinc-900 dark:text-white">{u.name}</p>
+                    <p className="text-zinc-500 dark:text-zinc-400 text-[11px] font-mono">{u.email}</p>
                   </div>
                 </td>
-                <td className="p-4 font-mono text-slate-900 dark:text-amber-300 font-bold">{u.username}</td>
+                <td className="p-4 font-mono text-zinc-900 dark:text-white font-bold">{u.username}</td>
                 <td className="p-4">
-                  <span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-mono uppercase text-amber-700 dark:text-amber-300">
+                  <span className="px-2.5 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-[10px] font-mono uppercase text-zinc-700 dark:text-zinc-300">
                     {u.role}
                   </span>
                 </td>
-                <td className="p-4 font-mono text-slate-500 dark:text-slate-400 text-[11px]">
+                <td className="p-4 font-mono text-zinc-500 dark:text-zinc-400 text-[11px]">
                   {u.permissions.includes('all') ? 'Seluruh Modul (Super Admin)' : `${u.permissions.length} Modul Terbatas`}
                 </td>
                 <td className="p-4 text-right">
@@ -129,25 +129,25 @@ export const UserManagementView: React.FC = () => {
       {/* USER MODAL */}
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Tambah Akun Staff Baru">
-          <form onSubmit={handleSave} className="space-y-4 text-xs text-slate-900 dark:text-slate-100">
+          <form onSubmit={handleSave} className="space-y-4 text-xs text-zinc-900 dark:text-zinc-100">
             <div>
-              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Nama Lengkap Karyawan</label>
-              <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white" />
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Lengkap Karyawan</label>
+              <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
             </div>
             <div>
-              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Username Login</label>
-              <input type="text" required value={username} onChange={e => setUsername(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white font-mono" />
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Username Login</label>
+              <input type="text" required value={username} onChange={e => setUsername(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white font-mono" />
             </div>
             <div>
-              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Peran Akses</label>
-              <select value={role} onChange={e => setRole(e.target.value as UserRole)} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white">
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Peran Akses</label>
+              <select value={role} onChange={e => setRole(e.target.value as UserRole)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white">
                 <option value="owner">Owner / Super Admin</option>
                 <option value="kasir">Kasir & Sales POS</option>
                 <option value="gudang">Manajer Gudang</option>
                 <option value="teknisi">Teknisi & Logistik</option>
               </select>
             </div>
-            <button type="submit" className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Akun Staff</button>
+            <button type="submit" className="w-full py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Akun Staff</button>
           </form>
         </Modal>
       )}

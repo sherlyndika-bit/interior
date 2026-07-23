@@ -241,11 +241,11 @@ export const OrdersPosView: React.FC = () => {
   });
 
   const stageBadgeColor: Record<OrderStage, string> = {
-    'Draft': 'bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
-    'DP Paid': 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-300 dark:border-blue-500/30',
-    'In Production': 'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-500/10 dark:text-amber-300 dark:border-amber-500/30',
-    'Quality Control': 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-500/10 dark:text-purple-300 dark:border-purple-500/30',
-    'Ready for Delivery': 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-500/10 dark:text-cyan-300 dark:border-cyan-500/30',
+    'Draft': 'bg-zinc-100 text-zinc-700 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700',
+    'DP Paid': 'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700',
+    'In Production': 'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700',
+    'Quality Control': 'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700',
+    'Ready for Delivery': 'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700',
     'Installed': 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30',
     'Completed': 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30',
     'Cancelled': 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-300 dark:border-rose-500/30'
@@ -254,13 +254,13 @@ export const OrdersPosView: React.FC = () => {
   return (
     <div className="space-y-6 pb-12 font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-            <ShoppingCart className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          <h1 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
+            <ShoppingCart className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
             Manajemen Pesanan & Terminal POS
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
             Pengelolaan kasir barang ready stock & pemantauan alur produksi fitout custom.
           </p>
         </div>
@@ -270,8 +270,8 @@ export const OrdersPosView: React.FC = () => {
             onClick={() => setActiveTab('orders_list')}
             className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
               activeTab === 'orders_list'
-                ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold shadow-sm'
-                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
             }`}
           >
             Daftar Pesanan ({orders.length})
@@ -281,8 +281,8 @@ export const OrdersPosView: React.FC = () => {
             onClick={() => setActiveTab('pos')}
             className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === 'pos'
-                ? 'bg-blue-600 text-white font-bold shadow-sm'
-                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
             }`}
           >
             <ShoppingCart className="w-3.5 h-3.5" />
@@ -294,7 +294,7 @@ export const OrdersPosView: React.FC = () => {
             className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === 'new_custom'
                 ? 'bg-emerald-600 text-white font-bold shadow-sm'
-                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
             }`}
           >
             <Plus className="w-3.5 h-3.5" />
@@ -308,13 +308,13 @@ export const OrdersPosView: React.FC = () => {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="relative w-full sm:w-80">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari nomor order, klien..."
-                className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-slate-400"
+                className="w-full pl-10 pr-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-zinc-400"
               />
             </div>
 
@@ -325,8 +325,8 @@ export const OrdersPosView: React.FC = () => {
                   onClick={() => setSelectedStage(stg)}
                   className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all whitespace-nowrap ${
                     selectedStage === stg
-                      ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold'
-                      : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400'
+                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 font-bold'
+                      : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400'
                   }`}
                 >
                   {stg}
@@ -340,36 +340,36 @@ export const OrdersPosView: React.FC = () => {
               <div
                 key={order.id}
                 onClick={() => setSelectedOrder(order)}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 transition-all cursor-pointer space-y-3"
+                className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-zinc-300 dark:hover:border-zinc-700 transition-all cursor-pointer space-y-3"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-500 dark:text-slate-400 font-bold">{order.orderNumber}</span>
+                  <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 font-bold">{order.orderNumber}</span>
                   <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-medium border ${stageBadgeColor[order.stage]}`}>
                     {order.stage}
                   </span>
                 </div>
 
                 <div className="space-y-1">
-                  <h3 className="font-bold text-slate-900 dark:text-white text-base line-clamp-1">{order.customerName}</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-normal line-clamp-1">
+                  <h3 className="font-bold text-zinc-900 dark:text-white text-base line-clamp-1">{order.customerName}</h3>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 font-normal line-clamp-1">
                     {order.items.map(i => i.productName).join(', ')}
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-xs space-y-1">
-                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
+                <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 text-xs space-y-1">
+                  <div className="flex justify-between text-zinc-500 dark:text-zinc-400">
                     <span>Total Transaksi:</span>
-                    <span className="font-bold text-slate-900 dark:text-white">{formatRupiah(order.grandTotal)}</span>
+                    <span className="font-bold text-zinc-900 dark:text-white">{formatRupiah(order.grandTotal)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
+                  <div className="flex justify-between text-zinc-500 dark:text-zinc-400">
                     <span>Terbayar:</span>
                     <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatRupiah(order.paidAmount)}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono pt-1">
+                <div className="flex items-center justify-between text-[11px] text-zinc-400 font-mono pt-1">
                   <span>{formatDate(order.date)}</span>
-                  <span className="flex items-center gap-1 text-slate-700 dark:text-slate-300 font-semibold">
+                  <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300 font-semibold">
                     Detail <ChevronRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
@@ -383,17 +383,17 @@ export const OrdersPosView: React.FC = () => {
       {activeTab === 'pos' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-7 space-y-4">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Pilih Produk Ready Stock</h2>
+            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Pilih Produk Ready Stock</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {products.map(p => (
-                <div key={p.id} className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 shadow-sm">
+                <div key={p.id} className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-3 shadow-sm">
                   <img src={p.images[0]} alt={p.name} className="w-full h-32 object-cover rounded-xl" />
-                  <h3 className="font-bold text-slate-900 dark:text-white text-sm line-clamp-1">{p.name}</h3>
+                  <h3 className="font-bold text-zinc-900 dark:text-white text-sm line-clamp-1">{p.name}</h3>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-900 dark:text-amber-300">{formatRupiah(p.basePrice)}</span>
+                    <span className="text-xs font-bold text-zinc-900 dark:text-white">{formatRupiah(p.basePrice)}</span>
                     <button
                       onClick={() => addToCart(p.id)}
-                      className="px-3 py-1.5 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-bold text-xs hover:opacity-90 transition-opacity"
+                      className="px-3 py-1.5 rounded-lg bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold text-xs hover:opacity-90 transition-opacity"
                     >
                       + Tambah
                     </button>
@@ -403,24 +403,24 @@ export const OrdersPosView: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 space-y-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 h-fit shadow-sm">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Ringkasan Kasir POS</h2>
+          <div className="lg:col-span-5 space-y-4 bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 h-fit shadow-sm">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Ringkasan Kasir POS</h2>
             {cartItems.length === 0 ? (
-              <p className="text-xs text-slate-400 py-8 text-center">Keranjang masih kosong</p>
+              <p className="text-xs text-zinc-400 py-8 text-center">Keranjang masih kosong</p>
             ) : (
               <div className="space-y-4">
                 {cartItems.map((item, idx) => (
-                  <div key={idx} className="flex items-center justify-between text-xs border-b border-slate-100 dark:border-slate-800 pb-2">
+                  <div key={idx} className="flex items-center justify-between text-xs border-b border-zinc-100 dark:border-zinc-800 pb-2">
                     <div>
-                      <p className="font-bold text-slate-900 dark:text-white">{item.productName}</p>
-                      <p className="text-slate-400">{item.quantity} x {formatRupiah(item.unitPrice)}</p>
+                      <p className="font-bold text-zinc-900 dark:text-white">{item.productName}</p>
+                      <p className="text-zinc-400">{item.quantity} x {formatRupiah(item.unitPrice)}</p>
                     </div>
                     <button onClick={() => removeFromCart(idx)} className="text-rose-600 hover:text-rose-700 text-xs font-medium">Hapus</button>
                   </div>
                 ))}
-                <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-1.5 text-xs">
-                  <div className="flex justify-between text-slate-500"><span>Subtotal:</span><span>{formatRupiah(posSubtotal)}</span></div>
-                  <div className="flex justify-between font-bold text-slate-900 dark:text-white text-sm pt-2"><span>Total Akhir:</span><span>{formatRupiah(posGrandTotal)}</span></div>
+                <div className="pt-2 border-t border-zinc-200 dark:border-zinc-800 space-y-1.5 text-xs">
+                  <div className="flex justify-between text-zinc-500"><span>Subtotal:</span><span>{formatRupiah(posSubtotal)}</span></div>
+                  <div className="flex justify-between font-bold text-zinc-900 dark:text-white text-sm pt-2"><span>Total Akhir:</span><span>{formatRupiah(posGrandTotal)}</span></div>
                 </div>
                 <button
                   onClick={handleCheckoutPOS}
@@ -436,43 +436,43 @@ export const OrdersPosView: React.FC = () => {
 
       {/* TAB 3: NEW CUSTOM PRE-ORDER */}
       {activeTab === 'new_custom' && (
-        <form onSubmit={handleSaveCustomOrder} className="max-w-2xl mx-auto bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-6 shadow-sm">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">Formulir Pre-Order Custom Fitout</h2>
+        <form onSubmit={handleSaveCustomOrder} className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-6 shadow-sm">
+          <h2 className="text-base font-bold text-zinc-900 dark:text-white tracking-tight">Formulir Pre-Order Custom Fitout</h2>
           <div className="space-y-4 text-xs">
             <div>
-              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Nama Klien / Pemilik Proyek</label>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Klien / Pemilik Proyek</label>
               <input
                 type="text"
                 required
                 value={customClientName}
                 onChange={e => setCustomClientName(e.target.value)}
-                className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-slate-400"
+                className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
                 placeholder="Contoh: Bpk. Hendra Kusuma"
               />
             </div>
             <div>
-              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Judul Proyek Fitout</label>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Judul Proyek Fitout</label>
               <input
                 type="text"
                 required
                 value={customProjectTitle}
                 onChange={e => setCustomProjectTitle(e.target.value)}
-                className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-slate-400"
+                className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
                 placeholder="Contoh: Kitchen Set & Backdrop TV Penthouse"
               />
             </div>
             <div>
-              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Nilai Kontrak Proyek (Rp)</label>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nilai Kontrak Proyek (Rp)</label>
               <input
                 type="number"
                 value={customPrice}
                 onChange={e => setCustomPrice(Number(e.target.value))}
-                className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-slate-400"
+                className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
               />
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
+              className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
             >
               Simpan & Terbitkan Pre-Order DP
             </button>
@@ -483,12 +483,12 @@ export const OrdersPosView: React.FC = () => {
       {/* DETAIL ORDER MODAL */}
       {selectedOrder && (
         <Modal isOpen={!!selectedOrder} onClose={() => setSelectedOrder(null)} title={`Detail Pesanan: ${selectedOrder.orderNumber}`}>
-          <div className="space-y-4 text-xs text-slate-600 dark:text-slate-300">
-            <p><strong className="text-slate-900 dark:text-white">Klien:</strong> {selectedOrder.customerName}</p>
-            <p><strong className="text-slate-900 dark:text-white">Tahap Produksi:</strong> {selectedOrder.stage}</p>
-            <p><strong className="text-slate-900 dark:text-white">Total Kontrak:</strong> {formatRupiah(selectedOrder.grandTotal)}</p>
+          <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-300">
+            <p><strong className="text-zinc-900 dark:text-white">Klien:</strong> {selectedOrder.customerName}</p>
+            <p><strong className="text-zinc-900 dark:text-white">Tahap Produksi:</strong> {selectedOrder.stage}</p>
+            <p><strong className="text-zinc-900 dark:text-white">Total Kontrak:</strong> {formatRupiah(selectedOrder.grandTotal)}</p>
             <div className="flex justify-end pt-4">
-              <button onClick={() => setSelectedOrder(null)} className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium">Tutup</button>
+              <button onClick={() => setSelectedOrder(null)} className="px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 font-medium">Tutup</button>
             </div>
           </div>
         </Modal>
