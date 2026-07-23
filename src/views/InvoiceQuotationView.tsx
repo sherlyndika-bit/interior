@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { Quotation, QuotationItem, Order } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
 import { FileText, Printer, Plus, CheckCircle2, Trash2, Receipt } from 'lucide-react';
 
-export const InvoiceQuotationView: React.FC = () => {
+interface InvoiceQuotationViewProps {
+  initialTab?: 'quotations' | 'invoices';
+}
+
+export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ initialTab = 'quotations' }) => {
   const { quotations, addQuotation, convertQuotationToOrder, orders, taxSetting, addPaymentMilestone } = useApp();
-  const [activeTab, setActiveTab] = useState<'quotations' | 'invoices'>('quotations');
+  const [activeTab, setActiveTab] = useState<'quotations' | 'invoices'>(initialTab);
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   // Quotation State
   const [selectedQuotation, setSelectedQuotation] = useState<Quotation | null>(quotations[0] || null);
@@ -126,7 +136,6 @@ export const InvoiceQuotationView: React.FC = () => {
     setIsQuotationModalOpen(false);
   };
 
-  // Helper to calculate invoice billing amount
   const getInvoiceAmount = (order: Order, type: string) => {
     if (type === 'DP 50%') return order.grandTotal * 0.5;
     if (type === 'Progress 30%') return order.grandTotal * 0.3;
@@ -136,56 +145,69 @@ export const InvoiceQuotationView: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-12 font-sans">
-      {/* Header & Tabs */}
+      {/* Header & Prominent Navigation Tabs */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
           <h1 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
-            <FileText className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
-            Surat Penawaran & Invoice Tagihan Resmi
+            {activeTab === 'quotations' ? (
+              <>
+                <FileText className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
+                Surat Penawaran Harga (SPH Proposal)
+              </>
+            ) : (
+              <>
+                <Receipt className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
+                Faktur Tagihan Resmi (Invoice DP & Pelunasan)
+              </>
+            )}
           </h1>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-            Modul terpisah untuk membuat Surat Penawaran Harga (Quotation) & Faktur Tagihan Resmi (Invoice DP/Pelunasan).
+            {activeTab === 'quotations'
+              ? 'Generator proposal penawaran harga resmi sebelum penandatanganan kontrak proyek fitout.'
+              : 'Generator faktur tagihan resmi (DP/Pelunasan) lengkap dengan NPWP Perusahaan & Rekening Bank.'}
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Tab Switcher */}
-          <button
-            onClick={() => setActiveTab('quotations')}
-            className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
-              activeTab === 'quotations'
-                ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
-                : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5" />
-            <span>Surat Penawaran ({quotations.length})</span>
-          </button>
+          {/* Tab Switcher Buttons */}
+          <div className="p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center gap-1 border border-zinc-200 dark:border-zinc-700">
+            <button
+              onClick={() => setActiveTab('quotations')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                activeTab === 'quotations'
+                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>Surat Penawaran ({quotations.length})</span>
+            </button>
 
-          <button
-            onClick={() => setActiveTab('invoices')}
-            className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
-              activeTab === 'invoices'
-                ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
-                : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
-            }`}
-          >
-            <Receipt className="w-3.5 h-3.5" />
-            <span>Invoice Tagihan ({orders.length})</span>
-          </button>
+            <button
+              onClick={() => setActiveTab('invoices')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                activeTab === 'invoices'
+                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+              }`}
+            >
+              <Receipt className="w-3.5 h-3.5" />
+              <span>Invoice Tagihan ({orders.length})</span>
+            </button>
+          </div>
 
           {activeTab === 'quotations' ? (
             <button
               onClick={handleOpenNewQuotationModal}
-              className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
             >
               <Plus className="w-4 h-4" />
-              <span>Buat Penawaran Baru</span>
+              <span>Buat SPH Baru</span>
             </button>
           ) : (
             <button
               onClick={() => setIsInvoiceModalOpen(true)}
-              className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
             >
               <Plus className="w-4 h-4" />
               <span>Terbitkan Invoice Tagihan</span>
