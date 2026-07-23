@@ -163,7 +163,7 @@ const MainLayout: React.FC = () => {
       <div className="flex-1 flex overflow-hidden">
         <Sidebar currentTab={currentTab} onTabChange={setCurrentTab} />
 
-        <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-[1800px] mx-auto w-full">
+        <main className="flex-1 p-6 md:p-8 overflow-y-scroll max-w-[1800px] mx-auto w-full">
           {renderAdminContent()}
         </main>
       </div>
