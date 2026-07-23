@@ -122,9 +122,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                   key={item.id}
                   onClick={() => allowed && onTabChange(item.id)}
                   disabled={!allowed}
-                  className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-all group ${
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-all group active:scale-[0.98] ${
                     isActive
-                      ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                      ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
                       : allowed
                       ? 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/80 hover:text-zinc-900 dark:hover:text-white'
                       : 'text-zinc-400 dark:text-zinc-600 opacity-50 cursor-not-allowed'
