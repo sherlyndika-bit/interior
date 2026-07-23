@@ -151,12 +151,12 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
           <h1 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
             {activeTab === 'quotations' ? (
               <>
-                <FileText className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
+                <FileText className="w-5 h-5 text-zinc-700 dark:text-zinc-300 shrink-0" />
                 Surat Penawaran Harga (SPH Proposal)
               </>
             ) : (
               <>
-                <Receipt className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
+                <Receipt className="w-5 h-5 text-zinc-700 dark:text-zinc-300 shrink-0" />
                 Faktur Tagihan Resmi (Invoice DP & Pelunasan)
               </>
             )}
@@ -168,30 +168,30 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          {/* Main Tab Switcher */}
-          <div className="p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center gap-1 border border-zinc-200 dark:border-zinc-700 shadow-xs">
+        <div className="flex items-center gap-3 shrink-0">
+          {/* Main Tab Switcher with whitespace-nowrap and shrink-0 to prevent text wrapping */}
+          <div className="p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center gap-1 border border-zinc-200 dark:border-zinc-700 shadow-xs shrink-0">
             <button
               onClick={() => setActiveTab('quotations')}
-              className={`h-9 px-3.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
+              className={`h-9 px-3.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
                 activeTab === 'quotations'
                   ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
-              <FileText className="w-3.5 h-3.5" />
+              <FileText className="w-3.5 h-3.5 shrink-0" />
               <span>Surat Penawaran ({quotations.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('invoices')}
-              className={`h-9 px-3.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
+              className={`h-9 px-3.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
                 activeTab === 'invoices'
                   ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
-              <Receipt className="w-3.5 h-3.5" />
+              <Receipt className="w-3.5 h-3.5 shrink-0" />
               <span>Invoice Tagihan ({orders.length})</span>
             </button>
           </div>
@@ -199,17 +199,17 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
           {activeTab === 'quotations' ? (
             <button
               onClick={handleOpenNewQuotationModal}
-              className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-[0.98]"
+              className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-[0.98] whitespace-nowrap shrink-0"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 shrink-0" />
               <span>Buat SPH Baru</span>
             </button>
           ) : (
             <button
               onClick={() => setIsInvoiceModalOpen(true)}
-              className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-[0.98]"
+              className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-[0.98] whitespace-nowrap shrink-0"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 shrink-0" />
               <span>Terbitkan Invoice Tagihan</span>
             </button>
           )}
@@ -222,7 +222,7 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
           {/* Left: Quotations List */}
           <div className="lg:col-span-4 space-y-3">
             <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 text-zinc-600" />
+              <FileText className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
               Daftar Proposal Penawaran (SPH)
             </h2>
             <div className="space-y-3">
@@ -320,14 +320,14 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
                     onClick={() => window.print()}
                     className="h-9 px-4 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-white font-bold text-xs flex items-center gap-1.5 transition-all"
                   >
-                    <Printer className="w-4 h-4" /> Cetak SPH PDF
+                    <Printer className="w-4 h-4 shrink-0" /> Cetak SPH PDF
                   </button>
                   {selectedQuotation.status !== 'Approved' && selectedQuotation.status !== 'Converted to Order' && (
                     <button
                       onClick={() => convertQuotationToOrder(selectedQuotation.id)}
                       className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
                     >
-                      <CheckCircle2 className="w-4 h-4" /> Setujui SPH & Ubah Jadi Order
+                      <CheckCircle2 className="w-4 h-4 shrink-0" /> Setujui SPH & Ubah Jadi Order
                     </button>
                   )}
                 </div>
@@ -345,7 +345,7 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
           {/* Left: Orders List for Invoicing */}
           <div className="lg:col-span-4 space-y-3">
             <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
-              <Receipt className="w-3.5 h-3.5 text-zinc-600" />
+              <Receipt className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
               Daftar Faktur Tagihan (Invoice)
             </h2>
             <div className="space-y-3">
@@ -386,7 +386,7 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
                 <div className="flex justify-between items-start border-b border-zinc-200 dark:border-zinc-800 pb-6">
                   <div>
                     <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-900 dark:text-white mb-1">
-                      <Building2 className="w-4 h-4 text-emerald-600" />
+                      <Building2 className="w-4 h-4 text-emerald-600 shrink-0" />
                       PT INTERIORCRAFT STUDIO INDONESIA
                     </div>
                     <h2 className="text-2xl font-extrabold text-zinc-900 dark:text-white tracking-wider uppercase">FAKTUR TAGIHAN RESMI (INVOICE)</h2>
@@ -477,7 +477,7 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
                 {/* Official Bank Account Information */}
                 <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 space-y-2">
                   <h4 className="font-bold text-zinc-900 dark:text-white text-xs flex items-center gap-1">
-                    <CreditCard className="w-3.5 h-3.5 text-emerald-600" />
+                    <CreditCard className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     Instruksi Pembayaran Transfer Bank Resmi:
                   </h4>
                   <div className="grid grid-cols-2 gap-4 text-[11px] text-zinc-600 dark:text-zinc-300">
@@ -499,14 +499,14 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
                     onClick={() => window.print()}
                     className="h-9 px-4 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-white font-bold text-xs flex items-center gap-1.5 transition-all"
                   >
-                    <Printer className="w-4 h-4" /> Cetak Invoice PDF
+                    <Printer className="w-4 h-4 shrink-0" /> Cetak Invoice PDF
                   </button>
                   {selectedOrderForInvoice.remainingBalance > 0 && (
                     <button
                       onClick={() => addPaymentMilestone(selectedOrderForInvoice.id, 'Transfer Bank', selectedOrderForInvoice.remainingBalance)}
                       className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
                     >
-                      <CheckCircle2 className="w-4 h-4" /> Catat Invoice Lunas
+                      <CheckCircle2 className="w-4 h-4 shrink-0" /> Catat Invoice Lunas
                     </button>
                   )}
                 </div>
@@ -571,7 +571,7 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
                       <p className="text-zinc-400">{item.dimensions} — {formatRupiah(item.totalPrice)}</p>
                     </div>
                     {items.length > 1 && (
-                      <button type="button" onClick={() => handleRemoveItem(item.id)} className="text-rose-600 p-1"><Trash2 className="w-3.5 h-3.5" /></button>
+                      <button type="button" onClick={() => handleRemoveItem(item.id)} className="text-rose-600 p-1"><Trash2 className="w-3.5 h-3.5 shrink-0" /></button>
                     )}
                   </div>
                 ))}
