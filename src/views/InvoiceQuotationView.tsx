@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { Quotation, QuotationItem } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { FileText, Printer, Plus, CheckCircle2 } from 'lucide-react';
+import { FileText, Printer, Plus, CheckCircle2, Trash2 } from 'lucide-react';
 
 export const InvoiceQuotationView: React.FC = () => {
   const { quotations, addQuotation, convertQuotationToOrder, taxSetting } = useApp();
@@ -11,14 +11,14 @@ export const InvoiceQuotationView: React.FC = () => {
   const [isQuotationModalOpen, setIsQuotationModalOpen] = useState(false);
 
   // New Quotation Form State
-  const [quoNo] = useState(`QUO-2026-${Date.now().toString().slice(-4)}`);
+  const [quoNo, setQuoNo] = useState(`QUO-2026-${Date.now().toString().slice(-4)}`);
   const [custName, setCustName] = useState('');
   const [custPhone, setCustPhone] = useState('');
   const [custAddress, setCustAddress] = useState('');
   const [projectName, setProjectName] = useState('');
 
   // Scope Items
-  const [items] = useState<QuotationItem[]>([
+  const [items, setItems] = useState<QuotationItem[]>([
     {
       id: 'qi-1',
       title: 'Kitchen Set Minimalis Main Cabinet',
@@ -30,6 +30,57 @@ export const InvoiceQuotationView: React.FC = () => {
       totalPrice: 18500000
     }
   ]);
+
+  const [itemTitle, setItemTitle] = useState('');
+  const [itemSpec, setItemSpec] = useState('');
+  const [itemDim, setItemDim] = useState('');
+  const [itemPrice, setItemPrice] = useState<number>(5000000);
+
+  const handleAddItem = () => {
+    if (!itemTitle || !itemPrice) return;
+    setItems(prev => [
+      ...prev,
+      {
+        id: `qi-${Date.now()}`,
+        title: itemTitle,
+        specification: itemSpec || 'Spesifikasi standar studio',
+        dimensions: itemDim || 'Custom Fitout',
+        unit: 'Set',
+        quantity: 1,
+        unitPrice: itemPrice,
+        totalPrice: itemPrice
+      }
+    ]);
+    setItemTitle('');
+    setItemSpec('');
+    setItemDim('');
+    setItemPrice(5000000);
+  };
+
+  const handleRemoveItem = (id: string) => {
+    setItems(prev => prev.filter(i => i.id !== id));
+  };
+
+  const handleOpenNewModal = () => {
+    setQuoNo(`QUO-2026-${Date.now().toString().slice(-4)}`);
+    setCustName('');
+    setCustPhone('');
+    setCustAddress('');
+    setProjectName('');
+    setItems([
+      {
+        id: 'qi-1',
+        title: 'Kitchen Set Minimalis Main Cabinet',
+        specification: 'Multiplek 18mm, HPL Taco Wood Grain, engsel soft-close Hafele',
+        dimensions: 'P 350 x L 60 x T 280 cm',
+        unit: 'Set',
+        quantity: 1,
+        unitPrice: 18500000,
+        totalPrice: 18500000
+      }
+    ]);
+    setIsQuotationModalOpen(true);
+  };
 
   const handleCreateQuotation = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,8 +96,8 @@ export const InvoiceQuotationView: React.FC = () => {
       date: new Date().toISOString().split('T')[0],
       validUntil: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       customerName: custName,
-      customerPhone: custPhone,
-      customerAddress: custAddress,
+      customerPhone: custPhone || '08123456789',
+      customerAddress: custAddress || 'Lokasi Site Proyek Klien',
       projectName: projectName || 'Proyek Custom Fitout Interior',
       items,
       subtotal: sub,
@@ -82,7 +133,7 @@ export const InvoiceQuotationView: React.FC = () => {
         </div>
 
         <button
-          onClick={() => setIsQuotationModalOpen(true)}
+          onClick={handleOpenNewModal}
           className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
         >
           <Plus className="w-4 h-4" />
@@ -181,7 +232,7 @@ export const InvoiceQuotationView: React.FC = () => {
                 >
                   <Printer className="w-4 h-4" /> Cetak PDF
                 </button>
-                {selectedQuotation.status !== 'Approved' && (
+                {selectedQuotation.status !== 'Approved' && selectedQuotation.status !== 'Converted to Order' && (
                   <button
                     onClick={() => convertQuotationToOrder(selectedQuotation.id)}
                     className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5"
@@ -197,18 +248,66 @@ export const InvoiceQuotationView: React.FC = () => {
         </div>
       </div>
 
-      {/* NEW QUOTATION MODAL */}
+      {/* NEW QUOTATION MODAL WITH ITEM BUILDER */}
       {isQuotationModalOpen && (
         <Modal isOpen={isQuotationModalOpen} onClose={() => setIsQuotationModalOpen(false)} title="Buat Surat Penawaran Baru">
           <form onSubmit={handleCreateQuotation} className="space-y-4 text-xs text-zinc-900 dark:text-zinc-100">
-            <div>
-              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Klien</label>
-              <input type="text" required value={custName} onChange={e => setCustName(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nomor Surat Penawaran</label>
+                <input type="text" readOnly value={quoNo} className="w-full p-2.5 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-700 dark:text-zinc-300 font-mono" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Proyek Fitout</label>
+                <input type="text" required value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="Kitchen Set & Backdrop TV" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
             </div>
-            <div>
-              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Judul Proyek</label>
-              <input type="text" required value={projectName} onChange={e => setProjectName(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Klien</label>
+                <input type="text" required value={custName} onChange={e => setCustName(e.target.value)} placeholder="Bpk. Hendra Kusuma" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Telepon / WhatsApp</label>
+                <input type="text" value={custPhone} onChange={e => setCustPhone(e.target.value)} placeholder="081234567890" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
             </div>
+
+            <div>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Alamat Lokasi Proyek</label>
+              <input type="text" value={custAddress} onChange={e => setCustAddress(e.target.value)} placeholder="Jl. Senopati No. 45, Jakarta" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+            </div>
+
+            {/* Scope Items Builder */}
+            <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 space-y-3">
+              <h4 className="font-bold text-zinc-900 dark:text-white text-xs">Tambah Item Pekerjaan</h4>
+              <div className="grid grid-cols-2 gap-2">
+                <input type="text" placeholder="Judul Pekerjaan (ex: Cabinet)" value={itemTitle} onChange={e => setItemTitle(e.target.value)} className="p-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-white" />
+                <input type="text" placeholder="Spesifikasi Material" value={itemSpec} onChange={e => setItemSpec(e.target.value)} className="p-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-white" />
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                <input type="text" placeholder="Dimensi (ex: P 300 x L 60)" value={itemDim} onChange={e => setItemDim(e.target.value)} className="p-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-white" />
+                <input type="number" placeholder="Harga (Rp)" value={itemPrice} onChange={e => setItemPrice(Number(e.target.value))} className="p-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-white" />
+                <button type="button" onClick={handleAddItem} className="py-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold rounded-lg text-xs">+ Tambah Item</button>
+              </div>
+
+              {/* Added Items List */}
+              <div className="space-y-2 pt-2">
+                {items.map(item => (
+                  <div key={item.id} className="flex justify-between items-center p-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px]">
+                    <div>
+                      <p className="font-bold text-zinc-900 dark:text-white">{item.title}</p>
+                      <p className="text-zinc-400">{item.dimensions} — {formatRupiah(item.totalPrice)}</p>
+                    </div>
+                    {items.length > 1 && (
+                      <button type="button" onClick={() => handleRemoveItem(item.id)} className="text-rose-600 p-1"><Trash2 className="w-3.5 h-3.5" /></button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <button type="submit" className="w-full py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl">Terbitkan Penawaran</button>
           </form>
         </Modal>

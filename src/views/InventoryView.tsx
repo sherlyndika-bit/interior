@@ -59,6 +59,7 @@ export const InventoryView: React.FC = () => {
     setProdStock(5);
     setProdMinStock(2);
     setProdUnit('Unit');
+    setProdImage('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&auto=format&fit=crop&q=80');
     setIsProductModalOpen(true);
   };
 
@@ -127,6 +128,19 @@ export const InventoryView: React.FC = () => {
     setMatMinStock(15);
     setMatCost(200000);
     setMatSupplier('PT Timber Jaya');
+    setIsMaterialModalOpen(true);
+  };
+
+  const handleOpenEditMaterial = (m: RawMaterial) => {
+    setEditingMaterial(m);
+    setMatCode(m.code);
+    setMatName(m.name);
+    setMatCategory(m.category);
+    setMatUnit(m.unit);
+    setMatStock(m.stock);
+    setMatMinStock(m.minStock);
+    setMatCost(m.costPerUnit);
+    setMatSupplier(m.supplier);
     setIsMaterialModalOpen(true);
   };
 
@@ -313,7 +327,8 @@ export const InventoryView: React.FC = () => {
                   </td>
                   <td className="p-4 font-mono">{formatRupiah(m.costPerUnit)}</td>
                   <td className="p-4 text-zinc-500 dark:text-zinc-400">{m.supplier}</td>
-                  <td className="p-4 text-right">
+                  <td className="p-4 text-right space-x-1">
+                    <button onClick={() => handleOpenEditMaterial(m)} className="p-1.5 rounded-lg hover:bg-zinc-100 text-zinc-700 dark:hover:bg-zinc-800 dark:text-zinc-300"><Edit className="w-4 h-4" /></button>
                     <button onClick={() => deleteRawMaterial(m.id)} className="p-1.5 rounded-lg hover:bg-rose-50 text-rose-600 dark:hover:bg-rose-500/10 dark:text-rose-400"><Trash2 className="w-4 h-4" /></button>
                   </td>
                 </tr>
@@ -323,37 +338,128 @@ export const InventoryView: React.FC = () => {
         </div>
       )}
 
-      {/* PRODUCT MODAL */}
+      {/* PRODUCT MODAL FULL FORM */}
       {isProductModalOpen && (
         <Modal isOpen={isProductModalOpen} onClose={() => setIsProductModalOpen(false)} title={editingProduct ? 'Edit Produk' : 'Tambah Produk Baru'}>
           <form onSubmit={handleSaveProduct} className="space-y-4 text-xs text-zinc-900 dark:text-zinc-100">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Kode Produk</label>
+                <input type="text" required value={prodCode} onChange={e => setProdCode(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white font-mono" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Kategori Produk</label>
+                <select value={prodCategory} onChange={e => setProdCategory(e.target.value as any)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white">
+                  <option value="Kitchen Set">Kitchen Set</option>
+                  <option value="Bedroom">Bedroom</option>
+                  <option value="Living Room">Living Room</option>
+                  <option value="Office">Office</option>
+                  <option value="Wardrobe">Wardrobe</option>
+                  <option value="Wall Panel">Wall Panel</option>
+                  <option value="Custom Fitout">Custom Fitout</option>
+                </select>
+              </div>
+            </div>
+
             <div>
               <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Produk</label>
-              <input type="text" required value={prodName} onChange={e => setProdName(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              <input type="text" required value={prodName} onChange={e => setProdName(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
             </div>
+
+            <div>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Deskripsi Produk</label>
+              <textarea rows={2} value={prodDesc} onChange={e => setProdDesc(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Harga Jual (Rp)</label>
-                <input type="number" required value={prodPrice} onChange={e => setProdPrice(Number(e.target.value))} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+                <input type="number" required value={prodPrice} onChange={e => setProdPrice(Number(e.target.value))} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
               </div>
               <div>
-                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Stok Unit</label>
-                <input type="number" required value={prodStock} onChange={e => setProdStock(Number(e.target.value))} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Estimasi HPP Modal (Rp)</label>
+                <input type="number" required value={prodCost} onChange={e => setProdCost(Number(e.target.value))} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
               </div>
             </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Stok Unit</label>
+                <input type="number" required value={prodStock} onChange={e => setProdStock(Number(e.target.value))} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Min. Stok Warning</label>
+                <input type="number" required value={prodMinStock} onChange={e => setProdMinStock(Number(e.target.value))} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Satuan</label>
+                <input type="text" required value={prodUnit} onChange={e => setProdUnit(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">URL Gambar Foto</label>
+              <input type="text" value={prodImage} onChange={e => setProdImage(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+            </div>
+
             <button type="submit" className="w-full py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Produk</button>
           </form>
         </Modal>
       )}
 
-      {/* MATERIAL MODAL */}
+      {/* MATERIAL MODAL FULL FORM */}
       {isMaterialModalOpen && (
-        <Modal isOpen={isMaterialModalOpen} onClose={() => setIsMaterialModalOpen(false)} title="Tambah Material Bahan Mentah">
+        <Modal isOpen={isMaterialModalOpen} onClose={() => setIsMaterialModalOpen(false)} title={editingMaterial ? 'Edit Material Bahan Mentah' : 'Tambah Material Bahan Mentah'}>
           <form onSubmit={handleSaveMaterial} className="space-y-4 text-xs text-zinc-900 dark:text-zinc-100">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Kode Material</label>
+                <input type="text" required value={matCode} onChange={e => setMatCode(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white font-mono" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Kategori Material</label>
+                <select value={matCategory} onChange={e => setMatCategory(e.target.value as any)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white">
+                  <option value="Papan Wood">Papan Wood</option>
+                  <option value="HPL & Veneer">HPL & Veneer</option>
+                  <option value="Hardware & Aksesoris">Hardware & Aksesoris</option>
+                  <option value="Cat & Finishing">Cat & Finishing</option>
+                  <option value="Kaca & Cermin">Kaca & Cermin</option>
+                  <option value="Busa & Kain">Busa & Kain</option>
+                </select>
+              </div>
+            </div>
+
             <div>
               <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Material Bahan</label>
-              <input type="text" required value={matName} onChange={e => setMatName(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              <input type="text" required value={matName} onChange={e => setMatName(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
             </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Stok Tersedia</label>
+                <input type="number" required value={matStock} onChange={e => setMatStock(Number(e.target.value))} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Min. Stok Warning</label>
+                <input type="number" required value={matMinStock} onChange={e => setMatMinStock(Number(e.target.value))} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Satuan</label>
+                <input type="text" required value={matUnit} onChange={e => setMatUnit(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Harga Modal / Unit (Rp)</label>
+                <input type="number" required value={matCost} onChange={e => setMatCost(Number(e.target.value))} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Supplier / Vendor</label>
+                <input type="text" required value={matSupplier} onChange={e => setMatSupplier(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+            </div>
+
             <button type="submit" className="w-full py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Material</button>
           </form>
         </Modal>

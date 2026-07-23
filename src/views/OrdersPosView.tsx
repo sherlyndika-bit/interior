@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { Order, OrderItem, OrderStage } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { ShoppingCart, Plus, Search, ChevronRight } from 'lucide-react';
+import { ShoppingCart, Plus, Search, ChevronRight, CheckCircle2, DollarSign, PackageCheck } from 'lucide-react';
 
 export const OrdersPosView: React.FC = () => {
   const {
@@ -12,6 +12,8 @@ export const OrdersPosView: React.FC = () => {
     customers,
     orders,
     addOrder,
+    updateOrderStatus,
+    addPaymentMilestone,
     promos,
     taxSetting,
     addCustomer
@@ -24,12 +26,14 @@ export const OrdersPosView: React.FC = () => {
 
   // Selected Order for Detail Modal
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [paymentAmount, setPaymentAmount] = useState<number>(0);
+  const [paymentMethod, setPaymentMethod] = useState<'Transfer Bank' | 'Tunai' | 'QRIS' | 'Kartu Kredit'>('Transfer Bank');
 
   // POS Cart State
   const [cartItems, setCartItems] = useState<OrderItem[]>([]);
-  const [selectedCustomerId] = useState<string>(customers[0]?.id || '');
-  const [appliedPromoCode] = useState<string>('');
-  const [posNotes] = useState<string>('');
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string>(customers[0]?.id || '');
+  const [appliedPromoCode, setAppliedPromoCode] = useState<string>('');
+  const [posNotes, setPosNotes] = useState<string>('');
 
   // New Custom Pre-Order Form State
   const [customClientName, setCustomClientName] = useState('');
@@ -132,6 +136,8 @@ export const OrdersPosView: React.FC = () => {
 
     addOrder(newOrd);
     setCartItems([]);
+    setAppliedPromoCode('');
+    setPosNotes('');
     setActiveTab('orders_list');
   };
 
@@ -231,6 +237,13 @@ export const OrdersPosView: React.FC = () => {
     setCustomDpPercent(50);
   };
 
+  const handleRecordPayment = (orderId: string) => {
+    if (paymentAmount <= 0) return;
+    addPaymentMilestone(orderId, paymentMethod, paymentAmount);
+    setPaymentAmount(0);
+    setSelectedOrder(null);
+  };
+
   // Filter Orders List
   const filteredOrders = orders.filter(o => {
     const matchesSearch = o.orderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -239,6 +252,17 @@ export const OrdersPosView: React.FC = () => {
     const matchesStage = selectedStage === 'Semua' || o.stage === selectedStage;
     return matchesSearch && matchesStage;
   });
+
+  const allStages: OrderStage[] = [
+    'Draft',
+    'DP Paid',
+    'In Production',
+    'Quality Control',
+    'Ready for Delivery',
+    'Installed',
+    'Completed',
+    'Cancelled'
+  ];
 
   const stageBadgeColor: Record<OrderStage, string> = {
     'Draft': 'bg-zinc-100 text-zinc-700 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700',
@@ -339,7 +363,10 @@ export const OrdersPosView: React.FC = () => {
             {filteredOrders.map((order) => (
               <div
                 key={order.id}
-                onClick={() => setSelectedOrder(order)}
+                onClick={() => {
+                  setSelectedOrder(order);
+                  setPaymentAmount(order.remainingBalance);
+                }}
                 className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-zinc-300 dark:hover:border-zinc-700 transition-all cursor-pointer space-y-3"
               >
                 <div className="flex items-center justify-between">
@@ -358,19 +385,25 @@ export const OrdersPosView: React.FC = () => {
 
                 <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 text-xs space-y-1">
                   <div className="flex justify-between text-zinc-500 dark:text-zinc-400">
-                    <span>Total Transaksi:</span>
+                    <span>Total Kontrak:</span>
                     <span className="font-bold text-zinc-900 dark:text-white">{formatRupiah(order.grandTotal)}</span>
                   </div>
                   <div className="flex justify-between text-zinc-500 dark:text-zinc-400">
                     <span>Terbayar:</span>
                     <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatRupiah(order.paidAmount)}</span>
                   </div>
+                  {order.remainingBalance > 0 && (
+                    <div className="flex justify-between text-rose-600 dark:text-rose-400 font-semibold">
+                      <span>Sisa Pelunasan:</span>
+                      <span>{formatRupiah(order.remainingBalance)}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] text-zinc-400 font-mono pt-1">
                   <span>{formatDate(order.date)}</span>
                   <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300 font-semibold">
-                    Detail <ChevronRight className="w-3.5 h-3.5" />
+                    Detail & Kelola <ChevronRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </div>
@@ -405,6 +438,22 @@ export const OrdersPosView: React.FC = () => {
 
           <div className="lg:col-span-5 space-y-4 bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 h-fit shadow-sm">
             <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Ringkasan Kasir POS</h2>
+
+            {/* Customer Selector */}
+            <div>
+              <label className="block text-xs text-zinc-600 dark:text-zinc-400 font-medium mb-1">Pilih Klien / Pembeli</label>
+              <select
+                value={selectedCustomerId}
+                onChange={e => setSelectedCustomerId(e.target.value)}
+                className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-900 dark:text-white"
+              >
+                {customers.map(c => (
+                  <option key={c.id} value={c.id}>{c.name} ({c.phone})</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Cart Items */}
             {cartItems.length === 0 ? (
               <p className="text-xs text-zinc-400 py-8 text-center">Keranjang masih kosong</p>
             ) : (
@@ -418,10 +467,35 @@ export const OrdersPosView: React.FC = () => {
                     <button onClick={() => removeFromCart(idx)} className="text-rose-600 hover:text-rose-700 text-xs font-medium">Hapus</button>
                   </div>
                 ))}
+
+                {/* Promo Code Input */}
+                <div>
+                  <label className="block text-xs text-zinc-600 dark:text-zinc-400 font-medium mb-1">Kode Voucher Promo</label>
+                  <input
+                    type="text"
+                    value={appliedPromoCode}
+                    onChange={e => setAppliedPromoCode(e.target.value)}
+                    placeholder="Contoh: FITOUT500"
+                    className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-900 dark:text-white uppercase font-mono"
+                  />
+                  {matchedPromo && (
+                    <p className="text-[10px] text-emerald-600 dark:text-emerald-400 mt-1 font-semibold">
+                      Voucher Valid: Potongan {matchedPromo.type === 'fixed' ? formatRupiah(matchedPromo.value) : `${matchedPromo.value}%`}
+                    </p>
+                  )}
+                </div>
+
                 <div className="pt-2 border-t border-zinc-200 dark:border-zinc-800 space-y-1.5 text-xs">
                   <div className="flex justify-between text-zinc-500"><span>Subtotal:</span><span>{formatRupiah(posSubtotal)}</span></div>
+                  {posDiscount > 0 && (
+                    <div className="flex justify-between text-emerald-600 font-medium"><span>Diskon Promo:</span><span>-{formatRupiah(posDiscount)}</span></div>
+                  )}
+                  {taxSetting.enablePPN && (
+                    <div className="flex justify-between text-zinc-500"><span>PPN ({taxSetting.ppnRate}%):</span><span>{formatRupiah(posTax)}</span></div>
+                  )}
                   <div className="flex justify-between font-bold text-zinc-900 dark:text-white text-sm pt-2"><span>Total Akhir:</span><span>{formatRupiah(posGrandTotal)}</span></div>
                 </div>
+
                 <button
                   onClick={handleCheckoutPOS}
                   className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm"
@@ -439,17 +513,43 @@ export const OrdersPosView: React.FC = () => {
         <form onSubmit={handleSaveCustomOrder} className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-6 shadow-sm">
           <h2 className="text-base font-bold text-zinc-900 dark:text-white tracking-tight">Formulir Pre-Order Custom Fitout</h2>
           <div className="space-y-4 text-xs">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Klien / Pemilik Proyek</label>
+                <input
+                  type="text"
+                  required
+                  value={customClientName}
+                  onChange={e => setCustomClientName(e.target.value)}
+                  className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
+                  placeholder="Contoh: Bpk. Hendra Kusuma"
+                />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nomor Telepon / WA</label>
+                <input
+                  type="text"
+                  required
+                  value={customClientPhone}
+                  onChange={e => setCustomClientPhone(e.target.value)}
+                  className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
+                  placeholder="081234567890"
+                />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Klien / Pemilik Proyek</label>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Alamat Site Pemasangan</label>
               <input
                 type="text"
                 required
-                value={customClientName}
-                onChange={e => setCustomClientName(e.target.value)}
+                value={customClientAddress}
+                onChange={e => setCustomClientAddress(e.target.value)}
                 className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
-                placeholder="Contoh: Bpk. Hendra Kusuma"
+                placeholder="Jl. Senopati No. 45, Jakarta Selatan"
               />
             </div>
+
             <div>
               <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Judul Proyek Fitout</label>
               <input
@@ -461,15 +561,39 @@ export const OrdersPosView: React.FC = () => {
                 placeholder="Contoh: Kitchen Set & Backdrop TV Penthouse"
               />
             </div>
+
             <div>
-              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nilai Kontrak Proyek (Rp)</label>
-              <input
-                type="number"
-                value={customPrice}
-                onChange={e => setCustomPrice(Number(e.target.value))}
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Spesifikasi Material & Fitting</label>
+              <textarea
+                rows={3}
+                value={customSpecs}
+                onChange={e => setCustomSpecs(e.target.value)}
                 className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
+                placeholder="Multiplek 18mm, HPL Taco Wood Grain, engsel soft-close Hafele"
               />
             </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nilai Kontrak (Rp)</label>
+                <input
+                  type="number"
+                  value={customPrice}
+                  onChange={e => setCustomPrice(Number(e.target.value))}
+                  className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
+                />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Persentase DP (%)</label>
+                <input
+                  type="number"
+                  value={customDpPercent}
+                  onChange={e => setCustomDpPercent(Number(e.target.value))}
+                  className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:border-zinc-400"
+                />
+              </div>
+            </div>
+
             <button
               type="submit"
               className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
@@ -480,14 +604,91 @@ export const OrdersPosView: React.FC = () => {
         </form>
       )}
 
-      {/* DETAIL ORDER MODAL */}
+      {/* DETAIL ORDER & MANAGEMENT MODAL */}
       {selectedOrder && (
-        <Modal isOpen={!!selectedOrder} onClose={() => setSelectedOrder(null)} title={`Detail Pesanan: ${selectedOrder.orderNumber}`}>
-          <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-300">
-            <p><strong className="text-zinc-900 dark:text-white">Klien:</strong> {selectedOrder.customerName}</p>
-            <p><strong className="text-zinc-900 dark:text-white">Tahap Produksi:</strong> {selectedOrder.stage}</p>
-            <p><strong className="text-zinc-900 dark:text-white">Total Kontrak:</strong> {formatRupiah(selectedOrder.grandTotal)}</p>
-            <div className="flex justify-end pt-4">
+        <Modal isOpen={!!selectedOrder} onClose={() => setSelectedOrder(null)} title={`Kelola Pesanan: ${selectedOrder.orderNumber}`}>
+          <div className="space-y-5 text-xs text-zinc-700 dark:text-zinc-300">
+            {/* Info Summary */}
+            <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="font-bold text-zinc-900 dark:text-white text-sm">{selectedOrder.customerName}</span>
+                <span className="font-mono text-zinc-500">{selectedOrder.customerPhone}</span>
+              </div>
+              <p className="text-zinc-500 font-normal">{selectedOrder.customerAddress}</p>
+            </div>
+
+            {/* Stage Selector */}
+            <div>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-bold mb-1">Ubah Tahap Produksi / Proyek</label>
+              <select
+                value={selectedOrder.stage}
+                onChange={(e) => {
+                  const nextStage = e.target.value as OrderStage;
+                  updateOrderStatus(selectedOrder.id, nextStage);
+                  setSelectedOrder({ ...selectedOrder, stage: nextStage });
+                }}
+                className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white font-semibold"
+              >
+                {allStages.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Payment Summary & Record Milestone */}
+            <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-3">
+              <h4 className="font-bold text-zinc-900 dark:text-white flex items-center gap-1.5">
+                <DollarSign className="w-4 h-4 text-emerald-600" />
+                Status Pembayaran Milestone
+              </h4>
+              <div className="flex justify-between text-xs">
+                <span>Total Kontrak:</span>
+                <span className="font-bold text-zinc-900 dark:text-white">{formatRupiah(selectedOrder.grandTotal)}</span>
+              </div>
+              <div className="flex justify-between text-xs text-emerald-600 font-semibold">
+                <span>Sudah Dibayar:</span>
+                <span>{formatRupiah(selectedOrder.paidAmount)}</span>
+              </div>
+              <div className="flex justify-between text-xs text-rose-600 font-bold">
+                <span>Sisa Tagihan:</span>
+                <span>{formatRupiah(selectedOrder.remainingBalance)}</span>
+              </div>
+
+              {selectedOrder.remainingBalance > 0 && (
+                <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 space-y-3">
+                  <div>
+                    <label className="block text-zinc-500 mb-1">Metode Pembayaran</label>
+                    <select
+                      value={paymentMethod}
+                      onChange={e => setPaymentMethod(e.target.value as any)}
+                      className="w-full p-2 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-white"
+                    >
+                      <option value="Transfer Bank">Transfer Bank</option>
+                      <option value="Tunai">Tunai</option>
+                      <option value="QRIS">QRIS</option>
+                      <option value="Kartu Kredit">Kartu Kredit</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-zinc-500 mb-1">Jumlah Catat Pelunasan (Rp)</label>
+                    <input
+                      type="number"
+                      value={paymentAmount}
+                      onChange={e => setPaymentAmount(Number(e.target.value))}
+                      className="w-full p-2 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-white"
+                    />
+                  </div>
+                  <button
+                    onClick={() => handleRecordPayment(selectedOrder.id)}
+                    className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs"
+                  >
+                    Catat Pembayaran Masuk
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end pt-2">
               <button onClick={() => setSelectedOrder(null)} className="px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 font-medium">Tutup</button>
             </div>
           </div>

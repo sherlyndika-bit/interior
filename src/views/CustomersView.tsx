@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { Customer } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { Users, Plus, Search, Phone, History, Trash2 } from 'lucide-react';
+import { Users, Plus, Search, Phone, Mail, MapPin, History, Edit, Trash2 } from 'lucide-react';
 
 export const CustomersView: React.FC = () => {
   const { customers, orders, addCustomer, updateCustomer, deleteCustomer } = useApp();
@@ -27,6 +27,23 @@ export const CustomersView: React.FC = () => {
     c.city.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleOpenNew = () => {
+    resetForm();
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEdit = (c: Customer) => {
+    setEditingCustomer(c);
+    setCode(c.code);
+    setName(c.name);
+    setPhone(c.phone);
+    setEmail(c.email);
+    setAddress(c.address);
+    setCity(c.city);
+    setNotes(c.notes);
+    setIsModalOpen(true);
+  };
+
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !phone) return;
@@ -34,11 +51,12 @@ export const CustomersView: React.FC = () => {
     if (editingCustomer) {
       updateCustomer({
         ...editingCustomer,
+        code: code || editingCustomer.code,
         name,
         phone,
         email,
         address,
-        city,
+        city: city || 'Jabodetabek',
         notes
       });
     } else {
@@ -91,10 +109,7 @@ export const CustomersView: React.FC = () => {
         </div>
 
         <button
-          onClick={() => {
-            resetForm();
-            setIsModalOpen(true);
-          }}
+          onClick={handleOpenNew}
           className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
         >
           <Plus className="w-4 h-4" />
@@ -134,6 +149,12 @@ export const CustomersView: React.FC = () => {
                     <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     <span>{c.phone}</span>
                   </p>
+                  {c.email && (
+                    <p className="text-xs text-zinc-400 flex items-center gap-1.5 mt-0.5">
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>{c.email}</span>
+                    </p>
+                  )}
                 </div>
 
                 <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 text-xs space-y-1">
@@ -156,7 +177,10 @@ export const CustomersView: React.FC = () => {
                   <History className="w-3.5 h-3.5 text-zinc-600 dark:text-zinc-400" />
                   <span>Riwayat</span>
                 </button>
-                <button onClick={() => deleteCustomer(c.id)} className="p-1.5 rounded-lg hover:bg-rose-50 text-rose-600 dark:hover:bg-rose-500/10 dark:text-rose-400"><Trash2 className="w-4 h-4" /></button>
+                <div className="flex items-center gap-1">
+                  <button onClick={() => handleOpenEdit(c)} className="p-1.5 rounded-lg hover:bg-zinc-100 text-zinc-700 dark:hover:bg-zinc-800 dark:text-zinc-300"><Edit className="w-4 h-4" /></button>
+                  <button onClick={() => deleteCustomer(c.id)} className="p-1.5 rounded-lg hover:bg-rose-50 text-rose-600 dark:hover:bg-rose-500/10 dark:text-rose-400"><Trash2 className="w-4 h-4" /></button>
+                </div>
               </div>
             </div>
           );
@@ -187,18 +211,47 @@ export const CustomersView: React.FC = () => {
         </Modal>
       )}
 
-      {/* MODAL ADD CLIENT */}
+      {/* MODAL ADD / EDIT CLIENT */}
       {isModalOpen && (
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Tambah Klien Baru">
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingCustomer ? 'Edit Data Klien' : 'Tambah Klien Baru'}>
           <form onSubmit={handleSave} className="space-y-4 text-xs text-zinc-900 dark:text-zinc-100">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Kode Klien</label>
+                <input type="text" value={code} onChange={e => setCode(e.target.value)} placeholder="CUST-0001" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white font-mono" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Kota / Wilayah</label>
+                <input type="text" value={city} onChange={e => setCity(e.target.value)} placeholder="Jakarta Selatan" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+            </div>
+
             <div>
               <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Lengkap Klien</label>
-              <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
             </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nomor WhatsApp / HP</label>
+                <input type="text" required value={phone} onChange={e => setPhone(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Email</label>
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nomor WhatsApp / HP</label>
-              <input type="text" required value={phone} onChange={e => setPhone(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Alamat Lengkap Site</label>
+              <textarea rows={2} value={address} onChange={e => setAddress(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
             </div>
+
+            <div>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Catatan Preferensi Gaya / Interior</label>
+              <input type="text" value={notes} onChange={e => setNotes(e.target.value)} placeholder="Suka gaya Japandi & HPL Taco Wood" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+            </div>
+
             <button type="submit" className="w-full py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Klien</button>
           </form>
         </Modal>

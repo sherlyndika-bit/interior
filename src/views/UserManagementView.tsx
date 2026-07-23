@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { User, UserRole } from '../types';
 import { Modal } from '../components/Modal';
-import { ShieldCheck, UserPlus, Trash2 } from 'lucide-react';
+import { ShieldCheck, UserPlus, Edit, Trash2 } from 'lucide-react';
 
 export const UserManagementView: React.FC = () => {
   const { users, addUser, updateUser, deleteUser } = useAuth();
@@ -14,6 +14,20 @@ export const UserManagementView: React.FC = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [role, setRole] = useState<UserRole>('kasir');
+
+  const handleOpenNew = () => {
+    resetForm();
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEdit = (u: User) => {
+    setEditingUser(u);
+    setName(u.name);
+    setEmail(u.email);
+    setUsername(u.username);
+    setRole(u.role);
+    setIsModalOpen(true);
+  };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +42,8 @@ export const UserManagementView: React.FC = () => {
         email,
         username,
         role,
-        initials
+        initials,
+        permissions: role === 'owner' ? ['all'] : role === 'kasir' ? ['pos', 'customers'] : role === 'gudang' ? ['inventory'] : ['schedule']
       });
     } else {
       addUser({
@@ -38,7 +53,7 @@ export const UserManagementView: React.FC = () => {
         username,
         role,
         initials,
-        permissions: role === 'owner' ? ['all'] : ['pos', 'customers']
+        permissions: role === 'owner' ? ['all'] : role === 'kasir' ? ['pos', 'customers'] : role === 'gudang' ? ['inventory'] : ['schedule']
       });
     }
 
@@ -69,10 +84,7 @@ export const UserManagementView: React.FC = () => {
         </div>
 
         <button
-          onClick={() => {
-            resetForm();
-            setIsModalOpen(true);
-          }}
+          onClick={handleOpenNew}
           className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
         >
           <UserPlus className="w-4 h-4" />
@@ -113,7 +125,8 @@ export const UserManagementView: React.FC = () => {
                 <td className="p-4 font-mono text-zinc-500 dark:text-zinc-400 text-[11px]">
                   {u.permissions.includes('all') ? 'Seluruh Modul (Super Admin)' : `${u.permissions.length} Modul Terbatas`}
                 </td>
-                <td className="p-4 text-right">
+                <td className="p-4 text-right space-x-1">
+                  <button onClick={() => handleOpenEdit(u)} className="p-1.5 rounded-lg hover:bg-zinc-100 text-zinc-700 dark:hover:bg-zinc-800 dark:text-zinc-300"><Edit className="w-4 h-4" /></button>
                   {u.role !== 'owner' && (
                     <button onClick={() => deleteUser(u.id)} className="p-1.5 rounded-lg hover:bg-rose-50 text-rose-600 dark:hover:bg-rose-500/10 dark:text-rose-400">
                       <Trash2 className="w-4 h-4" />
@@ -128,23 +141,29 @@ export const UserManagementView: React.FC = () => {
 
       {/* USER MODAL */}
       {isModalOpen && (
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Tambah Akun Staff Baru">
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingUser ? 'Edit Akun Staff' : 'Tambah Akun Staff Baru'}>
           <form onSubmit={handleSave} className="space-y-4 text-xs text-zinc-900 dark:text-zinc-100">
             <div>
               <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Nama Lengkap Karyawan</label>
-              <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Username Login</label>
+                <input type="text" required value={username} onChange={e => setUsername(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white font-mono" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Email</label>
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" placeholder="email@interiorcraft.com" />
+              </div>
             </div>
             <div>
-              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Username Login</label>
-              <input type="text" required value={username} onChange={e => setUsername(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white font-mono" />
-            </div>
-            <div>
-              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Peran Akses</label>
-              <select value={role} onChange={e => setRole(e.target.value as UserRole)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white">
-                <option value="owner">Owner / Super Admin</option>
-                <option value="kasir">Kasir & Sales POS</option>
-                <option value="gudang">Manajer Gudang</option>
-                <option value="teknisi">Teknisi & Logistik</option>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Peran Akses Sistem</label>
+              <select value={role} onChange={e => setRole(e.target.value as UserRole)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white">
+                <option value="owner">Owner / Super Admin (Akses Penuh)</option>
+                <option value="kasir">Kasir & Sales POS (Modul Kasir + CRM)</option>
+                <option value="gudang">Manajer Gudang (Modul Stok & Bahan)</option>
+                <option value="teknisi">Teknisi & Logistik (Modul Pemasangan Site)</option>
               </select>
             </div>
             <button type="submit" className="w-full py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Akun Staff</button>

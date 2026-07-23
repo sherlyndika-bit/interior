@@ -12,9 +12,9 @@ export const ScheduleView: React.FC = () => {
   // New Schedule State
   const [orderId, setOrderId] = useState(orders[0]?.id || '');
   const [scheduledDate, setScheduledDate] = useState('2026-07-28');
-  const [timeSlot] = useState('09:00 - 15:00 WIB');
-  const [team] = useState('Rudi Hartono (Lead) + Sujatno (Fitting)');
-  const [notes] = useState('Bawa bor beton & silicone sealant transparan.');
+  const [timeSlot, setTimeSlot] = useState('09:00 - 15:00 WIB');
+  const [team, setTeam] = useState('Rudi Hartono (Lead) + Sujatno (Fitting)');
+  const [notes, setNotes] = useState('Bawa bor beton & silicone sealant transparan.');
 
   const columns: { status: InstallationSchedule['status']; title: string; color: string; icon: any }[] = [
     { status: 'Scheduled', title: 'Terjadwal Pengiriman', color: 'border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200', icon: Calendar },
@@ -110,6 +110,7 @@ export const ScheduleView: React.FC = () => {
                     <div className="p-2.5 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 text-[11px] text-zinc-500 dark:text-zinc-400 space-y-0.5">
                       <p><strong className="text-zinc-900 dark:text-white">Tim:</strong> {item.assignedTeam.join(', ')}</p>
                       <p><strong className="text-zinc-900 dark:text-white">Slot:</strong> {item.timeSlot}</p>
+                      {item.notes && <p className="italic text-zinc-400 text-[10px]">{item.notes}</p>}
                     </div>
 
                     {/* Stage Transition Selector */}
@@ -132,22 +133,40 @@ export const ScheduleView: React.FC = () => {
         })}
       </div>
 
-      {/* NEW SCHEDULE MODAL */}
+      {/* NEW SCHEDULE MODAL WITH COMPLETE FIELDS */}
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Jadwalkan Pemasangan Baru">
           <form onSubmit={handleCreate} className="space-y-4 text-xs text-zinc-900 dark:text-zinc-100">
             <div>
               <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Pilih Nomor Pesanan / Klien</label>
-              <select value={orderId} onChange={e => setOrderId(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white">
+              <select value={orderId} onChange={e => setOrderId(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white">
                 {orders.map(o => (
                   <option key={o.id} value={o.id}>{o.orderNumber} — {o.customerName}</option>
                 ))}
               </select>
             </div>
-            <div>
-              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Tanggal Rencana Pemasangan</label>
-              <input type="date" value={scheduledDate} onChange={e => setScheduledDate(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Tanggal Pemasangan</label>
+                <input type="date" value={scheduledDate} onChange={e => setScheduledDate(e.target.value)} className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
+              <div>
+                <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Slot Waktu</label>
+                <input type="text" value={timeSlot} onChange={e => setTimeSlot(e.target.value)} placeholder="09:00 - 15:00 WIB" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+              </div>
             </div>
+
+            <div>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Tim Instalatir & Driver Assigned</label>
+              <input type="text" value={team} onChange={e => setTeam(e.target.value)} placeholder="Rudi (Lead) + Sujatno (Fitting)" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+            </div>
+
+            <div>
+              <label className="block text-zinc-600 dark:text-zinc-400 font-medium mb-1">Catatan Instruksi Site</label>
+              <input type="text" value={notes} onChange={e => setNotes(e.target.value)} placeholder="Bawa bor beton & silicone sealant" className="w-full p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white" />
+            </div>
+
             <button type="submit" className="w-full py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Jadwal</button>
           </form>
         </Modal>

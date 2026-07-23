@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { formatRupiah } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { DollarSign, Plus } from 'lucide-react';
+import { DollarSign, Plus, CheckCircle2, XCircle } from 'lucide-react';
 
 export const PayrollTaxView: React.FC = () => {
   const {
@@ -13,7 +13,8 @@ export const PayrollTaxView: React.FC = () => {
     generatePayroll,
     markPayrollPaid,
     updateTaxSetting,
-    addPromo
+    addPromo,
+    togglePromo
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'payroll' | 'tax' | 'promos'>('payroll');
@@ -192,7 +193,10 @@ export const PayrollTaxView: React.FC = () => {
               <input type="text" value={npwp} onChange={e => setNpwp(e.target.value)} className="w-full p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-white font-mono" />
             </div>
             <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800">
-              <span>Aktifkan PPN 11% Otomatis</span>
+              <div>
+                <span className="font-bold text-zinc-900 dark:text-white block">Aktifkan PPN 11% Otomatis</span>
+                <span className="text-zinc-400 text-[11px]">PPN akan otomatis dihitung pada setiap Invoice & POS checkout</span>
+              </div>
               <input type="checkbox" checked={enablePPN} onChange={e => setEnablePPN(e.target.checked)} className="w-4 h-4 accent-zinc-900 dark:accent-white" />
             </div>
             <button type="submit" className="w-full py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Pengaturan Pajak</button>
@@ -209,10 +213,26 @@ export const PayrollTaxView: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {promos.map(p => (
-              <div key={p.id} className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-2.5 shadow-sm">
-                <span className="font-mono font-bold text-zinc-900 dark:text-white text-base">{p.code}</span>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 font-normal">{p.description}</p>
-                <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Potongan: {p.type === 'fixed' ? formatRupiah(p.value) : `${p.value}%`}</p>
+              <div key={p.id} className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-3 shadow-sm flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-mono font-bold text-zinc-900 dark:text-white text-base">{p.code}</span>
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${p.isActive ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300' : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'}`}>
+                      {p.isActive ? 'AKTIF' : 'NON-AKTIF'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 font-normal">{p.description}</p>
+                  <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Potongan: {p.type === 'fixed' ? formatRupiah(p.value) : `${p.value}%`}</p>
+                </div>
+
+                <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 flex justify-end">
+                  <button
+                    onClick={() => togglePromo(p.id)}
+                    className="px-3 py-1 rounded-lg text-xs font-medium bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300"
+                  >
+                    {p.isActive ? 'Nonaktifkan' : 'Aktifkan'}
+                  </button>
+                </div>
               </div>
             ))}
           </div>
