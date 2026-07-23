@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
-import { Order, OrderItem, MilestonePayment, OrderType, OrderStage } from '../types';
+import { Order, OrderItem, OrderStage } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { ShoppingCart, Plus, Search, Filter, CheckCircle2, Clock, DollarSign, Calendar, User, FileText, ChevronRight, AlertCircle, ArrowRight } from 'lucide-react';
+import { ShoppingCart, Plus, Search, CheckCircle2, Clock, DollarSign, Calendar, User, FileText, ChevronRight, AlertCircle, ArrowRight } from 'lucide-react';
 
 export const OrdersPosView: React.FC = () => {
   const {
@@ -149,7 +149,6 @@ export const OrdersPosView: React.FC = () => {
     e.preventDefault();
     if (!customClientName || !customProjectTitle) return;
 
-    // Check or create customer
     let cust = customers.find(c => c.phone === customClientPhone || c.name.toLowerCase() === customClientName.toLowerCase());
     if (!cust) {
       cust = {
@@ -251,37 +250,37 @@ export const OrdersPosView: React.FC = () => {
   });
 
   const stageBadgeColor: Record<OrderStage, string> = {
-    'Draft': 'bg-slate-800 text-slate-300 border-slate-700',
-    'DP Paid': 'bg-blue-950 text-blue-300 border-blue-500/40',
-    'In Production': 'bg-amber-950 text-amber-300 border-amber-500/40',
-    'Quality Control': 'bg-purple-950 text-purple-300 border-purple-500/40',
-    'Ready for Delivery': 'bg-cyan-950 text-cyan-300 border-cyan-500/40',
-    'Installed': 'bg-emerald-950 text-emerald-300 border-emerald-500/40',
-    'Completed': 'bg-emerald-950 text-emerald-300 border-emerald-500/40',
-    'Cancelled': 'bg-rose-950 text-rose-300 border-rose-500/40'
+    'Draft': 'bg-stone-900 text-stone-300 border-stone-800',
+    'DP Paid': 'bg-blue-500/10 text-blue-300 border-blue-500/30',
+    'In Production': 'bg-amber-500/10 text-amber-300 border-amber-500/30',
+    'Quality Control': 'bg-purple-500/10 text-purple-300 border-purple-500/30',
+    'Ready for Delivery': 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30',
+    'Installed': 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30',
+    'Completed': 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30',
+    'Cancelled': 'bg-rose-500/10 text-rose-300 border-rose-500/30'
   };
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-16 text-stone-100 font-sans">
       {/* View Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-900 pb-6">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <ShoppingCart className="w-6 h-6 text-amber-400" />
-            Manajemen Pesanan, POS & Pre-Order Custom
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <ShoppingCart className="w-6 h-6 text-amber-300" />
+            Manajemen Pesanan & Terminal POS
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Kasir barang ready stock & pemantauan tahap produksi proyek custom interior dengan DP bertahap.
+          <p className="text-xs text-stone-400 mt-1 font-light">
+            Pengelolaan kasir barang ready stock & pemantauan alur produksi fitout custom interior.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setActiveTab('orders_list')}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-4 py-2.5 rounded-full text-xs font-mono uppercase tracking-widest transition-all ${
               activeTab === 'orders_list'
-                ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white'
+                ? 'bg-white text-stone-950 font-bold shadow-md'
+                : 'bg-stone-950 border border-stone-800 text-stone-400 hover:text-white'
             }`}
           >
             Daftar Pesanan ({orders.length})
@@ -289,179 +288,123 @@ export const OrdersPosView: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('pos')}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2.5 rounded-full text-xs font-mono uppercase tracking-widest transition-all flex items-center gap-1.5 ${
               activeTab === 'pos'
-                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
-                : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white'
+                ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40 font-bold shadow-md'
+                : 'bg-stone-950 border border-stone-800 text-stone-400 hover:text-white'
             }`}
           >
             <ShoppingCart className="w-3.5 h-3.5" />
-            <span>Terminal POS Ready</span>
+            <span>Terminal POS</span>
           </button>
 
           <button
             onClick={() => setActiveTab('new_custom')}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2.5 rounded-full text-xs font-mono uppercase tracking-widest transition-all flex items-center gap-1.5 ${
               activeTab === 'new_custom'
-                ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white'
+                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold shadow-md'
+                : 'bg-stone-950 border border-stone-800 text-stone-400 hover:text-white'
             }`}
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>Buat Pre-Order Custom</span>
+            <span>Pre-Order Custom</span>
           </button>
         </div>
       </div>
 
-      {/* Tab 1: Orders List Table */}
+      {/* TAB 1: ORDERS LIST (KANBAN & TABLE LIST) */}
       {activeTab === 'orders_list' && (
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
-              <Filter className="w-4 h-4 text-slate-400 shrink-0" />
-              {['Semua', 'DP Paid', 'In Production', 'Quality Control', 'Installed', 'Completed'].map(stage => (
-                <button
-                  key={stage}
-                  onClick={() => setSelectedStage(stage)}
-                  className={`px-3 py-1 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                    selectedStage === stage
-                      ? 'bg-amber-500 text-slate-950 font-bold'
-                      : 'bg-slate-900 border border-slate-800 text-slate-300'
-                  }`}
-                >
-                  {stage}
-                </button>
-              ))}
-            </div>
-
-            <div className="relative w-full sm:w-64">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <div className="relative w-full sm:w-80">
+              <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari no. order / nama klien..."
-                className="w-full pl-9 pr-4 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
+                placeholder="Cari nomor order, klien..."
+                className="w-full pl-10 pr-4 py-2 bg-[#0A0908] border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500"
               />
+            </div>
+
+            <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 scrollbar-none">
+              {['Semua', 'DP Paid', 'In Production', 'Quality Control', 'Installed', 'Completed'].map((stg) => (
+                <button
+                  key={stg}
+                  onClick={() => setSelectedStage(stg)}
+                  className={`px-3 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
+                    selectedStage === stg
+                      ? 'bg-stone-100 text-stone-950 font-bold'
+                      : 'bg-stone-950 border border-stone-800 text-stone-400 hover:text-white'
+                  }`}
+                >
+                  {stg}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="glass-panel border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-slate-950/80 text-slate-400 font-semibold border-b border-slate-800 uppercase tracking-wider text-[10px]">
-                  <tr>
-                    <th className="px-4 py-3">No. Order & Tanggal</th>
-                    <th className="px-4 py-3">Pelanggan & Kontak</th>
-                    <th className="px-4 py-3">Tipe & Proyek Item</th>
-                    <th className="px-4 py-3">Tahap Produksi</th>
-                    <th className="px-4 py-3">Grand Total</th>
-                    <th className="px-4 py-3">Status DP / Pembayaran</th>
-                    <th className="px-4 py-3 text-right">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800/60">
-                  {filteredOrders.map((ord) => (
-                    <tr key={ord.id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="px-4 py-3">
-                        <div className="font-bold text-amber-400 font-mono">{ord.orderNumber}</div>
-                        <div className="text-[10px] text-slate-500">{formatDate(ord.date)}</div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="font-bold text-slate-100">{ord.customerName}</div>
-                        <div className="text-[10px] text-slate-400">{ord.customerPhone}</div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold border block w-max mb-1 ${
-                          ord.type === 'Pre-Order / Custom'
-                            ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
-                            : 'bg-blue-500/10 text-blue-300 border-blue-500/30'
-                        }`}>
-                          {ord.type}
-                        </span>
-                        <div className="text-slate-300 truncate max-w-xs font-medium">
-                          {ord.items.map(i => i.productName).join(', ')}
-                        </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <select
-                          value={ord.stage}
-                          onChange={(e) => updateOrderStatus(ord.id, e.target.value as any)}
-                          className={`px-2 py-1 rounded-lg text-[10px] font-bold border focus:outline-none cursor-pointer ${stageBadgeColor[ord.stage]}`}
-                        >
-                          <option value="Draft">Draft</option>
-                          <option value="DP Paid">DP Paid</option>
-                          <option value="In Production">In Production</option>
-                          <option value="Quality Control">Quality Control</option>
-                          <option value="Ready for Delivery">Ready for Delivery</option>
-                          <option value="Installed">Installed</option>
-                          <option value="Completed">Completed</option>
-                        </select>
-                      </td>
-                      <td className="px-4 py-3 font-mono font-bold text-slate-100">
-                        {formatRupiah(ord.grandTotal)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="space-y-1">
-                          <div className="flex items-center justify-between text-[10px]">
-                            <span className="text-emerald-400 font-bold">Terbayar: {formatRupiah(ord.paidAmount)}</span>
-                          </div>
-                          {ord.remainingBalance > 0 ? (
-                            <span className="text-[10px] font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20 block w-max">
-                              Sisa: {formatRupiah(ord.remainingBalance)}
-                            </span>
-                          ) : (
-                            <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 block w-max">
-                              LUNAS 100%
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <button
-                          onClick={() => setSelectedOrder(ord)}
-                          className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold transition-colors"
-                        >
-                          Rincian & DP
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredOrders.map((order) => (
+              <div
+                key={order.id}
+                onClick={() => setSelectedOrder(order)}
+                className="p-6 rounded-3xl bg-[#0A0908] border border-stone-900 shadow-xl hover:border-stone-700 transition-all cursor-pointer space-y-4"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono text-stone-400 font-bold">{order.orderNumber}</span>
+                  <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider border ${stageBadgeColor[order.stage]}`}>
+                    {order.stage}
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="font-bold text-white text-base line-clamp-1">{order.customerName}</h3>
+                  <p className="text-xs text-stone-400 font-light line-clamp-1">
+                    {order.items.map(i => i.productName).join(', ')}
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-[#050505] border border-stone-900 text-xs space-y-1.5">
+                  <div className="flex justify-between text-stone-400">
+                    <span>Total Transaksi:</span>
+                    <span className="font-bold text-white">{formatRupiah(order.grandTotal)}</span>
+                  </div>
+                  <div className="flex justify-between text-stone-400">
+                    <span>Terbayar:</span>
+                    <span className="font-bold text-emerald-400">{formatRupiah(order.paidAmount)}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] text-stone-500 font-mono">
+                  <span>{formatDate(order.date)}</span>
+                  <span className="flex items-center gap-1 text-amber-300 font-bold">
+                    Detail <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
-      {/* Tab 2: Terminal POS Ready Stock */}
+      {/* TAB 2: TERMINAL POS READY */}
       {activeTab === 'pos' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left: Product Selector */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-7 space-y-4">
-            <h2 className="text-sm font-bold text-slate-300 uppercase tracking-wider">
-              Pilih Produk Ready Stock:
-            </h2>
+            <h2 className="text-sm font-mono uppercase tracking-widest text-amber-300">Pilih Produk Ready Stock</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {products.map((p) => (
-                <div key={p.id} className="glass-card p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3">
-                  <div className="flex gap-3">
-                    <img src={p.images[0]} alt={p.name} className="w-14 h-14 object-cover rounded-lg border border-slate-800" />
-                    <div>
-                      <span className="text-[10px] font-mono text-amber-400">{p.code}</span>
-                      <h3 className="font-bold text-xs text-white line-clamp-1">{p.name}</h3>
-                      <div className="text-xs font-bold text-emerald-400 mt-1">{formatRupiah(p.basePrice)}</div>
-                      <div className="text-[10px] text-slate-400">Stok: {p.stock} {p.unit}</div>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-1.5">
+              {products.map(p => (
+                <div key={p.id} className="p-4 rounded-3xl bg-[#0A0908] border border-stone-900 space-y-3">
+                  <img src={p.images[0]} alt={p.name} className="w-full h-32 object-cover rounded-2xl" />
+                  <h3 className="font-bold text-white text-sm line-clamp-1">{p.name}</h3>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-amber-300">{formatRupiah(p.basePrice)}</span>
                     <button
                       onClick={() => addToCart(p.id)}
-                      disabled={p.stock <= 0}
-                      className="w-full py-1.5 bg-amber-500 hover:bg-amber-400 disabled:bg-slate-800 text-slate-950 font-bold text-xs rounded-lg transition-all"
+                      className="px-3 py-1.5 rounded-full bg-white text-stone-950 font-bold text-xs hover:bg-stone-200 transition-colors"
                     >
-                      + Tambah ke Keranjang
+                      + Tambah
                     </button>
                   </div>
                 </div>
@@ -469,301 +412,93 @@ export const OrdersPosView: React.FC = () => {
             </div>
           </div>
 
-          {/* Right: Checkout Cart Panel */}
-          <div className="lg:col-span-5 glass-panel bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 flex flex-col justify-between shadow-2xl">
-            <div>
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="font-extrabold text-white text-base flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-amber-400" />
-                  Keranjang Kasir POS
-                </h3>
-                <span className="text-xs text-slate-400">{cartItems.length} Item</span>
-              </div>
-
-              {/* Customer Selector */}
-              <div className="mt-4">
-                <label className="block text-xs font-semibold text-slate-400 mb-1">Pilih Pelanggan:</label>
-                <select
-                  value={selectedCustomerId}
-                  onChange={(e) => setSelectedCustomerId(e.target.value)}
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white"
-                >
-                  {customers.map(c => (
-                    <option key={c.id} value={c.id}>{c.name} ({c.phone})</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Cart Items List */}
-              <div className="mt-4 space-y-2 max-h-60 overflow-y-auto pr-1">
+          <div className="lg:col-span-5 space-y-4 bg-[#0A0908] p-6 rounded-3xl border border-stone-900 h-fit">
+            <h2 className="text-sm font-mono uppercase tracking-widest text-amber-300">Ringkasan Kasir POS</h2>
+            {cartItems.length === 0 ? (
+              <p className="text-xs text-stone-500 py-8 text-center">Keranjang masih kosong</p>
+            ) : (
+              <div className="space-y-4">
                 {cartItems.map((item, idx) => (
-                  <div key={idx} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2 text-xs">
+                  <div key={idx} className="flex items-center justify-between text-xs border-b border-stone-900 pb-2">
                     <div>
-                      <div className="font-bold text-white">{item.productName}</div>
-                      <div className="text-[10px] text-slate-400">{formatRupiah(item.unitPrice)} x {item.quantity}</div>
+                      <p className="font-bold text-white">{item.productName}</p>
+                      <p className="text-stone-500">{item.quantity} x {formatRupiah(item.unitPrice)}</p>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-mono font-bold text-amber-400">{formatRupiah(item.subtotal)}</span>
-                      <button onClick={() => removeFromCart(idx)} className="text-rose-400 font-bold hover:bg-slate-800 p-1 rounded">×</button>
-                    </div>
+                    <button onClick={() => removeFromCart(idx)} className="text-rose-400 hover:text-rose-300 text-xs">Hapus</button>
                   </div>
                 ))}
-                {cartItems.length === 0 && (
-                  <div className="text-center py-8 text-xs text-slate-500 italic">
-                    Keranjang masih kosong. Klik "+ Tambah ke Keranjang".
-                  </div>
-                )}
-              </div>
-
-              {/* Promo Code Input */}
-              <div className="mt-4 flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Kode Promo (e.g. PROMOJULI)"
-                  value={appliedPromoCode}
-                  onChange={(e) => setAppliedPromoCode(e.target.value)}
-                  className="flex-1 p-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white"
-                />
-              </div>
-            </div>
-
-            {/* Calculations Breakdown */}
-            <div className="border-t border-slate-800 pt-4 space-y-2 text-xs">
-              <div className="flex justify-between text-slate-400">
-                <span>Subtotal</span>
-                <span>{formatRupiah(posSubtotal)}</span>
-              </div>
-              {posDiscount > 0 && (
-                <div className="flex justify-between text-amber-400 font-semibold">
-                  <span>Diskon Promo ({matchedPromo?.code})</span>
-                  <span>-{formatRupiah(posDiscount)}</span>
+                <div className="pt-2 border-t border-stone-900 space-y-1.5 text-xs">
+                  <div className="flex justify-between"><span>Subtotal:</span><span>{formatRupiah(posSubtotal)}</span></div>
+                  <div className="flex justify-between font-bold text-white text-sm pt-2"><span>Total Akhir:</span><span>{formatRupiah(posGrandTotal)}</span></div>
                 </div>
-              )}
-              {taxSetting.enablePPN && (
-                <div className="flex justify-between text-slate-400">
-                  <span>PPN {taxSetting.ppnRate}%</span>
-                  <span>+{formatRupiah(posTax)}</span>
-                </div>
-              )}
-              <div className="flex justify-between text-base font-extrabold text-white pt-2 border-t border-slate-800">
-                <span>Grand Total</span>
-                <span className="text-amber-400">{formatRupiah(posGrandTotal)}</span>
+                <button
+                  onClick={handleCheckoutPOS}
+                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all"
+                >
+                  Proses Transaksi POS
+                </button>
               </div>
-
-              <button
-                onClick={handleCheckoutPOS}
-                disabled={cartItems.length === 0}
-                className="w-full py-3 bg-amber-500 hover:bg-amber-400 disabled:bg-slate-800 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg shadow-amber-500/20 transition-all mt-3"
-              >
-                Proses Pembayaran & Cetak Nota
-              </button>
-            </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Tab 3: New Custom Pre-Order Form */}
+      {/* TAB 3: NEW CUSTOM PRE-ORDER */}
       {activeTab === 'new_custom' && (
-        <div className="max-w-3xl mx-auto glass-panel bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl">
-          <h2 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-            <Plus className="w-5 h-5 text-amber-400" />
-            Formulir Pesanan Pre-Order / Custom Fitout Baru
-          </h2>
-
-          <form onSubmit={handleSaveCustomOrder} className="space-y-4 text-xs">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">Nama Klien / Pelanggan *</label>
-                <input
-                  type="text"
-                  required
-                  value={customClientName}
-                  onChange={(e) => setCustomClientName(e.target.value)}
-                  placeholder="e.g. Bpk. Irwan Syahputra"
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">No. WhatsApp Klien *</label>
-                <input
-                  type="text"
-                  required
-                  value={customClientPhone}
-                  onChange={(e) => setCustomClientPhone(e.target.value)}
-                  placeholder="0812xxxxxxx"
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div className="sm:col-span-2">
-                <label className="block text-slate-400 font-semibold mb-1">Alamat Site / Lokasi Instalasi</label>
-                <input
-                  type="text"
-                  value={customClientAddress}
-                  onChange={(e) => setCustomClientAddress(e.target.value)}
-                  placeholder="Cluster Residensial BSD Blok C12, Tangerang"
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div className="sm:col-span-2">
-                <label className="block text-slate-400 font-semibold mb-1">Judul Proyek Furniture *</label>
-                <input
-                  type="text"
-                  required
-                  value={customProjectTitle}
-                  onChange={(e) => setCustomProjectTitle(e.target.value)}
-                  placeholder="Kitchen Set L-Shape & Island Bar Custom 4M"
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div className="sm:col-span-2">
-                <label className="block text-slate-400 font-semibold mb-1">Spesifikasi Teknik & Material</label>
-                <textarea
-                  rows={3}
-                  value={customSpecs}
-                  onChange={(e) => setCustomSpecs(e.target.value)}
-                  placeholder="Multiplek 18mm, HPL Taco Grey Matt, top marble quartz white, engsel Hafele soft-close."
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">Nilai Kesepakatan Proyek (IDR) *</label>
-                <input
-                  type="number"
-                  required
-                  value={customPrice}
-                  onChange={(e) => setCustomPrice(Number(e.target.value))}
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">Estimasi Modal Pokok Bahan (HPP)</label>
-                <input
-                  type="number"
-                  required
-                  value={customCost}
-                  onChange={(e) => setCustomCost(Number(e.target.value))}
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">Down Payment (DP %)</label>
-                <select
-                  value={customDpPercent}
-                  onChange={(e) => setCustomDpPercent(Number(e.target.value))}
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                >
-                  <option value={30}>DP 30%</option>
-                  <option value={50}>DP 50% (Standard)</option>
-                  <option value={70}>DP 70%</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">Target Tanggal Selesai Instalasi</label>
-                <input
-                  type="date"
-                  value={customTargetDate}
-                  onChange={(e) => setCustomTargetDate(e.target.value)}
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-                />
-              </div>
+        <form onSubmit={handleSaveCustomOrder} className="max-w-2xl mx-auto bg-[#0A0908] p-8 rounded-3xl border border-stone-900 space-y-6">
+          <h2 className="text-lg font-bold text-white tracking-tight">Formulir Pre-Order Custom Fitout</h2>
+          <div className="space-y-4 text-xs">
+            <div>
+              <label className="block text-stone-400 mb-1">Nama Klien / Pemilik Proyek</label>
+              <input
+                type="text"
+                required
+                value={customClientName}
+                onChange={e => setCustomClientName(e.target.value)}
+                className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white focus:outline-none focus:border-stone-500"
+                placeholder="Contoh: Bpk. Hendra Kusuma"
+              />
             </div>
-
-            {/* Summary preview */}
-            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
-              <div>
-                <span className="text-[10px] text-amber-300 uppercase tracking-wider font-bold">DP Awal Yang Diterima ({customDpPercent}%):</span>
-                <div className="text-base font-extrabold text-white">{formatRupiah((customPrice * customDpPercent) / 100)}</div>
-              </div>
-              <div>
-                <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Sisa Pelunasan Site:</span>
-                <div className="text-base font-extrabold text-amber-400">{formatRupiah(customPrice - (customPrice * customDpPercent) / 100)}</div>
-              </div>
+            <div>
+              <label className="block text-stone-400 mb-1">Judul Proyek Fitout</label>
+              <input
+                type="text"
+                required
+                value={customProjectTitle}
+                onChange={e => setCustomProjectTitle(e.target.value)}
+                className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white focus:outline-none focus:border-stone-500"
+                placeholder="Contoh: Kitchen Set & Backdrop TV Penthouse"
+              />
             </div>
-
-            <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
-              <button
-                type="button"
-                onClick={() => setActiveTab('orders_list')}
-                className="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-semibold hover:bg-slate-700"
-              >
-                Batal
-              </button>
-              <button
-                type="submit"
-                className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold shadow-lg shadow-amber-500/20"
-              >
-                Simpan Pre-Order & Catat DP
-              </button>
+            <div>
+              <label className="block text-stone-400 mb-1">Nilai Kontrak Proyek (Rp)</label>
+              <input
+                type="number"
+                value={customPrice}
+                onChange={e => setCustomPrice(Number(e.target.value))}
+                className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white focus:outline-none focus:border-stone-500"
+              />
             </div>
-          </form>
-        </div>
+            <button
+              type="submit"
+              className="w-full py-3.5 bg-white text-stone-950 font-bold text-xs uppercase tracking-widest rounded-full hover:bg-stone-200 transition-all"
+            >
+              Simpan & Terbitkan Pre-Order DP
+            </button>
+          </div>
+        </form>
       )}
 
-      {/* Order Details & Payment Modal */}
+      {/* DETAIL ORDER MODAL */}
       {selectedOrder && (
-        <Modal
-          isOpen={!!selectedOrder}
-          onClose={() => setSelectedOrder(null)}
-          title={`Rincian Order: ${selectedOrder.orderNumber}`}
-          maxWidth="max-w-2xl"
-        >
-          <div className="space-y-4 text-xs">
-            <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-950 border border-slate-800">
-              <div>
-                <span className="text-slate-500 block">Klien:</span>
-                <span className="font-bold text-white">{selectedOrder.customerName} ({selectedOrder.customerPhone})</span>
-              </div>
-              <div>
-                <span className="text-slate-500 block">Tahap Produksi:</span>
-                <span className="font-bold text-amber-400">{selectedOrder.stage}</span>
-              </div>
+        <Modal isOpen={!!selectedOrder} onClose={() => setSelectedOrder(null)} title={`Detail Pesanan: ${selectedOrder.orderNumber}`}>
+          <div className="space-y-4 text-xs text-stone-300">
+            <p><strong className="text-white">Klien:</strong> {selectedOrder.customerName}</p>
+            <p><strong className="text-white">Tahap Produksi:</strong> {selectedOrder.stage}</p>
+            <p><strong className="text-white">Total Kontrak:</strong> {formatRupiah(selectedOrder.grandTotal)}</p>
+            <div className="flex justify-end pt-4">
+              <button onClick={() => setSelectedOrder(null)} className="px-4 py-2 rounded-full bg-stone-800 text-white">Tutup</button>
             </div>
-
-            {/* Milestones Payment Breakdown */}
-            <div>
-              <h4 className="font-bold text-slate-300 mb-2">Riwayat Tahap Pembayaran (DP Milestones):</h4>
-              <div className="space-y-2">
-                {selectedOrder.milestones.map((m) => (
-                  <div key={m.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                    <div>
-                      <div className="font-bold text-white">{m.name}</div>
-                      <div className="text-[10px] text-slate-400">Jatuh Tempo: {formatDate(m.dueDate)}</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-mono font-bold text-amber-400">{formatRupiah(m.amount)}</div>
-                      <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
-                        m.status === 'Paid' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'
-                      }`}>
-                        {m.status === 'Paid' ? `LUNAS (${m.paymentMethod || 'Bank'})` : 'BELUM DIBAYAR'}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Catat Pelunasan Button */}
-            {selectedOrder.remainingBalance > 0 && (
-              <div className="pt-2">
-                <button
-                  onClick={() => {
-                    addPaymentMilestone(selectedOrder.id, 'Transfer Bank', selectedOrder.remainingBalance);
-                    setSelectedOrder(null);
-                  }}
-                  className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl"
-                >
-                  Catat Pelunasan Sisa ({formatRupiah(selectedOrder.remainingBalance)})
-                </button>
-              </div>
-            )}
           </div>
         </Modal>
       )}

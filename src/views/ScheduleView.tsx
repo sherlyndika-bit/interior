@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { InstallationSchedule } from '../types';
 import { formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { Calendar, Truck, Wrench, CheckCircle2, Plus, MapPin, Phone, User, Clock, Image, ArrowRight } from 'lucide-react';
+import { Calendar, Truck, Wrench, CheckCircle2, Plus } from 'lucide-react';
 
 export const ScheduleView: React.FC = () => {
   const { schedules, addSchedule, updateScheduleStatus, orders } = useApp();
@@ -17,10 +17,10 @@ export const ScheduleView: React.FC = () => {
   const [notes, setNotes] = useState('Bawa bor beton & silicone sealant transparan.');
 
   const columns: { status: InstallationSchedule['status']; title: string; color: string; icon: any }[] = [
-    { status: 'Scheduled', title: 'Terjadwal Pengiriman', color: 'border-blue-500/40 bg-blue-950/20 text-blue-300', icon: Calendar },
-    { status: 'In Transit', title: 'Dalam Perjalanan Driver', color: 'border-amber-500/40 bg-amber-950/20 text-amber-300', icon: Truck },
-    { status: 'In Progress', title: 'Proses Fitting di Site', color: 'border-purple-500/40 bg-purple-950/20 text-purple-300', icon: Wrench },
-    { status: 'Installed', title: 'Selesai & BAST Terbit', color: 'border-emerald-500/40 bg-emerald-950/20 text-emerald-300', icon: CheckCircle2 }
+    { status: 'Scheduled', title: 'Terjadwal Pengiriman', color: 'border-blue-500/30 bg-blue-500/10 text-blue-300', icon: Calendar },
+    { status: 'In Transit', title: 'Dalam Perjalanan Driver', color: 'border-amber-500/30 bg-amber-500/10 text-amber-300', icon: Truck },
+    { status: 'In Progress', title: 'Proses Fitting di Site', color: 'border-purple-500/30 bg-purple-500/10 text-purple-300', icon: Wrench },
+    { status: 'Installed', title: 'Selesai & BAST Terbit', color: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300', icon: CheckCircle2 }
   ];
 
   const handleCreate = (e: React.FormEvent) => {
@@ -47,22 +47,22 @@ export const ScheduleView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-16 text-stone-100 font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-900 pb-6">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <Truck className="w-6 h-6 text-amber-400" />
-            Jadwal Pengiriman & Instalasi Site
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <Truck className="w-6 h-6 text-amber-300" />
+            Jadwal Pengiriman & Instalasi Lapangan
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Papan Kanban tugas armada logistik & tim teknisi instalasi di lokasi klien.
+          <p className="text-xs text-stone-400 mt-1 font-light">
+            Kanban pemantauan armada logistik & tim pertukangan di lokasi proyek klien.
           </p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl flex items-center gap-2 transition-all shadow-md shadow-amber-500/20"
+          className="px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl"
         >
           <Plus className="w-4 h-4" />
           <span>Jadwalkan Instalasi Baru</span>
@@ -78,12 +78,12 @@ export const ScheduleView: React.FC = () => {
           return (
             <div key={col.status} className="space-y-4">
               {/* Column Header */}
-              <div className={`p-3 rounded-xl border ${col.color} flex items-center justify-between`}>
+              <div className={`p-4 rounded-3xl border ${col.color} flex items-center justify-between`}>
                 <div className="flex items-center gap-2 font-bold text-xs">
                   <ColIcon className="w-4 h-4" />
                   <span>{col.title}</span>
                 </div>
-                <span className="text-xs font-mono font-extrabold px-2 py-0.5 rounded bg-slate-950/60 border border-slate-800">
+                <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-stone-950 border border-stone-800">
                   {items.length}
                 </span>
               </div>
@@ -93,142 +93,62 @@ export const ScheduleView: React.FC = () => {
                 {items.map((item) => (
                   <div
                     key={item.id}
-                    className="glass-card p-4 rounded-xl border border-slate-800 space-y-3 hover:border-slate-700 transition-all"
+                    className="p-5 rounded-3xl bg-[#0A0908] border border-stone-900 space-y-3 hover:border-stone-700 transition-all shadow-xl"
                   >
                     <div className="flex items-start justify-between">
-                      <span className="font-mono font-bold text-amber-400 text-xs">{item.orderNumber}</span>
-                      <span className="text-[10px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-amber-400" />
+                      <span className="font-mono font-bold text-amber-300 text-xs">{item.orderNumber}</span>
+                      <span className="text-[10px] font-mono text-stone-400 bg-[#050505] px-2.5 py-1 rounded-full border border-stone-800">
                         {formatDate(item.scheduledDate)}
                       </span>
                     </div>
 
-                    <div>
-                      <h4 className="font-bold text-white text-xs">{item.customerName}</h4>
-                      <div className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
-                        <Phone className="w-3 h-3 text-amber-400" />
-                        <span>{item.phone}</span>
-                      </div>
-                      <div className="text-[11px] text-slate-400 flex items-start gap-1 mt-1">
-                        <MapPin className="w-3 h-3 text-rose-400 shrink-0 mt-0.5" />
-                        <span className="line-clamp-2">{item.address}</span>
-                      </div>
+                    <div className="space-y-1">
+                      <h4 className="font-extrabold text-white text-sm">{item.customerName}</h4>
+                      <p className="text-xs text-stone-400 font-light line-clamp-2">{item.address}</p>
                     </div>
 
-                    <div className="p-2 rounded-lg bg-slate-950 border border-slate-800 text-[10px] text-slate-300">
-                      <strong className="text-amber-400 block">Tim Teknisi:</strong>
-                      {item.assignedTeam.join(', ')}
+                    <div className="p-3 rounded-2xl bg-[#050505] border border-stone-900 text-[11px] text-stone-400 space-y-1">
+                      <p><strong className="text-white">Tim:</strong> {item.assignedTeam.join(', ')}</p>
+                      <p><strong className="text-white">Slot:</strong> {item.timeSlot}</p>
                     </div>
-
-                    {item.notes && (
-                      <p className="text-[10px] text-slate-400 italic">
-                        Catatan: "{item.notes}"
-                      </p>
-                    )}
-
-                    {item.completionPhoto && (
-                      <img src={item.completionPhoto} alt="Foto Hasil Fitting" className="w-full h-24 object-cover rounded-lg border border-slate-800" />
-                    )}
 
                     {/* Stage Transition Selector */}
-                    <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-                      <span className="text-[10px] text-slate-500">Ubah Status:</span>
-                      <select
-                        value={item.status}
-                        onChange={(e) => updateScheduleStatus(item.id, e.target.value as any)}
-                        className="p-1 rounded bg-slate-950 border border-slate-800 text-[10px] text-amber-300 font-bold focus:outline-none cursor-pointer"
-                      >
-                        <option value="Scheduled">Scheduled</option>
-                        <option value="In Transit">In Transit</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Installed">Installed</option>
-                      </select>
+                    <div className="pt-2 border-t border-stone-900 flex justify-end gap-1 text-[11px]">
+                      {col.status === 'Scheduled' && (
+                        <button onClick={() => updateScheduleStatus(item.id, 'In Transit')} className="px-3 py-1 rounded-full bg-stone-900 text-amber-300 hover:bg-stone-800">Mulai Transit ➔</button>
+                      )}
+                      {col.status === 'In Transit' && (
+                        <button onClick={() => updateScheduleStatus(item.id, 'In Progress')} className="px-3 py-1 rounded-full bg-stone-900 text-purple-300 hover:bg-stone-800">Fitting Site ➔</button>
+                      )}
+                      {col.status === 'In Progress' && (
+                        <button onClick={() => updateScheduleStatus(item.id, 'Installed')} className="px-3 py-1 rounded-full bg-emerald-600 text-white hover:bg-emerald-500 font-bold">Terbitkan BAST ✓</button>
+                      )}
                     </div>
                   </div>
                 ))}
-
-                {items.length === 0 && (
-                  <div className="p-6 rounded-xl border border-dashed border-slate-800 text-center text-xs text-slate-600">
-                    Kosong
-                  </div>
-                )}
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* New Schedule Modal */}
+      {/* NEW SCHEDULE MODAL */}
       {isModalOpen && (
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title="Buat Jadwal Pengiriman & Instalasi Baru"
-          maxWidth="max-w-md"
-        >
-          <form onSubmit={handleCreate} className="space-y-3 text-xs">
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Jadwalkan Pemasangan Baru">
+          <form onSubmit={handleCreate} className="space-y-4 text-xs text-stone-100">
             <div>
-              <label className="block text-slate-400 font-semibold mb-1">Pilih Pesanan Klien</label>
-              <select
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
-                className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-              >
+              <label className="block text-stone-400 mb-1">Pilih Nomor Pesanan / Klien</label>
+              <select value={orderId} onChange={e => setOrderId(e.target.value)} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white">
                 {orders.map(o => (
-                  <option key={o.id} value={o.id}>{o.orderNumber} - {o.customerName}</option>
+                  <option key={o.id} value={o.id}>{o.orderNumber} — {o.customerName}</option>
                 ))}
               </select>
             </div>
-
             <div>
-              <label className="block text-slate-400 font-semibold mb-1">Tanggal Rencana Instalasi</label>
-              <input
-                type="date"
-                required
-                value={scheduledDate}
-                onChange={(e) => setScheduledDate(e.target.value)}
-                className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-              />
+              <label className="block text-stone-400 mb-1">Tanggal Rencana Pemasangan</label>
+              <input type="date" value={scheduledDate} onChange={e => setScheduledDate(e.target.value)} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
             </div>
-
-            <div>
-              <label className="block text-slate-400 font-semibold mb-1">Tim Teknisi Ditugaskan</label>
-              <input
-                type="text"
-                required
-                value={team}
-                onChange={(e) => setTeam(e.target.value)}
-                placeholder="Rudi (Teknisi 1) + Randi (Driver)"
-                className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-slate-400 font-semibold mb-1">Catatan Peralatan / Petunjuk Site</label>
-              <input
-                type="text"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Bawa tangga lipat 3M & silicone"
-                className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-500"
-              />
-            </div>
-
-            <div className="flex justify-end gap-2 pt-3">
-              <button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-semibold"
-              >
-                Batal
-              </button>
-              <button
-                type="submit"
-                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold"
-              >
-                Simpan Jadwal
-              </button>
-            </div>
+            <button type="submit" className="w-full py-3 bg-white text-stone-950 font-bold text-xs uppercase tracking-widest rounded-full">Simpan Jadwal</button>
           </form>
         </Modal>
       )}

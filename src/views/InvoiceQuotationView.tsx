@@ -3,15 +3,15 @@ import { useApp } from '../context/AppContext';
 import { Quotation, QuotationItem } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { FileText, Printer, Plus, ArrowRight, CheckCircle2, Sparkles, Send, Building } from 'lucide-react';
+import { FileText, Printer, Plus, CheckCircle2 } from 'lucide-react';
 
 export const InvoiceQuotationView: React.FC = () => {
-  const { quotations, addQuotation, convertQuotationToOrder, orders, taxSetting } = useApp();
+  const { quotations, addQuotation, convertQuotationToOrder, taxSetting } = useApp();
   const [selectedQuotation, setSelectedQuotation] = useState<Quotation | null>(quotations[0] || null);
   const [isQuotationModalOpen, setIsQuotationModalOpen] = useState(false);
 
   // New Quotation Form State
-  const [quoNo, setQuoNo] = useState(`QUO-2026-${Date.now().toString().slice(-4)}`);
+  const [quoNo] = useState(`QUO-2026-${Date.now().toString().slice(-4)}`);
   const [custName, setCustName] = useState('');
   const [custPhone, setCustPhone] = useState('');
   const [custAddress, setCustAddress] = useState('');
@@ -93,357 +93,151 @@ export const InvoiceQuotationView: React.FC = () => {
     setIsQuotationModalOpen(false);
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-16 text-stone-100 font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 no-print">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-900 pb-6">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <FileText className="w-6 h-6 text-amber-400" />
-            Generate Invoice & Surat Penawaran (Quotation)
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <FileText className="w-6 h-6 text-amber-300" />
+            Surat Penawaran & Invoice Resmi
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Cetak faktur resmi & surat penawaran proyek dengan kop studio resmi & rincian spesifikasi teknis.
+          <p className="text-xs text-stone-400 mt-1 font-light">
+            Generator dokumen penawaran harga resmi (Quotation) & faktur tagihan fitout custom.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setIsQuotationModalOpen(true)}
-            className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl flex items-center gap-2"
+            className="px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl"
           >
             <Plus className="w-4 h-4" />
             <span>Buat Penawaran Baru</span>
           </button>
-
-          <button
-            onClick={handlePrint}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl flex items-center gap-2 border border-slate-700"
-          >
-            <Printer className="w-4 h-4 text-emerald-400" />
-            <span>Cetak / Export PDF</span>
-          </button>
         </div>
       </div>
 
-      {/* Main Quotation Selector & Document View */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left List Selector */}
-        <div className="lg:col-span-4 space-y-3 no-print">
-          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Daftar Surat Penawaran:</h2>
-          {quotations.map((q) => (
-            <button
-              key={q.id}
-              onClick={() => setSelectedQuotation(q)}
-              className={`w-full text-left p-4 rounded-xl border transition-all ${
-                selectedQuotation?.id === q.id
-                  ? 'bg-amber-500/10 border-amber-500/50 text-amber-300'
-                  : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono font-bold text-xs">{q.quotationNumber}</span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-amber-400 font-bold">
-                  {q.status}
-                </span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left: Quotations List */}
+        <div className="lg:col-span-4 space-y-4">
+          <h2 className="text-xs font-mono uppercase tracking-widest text-amber-300">Daftar Surat Penawaran</h2>
+          <div className="space-y-3">
+            {quotations.map(q => (
+              <div
+                key={q.id}
+                onClick={() => setSelectedQuotation(q)}
+                className={`p-5 rounded-3xl border cursor-pointer transition-all ${
+                  selectedQuotation?.id === q.id
+                    ? 'bg-stone-900 border-stone-700 text-white shadow-xl'
+                    : 'bg-[#0A0908] border-stone-900 text-stone-400 hover:border-stone-800'
+                }`}
+              >
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-mono text-xs font-bold text-amber-300">{q.quotationNumber}</span>
+                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-stone-950 border border-stone-800 text-stone-300">
+                    {q.status}
+                  </span>
+                </div>
+                <h3 className="font-bold text-white text-sm line-clamp-1">{q.projectName}</h3>
+                <p className="text-xs text-stone-400 font-light">{q.customerName}</p>
+                <p className="text-xs font-bold text-emerald-400 pt-2">{formatRupiah(q.grandTotal)}</p>
               </div>
-              <h3 className="font-bold text-white text-xs mt-1">{q.customerName}</h3>
-              <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">{q.projectName}</p>
-              <div className="text-xs font-mono font-bold text-emerald-400 mt-2">{formatRupiah(q.grandTotal)}</div>
-            </button>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* Right Document Printable Paper Sheet */}
-        <div className="lg:col-span-8">
+        {/* Right: Printable Document View */}
+        <div className="lg:col-span-8 bg-[#0A0908] p-8 rounded-3xl border border-stone-900 space-y-6">
           {selectedQuotation ? (
-            <div className="bg-white text-slate-900 p-8 sm:p-12 rounded-2xl shadow-2xl space-y-6 border border-slate-300 text-xs font-sans print:shadow-none print:p-0 print:border-none">
-              {/* Kop Surat Header */}
-              <div className="flex items-center justify-between border-b-2 border-amber-600 pb-4">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-amber-600 flex items-center justify-center text-white font-extrabold text-base">
-                      IC
-                    </div>
-                    <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-                      PT INTERIORCRAFT STUDIO INDONESIA
-                    </h1>
-                  </div>
-                  <p className="text-[11px] text-slate-600">
-                    {taxSetting.companyAddress} | Telp: {taxSetting.companyPhone}
-                  </p>
-                  <p className="text-[10px] font-mono text-slate-500">
-                    NPWP: {taxSetting.companyNPWP}
-                  </p>
+            <div className="space-y-6 text-xs text-stone-300">
+              <div className="flex justify-between items-start border-b border-stone-900 pb-6">
+                <div>
+                  <h2 className="text-xl font-bold text-white tracking-widest uppercase">INTERIORCRAFT STUDIO</h2>
+                  <p className="text-stone-400 text-xs font-light">Jl. Interior Craftsman No. 88, Jakarta Selatan</p>
                 </div>
-
                 <div className="text-right">
-                  <span className="text-lg font-extrabold text-amber-600 block uppercase tracking-wider">
-                    SURAT PENAWARAN
-                  </span>
-                  <span className="font-mono font-bold text-slate-700 text-xs block">
-                    No: {selectedQuotation.quotationNumber}
-                  </span>
-                  <span className="text-[11px] text-slate-500">
-                    Tanggal: {formatDate(selectedQuotation.date)}
-                  </span>
+                  <span className="font-mono font-bold text-amber-300 text-sm">{selectedQuotation.quotationNumber}</span>
+                  <p className="text-stone-400 text-[11px] font-mono">{formatDate(selectedQuotation.date)}</p>
                 </div>
               </div>
 
-              {/* Client Info Block */}
-              <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="grid grid-cols-2 gap-4 p-4 rounded-2xl bg-[#050505] border border-stone-900">
                 <div>
-                  <span className="text-slate-500 font-semibold block text-[10px] uppercase">Penawar Kepada:</span>
-                  <div className="font-bold text-slate-900 text-sm">{selectedQuotation.customerName}</div>
-                  <div className="text-slate-700">{selectedQuotation.customerPhone}</div>
-                  <div className="text-slate-600 text-[11px]">{selectedQuotation.customerAddress}</div>
+                  <span className="text-stone-500 block text-[10px] uppercase font-mono">Kepada Klien:</span>
+                  <p className="font-bold text-white">{selectedQuotation.customerName}</p>
+                  <p className="text-stone-400 font-light">{selectedQuotation.customerPhone}</p>
                 </div>
-
                 <div>
-                  <span className="text-slate-500 font-semibold block text-[10px] uppercase">Nama Proyek Fitout:</span>
-                  <div className="font-bold text-slate-900 text-sm">{selectedQuotation.projectName}</div>
-                  <div className="text-slate-600 text-[11px]">Berlaku s/d: {formatDate(selectedQuotation.validUntil)}</div>
+                  <span className="text-stone-500 block text-[10px] uppercase font-mono">Nama Proyek:</span>
+                  <p className="font-bold text-white">{selectedQuotation.projectName}</p>
                 </div>
               </div>
 
               {/* Items Table */}
-              <div>
-                <table className="w-full text-left border-collapse border border-slate-300">
-                  <thead className="bg-slate-100 text-slate-800 font-bold uppercase text-[10px]">
-                    <tr>
-                      <th className="p-2 border border-slate-300">No</th>
-                      <th className="p-2 border border-slate-300">Lingkup Pekerjaan & Spesifikasi Material</th>
-                      <th className="p-2 border border-slate-300">Dimensi</th>
-                      <th className="p-2 border border-slate-300 text-center">Qty</th>
-                      <th className="p-2 border border-slate-300 text-right">Harga Satuan</th>
-                      <th className="p-2 border border-slate-300 text-right">Total Harga</th>
+              <table className="w-full text-left">
+                <thead className="border-b border-stone-900 text-stone-400 font-mono text-[10px] uppercase">
+                  <tr>
+                    <th className="py-2">Rincian Pekerjaan</th>
+                    <th className="py-2">Dimensi</th>
+                    <th className="py-2 text-right">Harga (Rp)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-900">
+                  {selectedQuotation.items.map(item => (
+                    <tr key={item.id}>
+                      <td className="py-3">
+                        <p className="font-bold text-white">{item.title}</p>
+                        <p className="text-stone-400 text-[11px] font-light">{item.specification}</p>
+                      </td>
+                      <td className="py-3 font-mono text-stone-400">{item.dimensions}</td>
+                      <td className="py-3 text-right font-bold text-emerald-400">{formatRupiah(item.totalPrice)}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {selectedQuotation.items.map((item, idx) => (
-                      <tr key={item.id} className="border-b border-slate-200">
-                        <td className="p-2 border border-slate-300 text-center font-bold">{idx + 1}</td>
-                        <td className="p-2 border border-slate-300">
-                          <div className="font-bold text-slate-900">{item.title}</div>
-                          <div className="text-[11px] text-slate-600">{item.specification}</div>
-                        </td>
-                        <td className="p-2 border border-slate-300 font-mono text-[11px]">{item.dimensions || '-'}</td>
-                        <td className="p-2 border border-slate-300 text-center">{item.quantity} {item.unit}</td>
-                        <td className="p-2 border border-slate-300 text-right font-mono">{formatRupiah(item.unitPrice)}</td>
-                        <td className="p-2 border border-slate-300 text-right font-mono font-bold">{formatRupiah(item.totalPrice)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Summary Calculations */}
-              <div className="flex justify-end">
-                <div className="w-64 space-y-1 text-xs">
-                  <div className="flex justify-between text-slate-600">
-                    <span>Subtotal:</span>
-                    <span className="font-mono">{formatRupiah(selectedQuotation.subtotal)}</span>
-                  </div>
-                  {taxSetting.enablePPN && (
-                    <div className="flex justify-between text-slate-600">
-                      <span>PPN {taxSetting.ppnRate}%:</span>
-                      <span className="font-mono">+{formatRupiah(selectedQuotation.tax)}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between font-extrabold text-sm text-slate-900 pt-1 border-t border-slate-300">
-                    <span>Grand Total:</span>
-                    <span className="font-mono text-amber-700">{formatRupiah(selectedQuotation.grandTotal)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Terms & Conditions */}
-              <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-[11px] space-y-1">
-                <strong className="text-slate-900 block">Syarat & Ketentuan Pembayaran:</strong>
-                <ol className="list-decimal list-inside text-slate-700 space-y-0.5">
-                  {selectedQuotation.termsAndConditions.map((tc, idx) => (
-                    <li key={idx}>{tc}</li>
                   ))}
-                </ol>
+                </tbody>
+              </table>
+
+              <div className="border-t border-stone-900 pt-4 flex justify-between items-center text-sm font-bold text-white">
+                <span>Total Penawaran:</span>
+                <span className="text-emerald-400 text-base">{formatRupiah(selectedQuotation.grandTotal)}</span>
               </div>
 
-              {/* Signature Blocks */}
-              <div className="grid grid-cols-2 gap-8 pt-8 border-t border-slate-200 text-center">
-                <div>
-                  <span className="text-slate-600 font-semibold block">Hormat Kami,</span>
-                  <span className="text-[10px] text-slate-400">PT InteriorCraft Studio Indonesia</span>
-                  <div className="h-16 flex items-center justify-center text-slate-300 italic text-xs">
-                    ( Tanda Tangan & Stempel )
-                  </div>
-                  <span className="font-bold text-slate-900 block underline">Sherly Dika</span>
-                  <span className="text-[10px] text-slate-500">Managing Director</span>
-                </div>
-
-                <div>
-                  <span className="text-slate-600 font-semibold block">Menyetujui Klien,</span>
-                  <span className="text-[10px] text-slate-400">Konfirmasi SPK Proyek</span>
-                  <div className="h-16 flex items-center justify-center text-slate-300 italic text-xs">
-                    ( Tanda Tangan Klien )
-                  </div>
-                  <span className="font-bold text-slate-900 block underline">{selectedQuotation.customerName}</span>
-                  <span className="text-[10px] text-slate-500">Pelanggan</span>
-                </div>
-              </div>
-
-              {/* Convert Button for Admin UI */}
-              <div className="pt-4 no-print flex justify-end">
-                {selectedQuotation.status !== 'Converted to Order' ? (
+              <div className="flex justify-end gap-3 pt-4 border-t border-stone-900">
+                <button
+                  onClick={() => window.print()}
+                  className="px-5 py-2.5 rounded-full bg-stone-800 hover:bg-stone-700 text-white font-bold text-xs flex items-center gap-1.5"
+                >
+                  <Printer className="w-4 h-4" /> Cetak PDF
+                </button>
+                {selectedQuotation.status !== 'Approved' && (
                   <button
                     onClick={() => convertQuotationToOrder(selectedQuotation.id)}
-                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-600/20"
+                    className="px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5"
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Konversi Penawaran ini Ke Pesanan Pre-Order Active</span>
+                    <CheckCircle2 className="w-4 h-4" /> Setujui & Ubah Jadi Order
                   </button>
-                ) : (
-                  <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
-                    <CheckCircle2 className="w-4 h-4" /> Dikonversi ke Orders Active
-                  </span>
                 )}
               </div>
             </div>
           ) : (
-            <div className="glass-panel p-12 text-center text-slate-500 italic">
-              Pilih surat penawaran di sebelah kiri untuk menampilkan preview printable document.
-            </div>
+            <p className="text-stone-500 text-center py-12">Pilih penawaran untuk melihat preview</p>
           )}
         </div>
       </div>
 
-      {/* New Quotation Modal */}
+      {/* NEW QUOTATION MODAL */}
       {isQuotationModalOpen && (
-        <Modal
-          isOpen={isQuotationModalOpen}
-          onClose={() => setIsQuotationModalOpen(false)}
-          title="Buat Surat Penawaran (Quotation) Baru"
-          maxWidth="max-w-2xl"
-        >
-          <form onSubmit={handleCreateQuotation} className="space-y-4 text-xs">
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">No. Surat Penawaran</label>
-                <input
-                  type="text"
-                  required
-                  value={quoNo}
-                  onChange={(e) => setQuoNo(e.target.value)}
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">Nama Proyek</label>
-                <input
-                  type="text"
-                  required
-                  value={projectName}
-                  onChange={(e) => setProjectName(e.target.value)}
-                  placeholder="Fitting Fitout Apartemen 3BR"
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">Nama Klien</label>
-                <input
-                  type="text"
-                  required
-                  value={custName}
-                  onChange={(e) => setCustName(e.target.value)}
-                  placeholder="Bpk. Dr. Adrian"
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">No. WhatsApp Klien</label>
-                <input
-                  type="text"
-                  value={custPhone}
-                  onChange={(e) => setCustPhone(e.target.value)}
-                  placeholder="0811xxxxxx"
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
-                />
-              </div>
-
-              <div className="col-span-2">
-                <label className="block text-slate-400 font-semibold mb-1">Alamat Klien</label>
-                <input
-                  type="text"
-                  value={custAddress}
-                  onChange={(e) => setCustAddress(e.target.value)}
-                  placeholder="Cluster Bintaro Jaya No. 7"
-                  className="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white"
-                />
-              </div>
+        <Modal isOpen={isQuotationModalOpen} onClose={() => setIsQuotationModalOpen(false)} title="Buat Surat Penawaran Baru">
+          <form onSubmit={handleCreateQuotation} className="space-y-4 text-xs text-stone-100">
+            <div>
+              <label className="block text-stone-400 mb-1">Nama Klien</label>
+              <input type="text" required value={custName} onChange={e => setCustName(e.target.value)} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
             </div>
-
-            {/* Item add scope */}
-            <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-              <span className="font-bold text-amber-400 block">Tambah Rincian Scope Pekerjaan:</span>
-              <div className="grid grid-cols-2 gap-2">
-                <input
-                  type="text"
-                  placeholder="Judul Pekerjaan (e.g. Bed Backdrop)"
-                  value={itemTitle}
-                  onChange={(e) => setItemTitle(e.target.value)}
-                  className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-white"
-                />
-                <input
-                  type="text"
-                  placeholder="Dimensi (e.g. 240 x 280 cm)"
-                  value={itemDim}
-                  onChange={(e) => setItemDim(e.target.value)}
-                  className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-white"
-                />
-                <input
-                  type="text"
-                  placeholder="Spesifikasi Material (e.g. HPL Taco + Strip LED)"
-                  value={itemSpec}
-                  onChange={(e) => setItemSpec(e.target.value)}
-                  className="col-span-2 p-2 bg-slate-900 border border-slate-800 rounded-lg text-white"
-                />
-                <input
-                  type="number"
-                  placeholder="Harga Total Pekerjaan (IDR)"
-                  value={itemPrice || ''}
-                  onChange={(e) => setItemPrice(Number(e.target.value))}
-                  className="col-span-2 p-2 bg-slate-900 border border-slate-800 rounded-lg text-white"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={handleAddItem}
-                className="w-full py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg mt-2"
-              >
-                + Tambah Ke Daftar Item
-              </button>
+            <div>
+              <label className="block text-stone-400 mb-1">Judul Proyek</label>
+              <input type="text" required value={projectName} onChange={e => setProjectName(e.target.value)} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
             </div>
-
-            <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
-              <button
-                type="button"
-                onClick={() => setIsQuotationModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-semibold"
-              >
-                Batal
-              </button>
-              <button
-                type="submit"
-                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold"
-              >
-                Simpan Surat Penawaran
-              </button>
-            </div>
+            <button type="submit" className="w-full py-3 bg-white text-stone-950 font-bold text-xs uppercase tracking-widest rounded-full">Terbitkan Penawaran</button>
           </form>
         </Modal>
       )}

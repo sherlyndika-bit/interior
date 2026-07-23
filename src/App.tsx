@@ -34,7 +34,6 @@ const MainLayout: React.FC = () => {
   const isAdminRoute = routeHash.includes('admin') || isDemoRoute;
 
   // 1. PUBLIC STOREFRONT MODE (Default Route `/` or `/#/`):
-  // 100% clean storefront homepage without any admin buttons
   if (!isAdminRoute) {
     return (
       <>
@@ -45,7 +44,6 @@ const MainLayout: React.FC = () => {
   }
 
   // 2. DEMO PORTAL ROUTE (`/#/demo`):
-  // Renders LoginView with Quick Access Cards enabled for effortless demo testing
   if (isDemoRoute && !currentUser) {
     return (
       <>
@@ -59,7 +57,6 @@ const MainLayout: React.FC = () => {
   }
 
   // 3. STRICT REAL ADMIN ROUTE (`/#/admin`):
-  // MANDATORY AUTHENTICATION CHECK: Requires real password login, no quick cards
   if (isAdminRoute && !currentUser) {
     return (
       <>
@@ -90,17 +87,17 @@ const MainLayout: React.FC = () => {
 
     if (!allowed) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 glass-panel border border-slate-800 rounded-3xl my-8">
-          <div className="w-16 h-16 rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 mb-4">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-[#0A0908] border border-stone-900 rounded-3xl my-8 space-y-4">
+          <div className="w-16 h-16 rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
             <Lock className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold text-white mb-2">Akses Modul Dibatasi</h2>
-          <p className="text-sm text-slate-400 max-w-md mb-6 leading-relaxed">
+          <h2 className="text-xl font-bold text-white tracking-tight">Akses Modul Dibatasi</h2>
+          <p className="text-xs text-stone-400 max-w-md leading-relaxed font-light">
             Peran Anda saat ini (<strong>{currentUser?.role || 'Guest'}</strong>) tidak memiliki izin untuk membuka modul ini.
           </p>
           <button
             onClick={() => setCurrentTab('orders')}
-            className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition-all"
+            className="px-6 py-2.5 bg-white hover:bg-stone-200 text-stone-950 font-bold text-xs uppercase tracking-widest rounded-full transition-all"
           >
             Kembali ke Modul Utama
           </button>
@@ -131,13 +128,13 @@ const MainLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#050505] text-stone-100 flex flex-col font-sans">
       <Header currentTab={currentTab} onTabChange={setCurrentTab} />
 
       <div className="flex-1 flex overflow-hidden">
         <Sidebar currentTab={currentTab} onTabChange={setCurrentTab} />
 
-        <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+        <main className="flex-1 p-6 md:p-10 overflow-y-auto max-w-[1800px] mx-auto w-full">
           {renderAdminContent()}
         </main>
       </div>

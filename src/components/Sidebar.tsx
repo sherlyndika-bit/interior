@@ -11,8 +11,7 @@ import {
   DollarSign,
   ShieldCheck,
   Lock,
-  ChevronRight,
-  Sparkles
+  ChevronRight
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -27,7 +26,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
     {
       id: 'catalog',
       label: 'Katalog Publik',
-      desc: 'Cek Katalog dari Rumah (No Price)',
+      desc: 'Portofolio Publik Studio',
       icon: Store,
       permission: 'catalog',
       badge: 'Publik'
@@ -35,14 +34,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
     {
       id: 'inventory',
       label: 'Stok & Bahan',
-      desc: 'Varian Barang & Raw Materials',
+      desc: 'Katalog Produk & Material',
       icon: Package,
       permission: 'inventory'
     },
     {
       id: 'orders',
       label: 'Kasir & Pre-Order',
-      desc: 'POS Ready & Custom Milestone DP',
+      desc: 'POS Fitout & Milestone DP',
       icon: ShoppingCart,
       permission: 'pos'
     },
@@ -56,45 +55,45 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
     {
       id: 'schedule',
       label: 'Pengiriman & Instalasi',
-      desc: 'Jadwal Teknisi & Kanban Site',
+      desc: 'Jadwal Pemasangan Lapangan',
       icon: Calendar,
       permission: 'schedule'
     },
     {
       id: 'reports',
       label: 'Laporan Penjualan',
-      desc: 'Profit, Omzet & Modal Bahan',
+      desc: 'Profit, Omzet & Analitik',
       icon: BarChart3,
       permission: 'reports'
     },
     {
       id: 'invoices',
       label: 'Invoice & Penawaran',
-      desc: 'Generate PDF Surat Penawaran',
+      desc: 'Surat Penawaran & Faktur',
       icon: FileText,
       permission: 'quotations'
     },
     {
       id: 'payroll',
       label: 'Gaji, Pajak & Promo',
-      desc: 'Penggajian, PPN 11% & Vouchers',
+      desc: 'Penggajian, PPN & Voucher',
       icon: DollarSign,
       permission: 'payroll'
     },
     {
       id: 'users',
       label: 'Manajemen Akses User',
-      desc: 'Pengaturan Staff & Hak Akses',
+      desc: 'Pengaturan Peran Staff',
       icon: ShieldCheck,
       permission: 'all'
     }
   ];
 
   return (
-    <aside className="w-64 border-r border-slate-800 bg-slate-900/60 backdrop-blur-md flex flex-col justify-between p-4 min-h-[calc(100vh-4rem)]">
-      <div className="space-y-1">
-        <div className="px-3 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-          Menu Utama Modul
+    <aside className="w-64 border-r border-stone-900 bg-[#070605] flex flex-col justify-between p-4 min-h-[calc(100vh-4rem)]">
+      <div className="space-y-1.5">
+        <div className="px-3 py-2 text-[10px] font-mono font-bold text-stone-500 uppercase tracking-widest">
+          MODUL MANAJEMEN STUDIO
         </div>
 
         {navItems.map((item) => {
@@ -107,17 +106,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
               key={item.id}
               onClick={() => allowed && onTabChange(item.id)}
               disabled={!allowed}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-all group ${
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-2xl text-left transition-all group ${
                 isActive
-                  ? 'bg-gradient-to-r from-amber-500/20 to-amber-500/5 text-amber-300 border border-amber-500/30 font-bold shadow-md shadow-amber-500/5'
+                  ? 'bg-stone-900 text-white font-bold border border-stone-700 shadow-lg'
                   : allowed
-                  ? 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-                  : 'text-slate-600 opacity-60 cursor-not-allowed'
+                  ? 'text-stone-400 hover:bg-stone-950 hover:text-white'
+                  : 'text-stone-700 opacity-50 cursor-not-allowed'
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className={`p-1.5 rounded-lg transition-colors ${
-                  isActive ? 'bg-amber-500 text-slate-950' : 'bg-slate-800/80 text-slate-400 group-hover:text-amber-400'
+                <div className={`p-1.5 rounded-xl transition-colors ${
+                  isActive ? 'bg-amber-300 text-stone-950' : 'bg-stone-900 text-stone-400 group-hover:text-amber-300'
                 }`}>
                   <Icon className="w-4 h-4" />
                 </div>
@@ -125,19 +124,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                   <div className="text-xs font-semibold leading-snug truncate flex items-center gap-1.5">
                     {item.label}
                     {item.badge && (
-                      <span className="text-[9px] font-bold bg-amber-400/20 text-amber-300 px-1.5 py-0.2 rounded border border-amber-400/30">
+                      <span className="text-[9px] font-mono font-bold bg-amber-400/10 text-amber-300 px-1.5 py-0.2 rounded-full border border-amber-400/30">
                         {item.badge}
                       </span>
                     )}
                   </div>
-                  <div className="text-[10px] text-slate-500 truncate">{item.desc}</div>
+                  <div className="text-[10px] text-stone-500 truncate font-light">{item.desc}</div>
                 </div>
               </div>
 
               {!allowed ? (
-                <Lock className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                <Lock className="w-3.5 h-3.5 text-stone-700 shrink-0" />
               ) : isActive ? (
-                <ChevronRight className="w-4 h-4 text-amber-400 shrink-0" />
+                <ChevronRight className="w-4 h-4 text-amber-300 shrink-0" />
               ) : null}
             </button>
           );
@@ -145,15 +144,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
       </div>
 
       {/* Role banner at sidebar bottom */}
-      <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl">
-        <div className="flex items-center justify-between text-xs mb-1">
-          <span className="text-slate-400 font-medium">Status Akses:</span>
-          <span className="text-amber-400 font-bold capitalize">{currentUser ? currentUser.role : 'Guest'}</span>
+      <div className="p-4 bg-[#0A0908] border border-stone-900 rounded-2xl space-y-1">
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-stone-400 font-medium">Peran Akses:</span>
+          <span className="text-amber-300 font-bold capitalize font-mono text-[11px]">{currentUser ? currentUser.role : 'Guest'}</span>
         </div>
-        <p className="text-[10px] text-slate-500 leading-normal">
+        <p className="text-[10px] text-stone-500 leading-normal font-light">
           {currentUser
-            ? `Berhak mengakses ${currentUser.permissions.includes('all') ? 'seluruh modul' : `${currentUser.permissions.length} modul terstruktur`}.`
-            : 'Melihat Katalog Publik tanpa harga. Login untuk akses sistem.'}
+            ? `Akses ${currentUser.permissions.includes('all') ? 'penuh seluruh modul' : `${currentUser.permissions.length} modul terstruktur`}.`
+            : 'Login untuk membuka portal manajemen.'}
         </p>
       </div>
     </aside>
