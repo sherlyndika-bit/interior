@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { Quotation, QuotationItem, Order } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
 import { FileText, Printer, Plus, CheckCircle2, Trash2, Receipt, Building2, CreditCard } from 'lucide-react';
 
-export const InvoiceQuotationView: React.FC = () => {
+interface InvoiceQuotationViewProps {
+  initialTab?: 'quotations' | 'invoices';
+}
+
+export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ initialTab = 'quotations' }) => {
   const { quotations, addQuotation, convertQuotationToOrder, orders, taxSetting, addPaymentMilestone } = useApp();
-  const [activeTab, setActiveTab] = useState<'quotations' | 'invoices'>('quotations');
+  const [activeTab, setActiveTab] = useState<'quotations' | 'invoices'>(initialTab);
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   // Quotation State
   const [selectedQuotation, setSelectedQuotation] = useState<Quotation | null>(quotations[0] || null);
@@ -139,11 +149,22 @@ export const InvoiceQuotationView: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
           <h1 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
-            <FileText className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
-            Surat Penawaran & Invoice Tagihan Resmi
+            {activeTab === 'quotations' ? (
+              <>
+                <FileText className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
+                Surat Penawaran Harga (SPH Proposal)
+              </>
+            ) : (
+              <>
+                <Receipt className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
+                Faktur Tagihan Resmi (Invoice DP & Pelunasan)
+              </>
+            )}
           </h1>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-            Modul pengelola proposal Surat Penawaran Harga (SPH) & Faktur Tagihan Resmi (Invoice DP/Pelunasan).
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 font-normal">
+            {activeTab === 'quotations'
+              ? 'Generator proposal penawaran harga resmi sebelum penandatanganan kontrak proyek fitout.'
+              : 'Generator faktur tagihan resmi (DP/Pelunasan) lengkap dengan NPWP Perusahaan & Rekening Bank.'}
           </p>
         </div>
 
@@ -152,9 +173,9 @@ export const InvoiceQuotationView: React.FC = () => {
           <div className="p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center gap-1 border border-zinc-200 dark:border-zinc-700 shadow-xs">
             <button
               onClick={() => setActiveTab('quotations')}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
+              className={`h-9 px-3.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
                 activeTab === 'quotations'
-                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
@@ -164,9 +185,9 @@ export const InvoiceQuotationView: React.FC = () => {
 
             <button
               onClick={() => setActiveTab('invoices')}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
+              className={`h-9 px-3.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
                 activeTab === 'invoices'
-                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
+                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
@@ -178,7 +199,7 @@ export const InvoiceQuotationView: React.FC = () => {
           {activeTab === 'quotations' ? (
             <button
               onClick={handleOpenNewQuotationModal}
-              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+              className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-[0.98]"
             >
               <Plus className="w-4 h-4" />
               <span>Buat SPH Baru</span>
@@ -186,7 +207,7 @@ export const InvoiceQuotationView: React.FC = () => {
           ) : (
             <button
               onClick={() => setIsInvoiceModalOpen(true)}
-              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+              className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs active:scale-[0.98]"
             >
               <Plus className="w-4 h-4" />
               <span>Terbitkan Invoice Tagihan</span>
@@ -209,9 +230,9 @@ export const InvoiceQuotationView: React.FC = () => {
                 <div
                   key={q.id}
                   onClick={() => setSelectedQuotation(q)}
-                  className={`p-4 rounded-xl border cursor-pointer transition-all shadow-sm ${
+                  className={`p-4 rounded-xl border cursor-pointer transition-all shadow-xs ${
                     selectedQuotation?.id === q.id
-                      ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white'
+                      ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white font-bold'
                       : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
                   }`}
                 >
@@ -230,7 +251,7 @@ export const InvoiceQuotationView: React.FC = () => {
           </div>
 
           {/* Right: Printable Quotation Document View */}
-          <div className="lg:col-span-8 bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-6 shadow-sm">
+          <div className="lg:col-span-8 bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-6 shadow-xs">
             {selectedQuotation ? (
               <div className="space-y-6 text-xs text-zinc-700 dark:text-zinc-300">
                 <div className="flex justify-between items-start border-b border-zinc-200 dark:border-zinc-800 pb-6">
@@ -297,14 +318,14 @@ export const InvoiceQuotationView: React.FC = () => {
                 <div className="flex justify-end gap-3 pt-4 border-t border-zinc-200 dark:border-zinc-800">
                   <button
                     onClick={() => window.print()}
-                    className="px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-white font-bold text-xs flex items-center gap-1.5"
+                    className="h-9 px-4 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-white font-bold text-xs flex items-center gap-1.5 transition-all"
                   >
                     <Printer className="w-4 h-4" /> Cetak SPH PDF
                   </button>
                   {selectedQuotation.status !== 'Approved' && selectedQuotation.status !== 'Converted to Order' && (
                     <button
                       onClick={() => convertQuotationToOrder(selectedQuotation.id)}
-                      className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5"
+                      className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
                     >
                       <CheckCircle2 className="w-4 h-4" /> Setujui SPH & Ubah Jadi Order
                     </button>
@@ -332,9 +353,9 @@ export const InvoiceQuotationView: React.FC = () => {
                 <div
                   key={order.id}
                   onClick={() => setSelectedOrderForInvoice(order)}
-                  className={`p-4 rounded-xl border cursor-pointer transition-all shadow-sm ${
+                  className={`p-4 rounded-xl border cursor-pointer transition-all shadow-xs ${
                     selectedOrderForInvoice?.id === order.id
-                      ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white'
+                      ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white font-bold'
                       : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
                   }`}
                 >
@@ -358,7 +379,7 @@ export const InvoiceQuotationView: React.FC = () => {
           </div>
 
           {/* Right: Official Invoice Printable Document View */}
-          <div className="lg:col-span-8 bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-6 shadow-sm">
+          <div className="lg:col-span-8 bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-6 shadow-xs">
             {selectedOrderForInvoice ? (
               <div className="space-y-6 text-xs text-zinc-700 dark:text-zinc-300">
                 {/* Official Invoice Header */}
@@ -476,14 +497,14 @@ export const InvoiceQuotationView: React.FC = () => {
                 <div className="flex justify-end gap-3 pt-4 border-t border-zinc-200 dark:border-zinc-800">
                   <button
                     onClick={() => window.print()}
-                    className="px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-white font-bold text-xs flex items-center gap-1.5"
+                    className="h-9 px-4 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-white font-bold text-xs flex items-center gap-1.5 transition-all"
                   >
                     <Printer className="w-4 h-4" /> Cetak Invoice PDF
                   </button>
                   {selectedOrderForInvoice.remainingBalance > 0 && (
                     <button
                       onClick={() => addPaymentMilestone(selectedOrderForInvoice.id, 'Transfer Bank', selectedOrderForInvoice.remainingBalance)}
-                      className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5"
+                      className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
                     >
                       <CheckCircle2 className="w-4 h-4" /> Catat Invoice Lunas
                     </button>

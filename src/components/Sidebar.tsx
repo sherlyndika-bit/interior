@@ -104,8 +104,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
   ];
 
   return (
-    <aside className="w-64 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col justify-between p-4 min-h-[calc(100vh-4rem)] transition-colors select-none shrink-0">
-      <div className="space-y-5 overflow-y-auto max-h-[calc(100vh-10rem)] pr-1">
+    <aside className="w-64 h-[calc(100vh-4rem)] sticky top-16 shrink-0 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col justify-between p-4 transition-colors select-none">
+      <div className="space-y-5 overflow-y-auto pr-1">
         {sections.map((sec, sIdx) => (
           <div key={sIdx} className="space-y-1">
             <div className="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
@@ -122,7 +122,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                   key={item.id}
                   onClick={() => allowed && onTabChange(item.id)}
                   disabled={!allowed}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-all group active:scale-[0.98] ${
+                  className={`w-full flex items-center justify-between px-3.5 h-11 rounded-xl text-left transition-all group active:scale-[0.98] ${
                     isActive
                       ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
                       : allowed
@@ -131,7 +131,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className={`p-1.5 rounded-lg transition-colors ${
+                    <div className={`p-1.5 rounded-lg transition-colors shrink-0 ${
                       isActive
                         ? 'bg-white/20 text-white dark:bg-zinc-950/20 dark:text-zinc-950'
                         : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white'
@@ -139,7 +139,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                       <Icon className="w-4 h-4" />
                     </div>
                     <div className="truncate">
-                      <div className="text-xs font-semibold leading-snug truncate flex items-center gap-1.5">
+                      <div className="text-xs font-semibold leading-tight truncate flex items-center gap-1.5">
                         {item.label}
                         {item.badge && (
                           <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded border ${
@@ -170,7 +170,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
       </div>
 
       {/* Role banner at sidebar bottom */}
-      <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 mt-2">
+      <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 shrink-0">
         <div className="p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl space-y-1">
           <div className="flex items-center justify-between text-xs">
             <span className="text-zinc-500 dark:text-zinc-400 font-medium">Hak Akses:</span>
