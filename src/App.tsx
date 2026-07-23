@@ -106,7 +106,6 @@ const MainLayout: React.FC = () => {
       customers: 'customers',
       schedule: 'schedule',
       reports: 'reports',
-      quotations: 'quotations',
       invoices: 'quotations',
       payroll: 'payroll',
       users: 'all'
@@ -146,10 +145,8 @@ const MainLayout: React.FC = () => {
         return <ScheduleView />;
       case 'reports':
         return <ReportsView />;
-      case 'quotations':
-        return <InvoiceQuotationView initialTab="quotations" />;
       case 'invoices':
-        return <InvoiceQuotationView initialTab="invoices" />;
+        return <InvoiceQuotationView />;
       case 'payroll':
         return <PayrollTaxView />;
       case 'users':

@@ -1,23 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Quotation, QuotationItem, Order } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { FileText, Printer, Plus, CheckCircle2, Trash2, Receipt } from 'lucide-react';
+import { FileText, Printer, Plus, CheckCircle2, Trash2, Receipt, Building2, CreditCard } from 'lucide-react';
 
-interface InvoiceQuotationViewProps {
-  initialTab?: 'quotations' | 'invoices';
-}
-
-export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ initialTab = 'quotations' }) => {
+export const InvoiceQuotationView: React.FC = () => {
   const { quotations, addQuotation, convertQuotationToOrder, orders, taxSetting, addPaymentMilestone } = useApp();
-  const [activeTab, setActiveTab] = useState<'quotations' | 'invoices'>(initialTab);
-
-  useEffect(() => {
-    if (initialTab) {
-      setActiveTab(initialTab);
-    }
-  }, [initialTab]);
+  const [activeTab, setActiveTab] = useState<'quotations' | 'invoices'>('quotations');
 
   // Quotation State
   const [selectedQuotation, setSelectedQuotation] = useState<Quotation | null>(quotations[0] || null);
@@ -149,31 +139,20 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
           <h1 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
-            {activeTab === 'quotations' ? (
-              <>
-                <FileText className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
-                Surat Penawaran Harga (SPH Proposal)
-              </>
-            ) : (
-              <>
-                <Receipt className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
-                Faktur Tagihan Resmi (Invoice DP & Pelunasan)
-              </>
-            )}
+            <FileText className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
+            Surat Penawaran & Invoice Tagihan Resmi
           </h1>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-            {activeTab === 'quotations'
-              ? 'Generator proposal penawaran harga resmi sebelum penandatanganan kontrak proyek fitout.'
-              : 'Generator faktur tagihan resmi (DP/Pelunasan) lengkap dengan NPWP Perusahaan & Rekening Bank.'}
+            Modul pengelola proposal Surat Penawaran Harga (SPH) & Faktur Tagihan Resmi (Invoice DP/Pelunasan).
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Tab Switcher Buttons */}
-          <div className="p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center gap-1 border border-zinc-200 dark:border-zinc-700">
+        <div className="flex items-center gap-3">
+          {/* Main Tab Switcher */}
+          <div className="p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center gap-1 border border-zinc-200 dark:border-zinc-700 shadow-xs">
             <button
               onClick={() => setActiveTab('quotations')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
                 activeTab === 'quotations'
                   ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
@@ -185,7 +164,7 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
 
             <button
               onClick={() => setActiveTab('invoices')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
                 activeTab === 'invoices'
                   ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-sm'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
@@ -221,7 +200,10 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left: Quotations List */}
           <div className="lg:col-span-4 space-y-3">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Daftar Surat Penawaran (SPH)</h2>
+            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
+              <FileText className="w-3.5 h-3.5 text-zinc-600" />
+              Daftar Proposal Penawaran (SPH)
+            </h2>
             <div className="space-y-3">
               {quotations.map(q => (
                 <div
@@ -235,7 +217,7 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
                 >
                   <div className="flex justify-between items-center mb-1">
                     <span className="font-mono text-xs font-bold text-zinc-900 dark:text-white">{q.quotationNumber}</span>
-                    <span className="text-[10px] font-medium uppercase px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+                    <span className="text-[10px] font-medium uppercase px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200">
                       {q.status}
                     </span>
                   </div>
@@ -253,7 +235,8 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
               <div className="space-y-6 text-xs text-zinc-700 dark:text-zinc-300">
                 <div className="flex justify-between items-start border-b border-zinc-200 dark:border-zinc-800 pb-6">
                   <div>
-                    <h2 className="text-xl font-bold text-zinc-900 dark:text-white tracking-wider uppercase">SURAT PENAWARAN HARGA (SPH)</h2>
+                    <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 uppercase font-bold tracking-wider">PROPOSAL ESTIMASI PROYEK</span>
+                    <h2 className="text-xl font-bold text-zinc-900 dark:text-white tracking-wider uppercase mt-0.5">SURAT PENAWARAN HARGA (SPH)</h2>
                     <p className="text-zinc-500 dark:text-zinc-400 text-xs font-normal">PT InteriorCraft Studio Indonesia</p>
                   </div>
                   <div className="text-right">
@@ -340,7 +323,10 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left: Orders List for Invoicing */}
           <div className="lg:col-span-4 space-y-3">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Pilih Pesanan untuk Faktur Invoice</h2>
+            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
+              <Receipt className="w-3.5 h-3.5 text-zinc-600" />
+              Daftar Faktur Tagihan (Invoice)
+            </h2>
             <div className="space-y-3">
               {orders.map(order => (
                 <div
@@ -353,9 +339,9 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
                   }`}
                 >
                   <div className="flex justify-between items-center mb-1">
-                    <span className="font-mono text-xs font-bold text-zinc-900 dark:text-white">{order.orderNumber}</span>
+                    <span className="font-mono text-xs font-bold text-zinc-900 dark:text-white">INV/2026/07/{order.orderNumber.replace('ORD-', '')}</span>
                     <span className={`text-[10px] font-medium uppercase px-2 py-0.5 rounded ${
-                      order.remainingBalance === 0 ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300' : 'bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'
+                      order.remainingBalance === 0 ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300' : 'bg-amber-50 text-amber-800 dark:bg-amber-500/10 dark:text-amber-300'
                     }`}>
                       {order.remainingBalance === 0 ? 'LUNAS' : 'TERTAGIH'}
                     </span>
@@ -378,8 +364,11 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
                 {/* Official Invoice Header */}
                 <div className="flex justify-between items-start border-b border-zinc-200 dark:border-zinc-800 pb-6">
                   <div>
-                    <h2 className="text-2xl font-extrabold text-zinc-900 dark:text-white tracking-wider uppercase">INVOICE FAKTUR TAGIHAN</h2>
-                    <p className="text-zinc-900 dark:text-white font-bold text-xs">PT INTERIORCRAFT STUDIO INDONESIA</p>
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-900 dark:text-white mb-1">
+                      <Building2 className="w-4 h-4 text-emerald-600" />
+                      PT INTERIORCRAFT STUDIO INDONESIA
+                    </div>
+                    <h2 className="text-2xl font-extrabold text-zinc-900 dark:text-white tracking-wider uppercase">FAKTUR TAGIHAN RESMI (INVOICE)</h2>
                     <p className="text-zinc-500 dark:text-zinc-400 text-[11px]">NPWP: 01.234.567.8-012.000</p>
                     <p className="text-zinc-400 text-[11px]">Jl. Interior Craftsman No. 88, Jakarta Selatan</p>
                   </div>
@@ -466,7 +455,10 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
 
                 {/* Official Bank Account Information */}
                 <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 space-y-2">
-                  <h4 className="font-bold text-zinc-900 dark:text-white text-xs">Instruksi Pembayaran Transfer Bank Resmi:</h4>
+                  <h4 className="font-bold text-zinc-900 dark:text-white text-xs flex items-center gap-1">
+                    <CreditCard className="w-3.5 h-3.5 text-emerald-600" />
+                    Instruksi Pembayaran Transfer Bank Resmi:
+                  </h4>
                   <div className="grid grid-cols-2 gap-4 text-[11px] text-zinc-600 dark:text-zinc-300">
                     <div>
                       <p className="font-bold text-zinc-900 dark:text-white">Bank BCA</p>

@@ -8,7 +8,6 @@ import {
   Calendar,
   BarChart3,
   FileText,
-  Receipt,
   DollarSign,
   ShieldCheck,
   Lock
@@ -60,17 +59,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
       title: 'KEUANGAN & DOKUMEN',
       items: [
         {
-          id: 'quotations',
-          label: 'Surat Penawaran (SPH)',
-          desc: 'Proposal Penawaran Harga',
-          icon: FileText,
-          permission: 'quotations'
-        },
-        {
           id: 'invoices',
-          label: 'Invoice Tagihan Resmi',
-          desc: 'Faktur DP, Pelunasan & Rekening',
-          icon: Receipt,
+          label: 'Surat Penawaran & Invoice',
+          desc: 'SPH Proposal & Faktur Tagihan',
+          icon: FileText,
           permission: 'quotations'
         },
         {
