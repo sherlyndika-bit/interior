@@ -87,17 +87,17 @@ const MainLayout: React.FC = () => {
 
     if (!allowed) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-[#0A0908] border border-stone-900 rounded-3xl my-8 space-y-4">
-          <div className="w-16 h-16 rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl my-8 space-y-4 shadow-sm">
+          <div className="w-16 h-16 rounded-full bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 flex items-center justify-center text-rose-600 dark:text-rose-400">
             <Lock className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold text-white tracking-tight">Akses Modul Dibatasi</h2>
-          <p className="text-xs text-stone-400 max-w-md leading-relaxed font-light">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Akses Modul Dibatasi</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md leading-relaxed font-normal">
             Peran Anda saat ini (<strong>{currentUser?.role || 'Guest'}</strong>) tidak memiliki izin untuk membuka modul ini.
           </p>
           <button
             onClick={() => setCurrentTab('orders')}
-            className="px-6 py-2.5 bg-white hover:bg-stone-200 text-stone-950 font-bold text-xs uppercase tracking-widest rounded-full transition-all"
+            className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
           >
             Kembali ke Modul Utama
           </button>
@@ -128,13 +128,13 @@ const MainLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-stone-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors">
       <Header currentTab={currentTab} onTabChange={setCurrentTab} />
 
       <div className="flex-1 flex overflow-hidden">
         <Sidebar currentTab={currentTab} onTabChange={setCurrentTab} />
 
-        <main className="flex-1 p-6 md:p-10 overflow-y-auto max-w-[1800px] mx-auto w-full">
+        <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-[1800px] mx-auto w-full">
           {renderAdminContent()}
         </main>
       </div>

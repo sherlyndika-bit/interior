@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { Customer } from '../types';
 import { formatRupiah, formatDate } from '../utils/formatters';
 import { Modal } from '../components/Modal';
-import { Users, Plus, Search, Phone, Mail, MapPin, History, Edit, Trash2 } from 'lucide-react';
+import { Users, Plus, Search, Phone, History, Trash2 } from 'lucide-react';
 
 export const CustomersView: React.FC = () => {
   const { customers, orders, addCustomer, updateCustomer, deleteCustomer } = useApp();
@@ -77,16 +77,16 @@ export const CustomersView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 pb-16 text-stone-100 font-sans">
+    <div className="space-y-6 pb-12 font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-900 pb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <Users className="w-6 h-6 text-amber-300" />
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+            <Users className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             Database Klien & CRM Proyek
           </h1>
-          <p className="text-xs text-stone-400 mt-1 font-light">
-            Pengelolaan direktori klien, riwayat proyek fitout, dan kontak langsung via WhatsApp.
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Pengelolaan direktori klien, riwayat proyek fitout, dan kontak langsung WhatsApp.
           </p>
         </div>
 
@@ -95,7 +95,7 @@ export const CustomersView: React.FC = () => {
             resetForm();
             setIsModalOpen(true);
           }}
-          className="px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl"
+          className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
         >
           <Plus className="w-4 h-4" />
           <span>Tambah Klien Baru</span>
@@ -104,61 +104,59 @@ export const CustomersView: React.FC = () => {
 
       {/* Search */}
       <div className="relative max-w-md">
-        <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+        <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Cari nama klien, telepon, kota..."
-          className="w-full pl-10 pr-4 py-2.5 bg-[#0A0908] border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500"
+          className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-slate-400"
         />
       </div>
 
       {/* Customer Directory Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filteredCustomers.map((c) => {
           const custOrders = getCustomerOrders(c.id);
           const totalSpent = custOrders.reduce((sum, o) => sum + o.grandTotal, 0);
 
           return (
-            <div key={c.id} className="p-6 rounded-3xl bg-[#0A0908] border border-stone-900 shadow-xl space-y-4 flex flex-col justify-between">
-              <div className="space-y-3">
+            <div key={c.id} className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3 flex flex-col justify-between">
+              <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-amber-300 uppercase tracking-widest">{c.code}</span>
-                  <span className="text-[10px] font-mono text-stone-500">{c.city}</span>
+                  <span className="text-[10px] font-mono text-slate-500 dark:text-amber-300 font-bold">{c.code}</span>
+                  <span className="text-[10px] text-slate-400 font-mono">{c.city}</span>
                 </div>
 
                 <div>
-                  <h3 className="font-extrabold text-white text-lg">{c.name}</h3>
-                  <p className="text-xs text-stone-400 font-light flex items-center gap-1.5 mt-0.5">
-                    <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base">{c.name}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5 mt-0.5 font-normal">
+                    <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     <span>{c.phone}</span>
                   </p>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-[#050505] border border-stone-900 text-xs space-y-1">
-                  <div className="flex justify-between text-stone-400">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-xs space-y-1">
+                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
                     <span>Total Proyek Fitout:</span>
-                    <span className="font-bold text-white">{custOrders.length} Proyek</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{custOrders.length} Proyek</span>
                   </div>
-                  <div className="flex justify-between text-stone-400">
+                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
                     <span>Akumulasi Nilai:</span>
-                    <span className="font-bold text-emerald-400">{formatRupiah(totalSpent)}</span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatRupiah(totalSpent)}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-3 border-t border-stone-900">
+              <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
                 <button
                   onClick={() => setSelectedHistoryCustomer(c)}
-                  className="px-3.5 py-1.5 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-300 text-xs font-semibold flex items-center gap-1"
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium flex items-center gap-1"
                 >
-                  <History className="w-3.5 h-3.5 text-amber-300" />
+                  <History className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                   <span>Riwayat</span>
                 </button>
-                <div className="flex items-center gap-2">
-                  <button onClick={() => deleteCustomer(c.id)} className="p-1.5 rounded-full hover:bg-rose-500/10 text-rose-400"><Trash2 className="w-4 h-4" /></button>
-                </div>
+                <button onClick={() => deleteCustomer(c.id)} className="p-1.5 rounded-lg hover:bg-rose-50 text-rose-600 dark:hover:bg-rose-500/10 dark:text-rose-400"><Trash2 className="w-4 h-4" /></button>
               </div>
             </div>
           );
@@ -168,22 +166,22 @@ export const CustomersView: React.FC = () => {
       {/* MODAL HISTORY */}
       {selectedHistoryCustomer && (
         <Modal isOpen={!!selectedHistoryCustomer} onClose={() => setSelectedHistoryCustomer(null)} title={`Riwayat Proyek: ${selectedHistoryCustomer.name}`}>
-          <div className="space-y-4 text-xs text-stone-300">
+          <div className="space-y-3 text-xs text-slate-600 dark:text-slate-300">
             {getCustomerOrders(selectedHistoryCustomer.id).length === 0 ? (
-              <p className="text-stone-500">Belum ada riwayat pesanan</p>
+              <p className="text-slate-400">Belum ada riwayat pesanan</p>
             ) : (
               getCustomerOrders(selectedHistoryCustomer.id).map(o => (
-                <div key={o.id} className="p-4 rounded-2xl bg-[#050505] border border-stone-900 flex justify-between items-center">
+                <div key={o.id} className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex justify-between items-center">
                   <div>
-                    <p className="font-bold text-white">{o.orderNumber}</p>
-                    <p className="text-stone-400 font-light">{formatDate(o.date)} — {o.stage}</p>
+                    <p className="font-bold text-slate-900 dark:text-white">{o.orderNumber}</p>
+                    <p className="text-slate-400">{formatDate(o.date)} — {o.stage}</p>
                   </div>
-                  <span className="font-bold text-emerald-400">{formatRupiah(o.grandTotal)}</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatRupiah(o.grandTotal)}</span>
                 </div>
               ))
             )}
-            <div className="flex justify-end pt-4">
-              <button onClick={() => setSelectedHistoryCustomer(null)} className="px-5 py-2.5 rounded-full bg-stone-800 text-white">Tutup</button>
+            <div className="flex justify-end pt-3">
+              <button onClick={() => setSelectedHistoryCustomer(null)} className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium">Tutup</button>
             </div>
           </div>
         </Modal>
@@ -192,16 +190,16 @@ export const CustomersView: React.FC = () => {
       {/* MODAL ADD CLIENT */}
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Tambah Klien Baru">
-          <form onSubmit={handleSave} className="space-y-4 text-xs text-stone-100">
+          <form onSubmit={handleSave} className="space-y-4 text-xs text-slate-900 dark:text-slate-100">
             <div>
-              <label className="block text-stone-400 mb-1">Nama Lengkap Klien</label>
-              <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
+              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Nama Lengkap Klien</label>
+              <input type="text" required value={name} onChange={e => setName(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white" />
             </div>
             <div>
-              <label className="block text-stone-400 mb-1">Nomor WhatsApp / HP</label>
-              <input type="text" required value={phone} onChange={e => setPhone(e.target.value)} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
+              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Nomor WhatsApp / HP</label>
+              <input type="text" required value={phone} onChange={e => setPhone(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white" />
             </div>
-            <button type="submit" className="w-full py-3 bg-white text-stone-950 font-bold text-xs uppercase tracking-widest rounded-full">Simpan Klien</button>
+            <button type="submit" className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Klien</button>
           </form>
         </Modal>
       )}

@@ -177,15 +177,15 @@ export const InventoryView: React.FC = () => {
   );
 
   return (
-    <div className="space-y-8 pb-16 text-stone-100 font-sans">
+    <div className="space-y-6 pb-12 font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-900 pb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <Package className="w-6 h-6 text-amber-300" />
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+            <Package className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             Stok Produk & Material Bahan
           </h1>
-          <p className="text-xs text-stone-400 mt-1 font-light">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Pengendalian inventaris produk ready stock & bahan baku kayu multiplek, Hafele, HPL Taco.
           </p>
         </div>
@@ -193,10 +193,10 @@ export const InventoryView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setActiveTab('products')}
-            className={`px-4 py-2.5 rounded-full text-xs font-mono uppercase tracking-widest transition-all ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
               activeTab === 'products'
-                ? 'bg-white text-stone-950 font-bold shadow-md'
-                : 'bg-stone-950 border border-stone-800 text-stone-400 hover:text-white'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold shadow-sm'
+                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Katalog Produk ({products.length})
@@ -204,10 +204,10 @@ export const InventoryView: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('materials')}
-            className={`px-4 py-2.5 rounded-full text-xs font-mono uppercase tracking-widest transition-all ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
               activeTab === 'materials'
-                ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40 font-bold shadow-md'
-                : 'bg-stone-950 border border-stone-800 text-stone-400 hover:text-white'
+                ? 'bg-amber-600 text-white font-bold shadow-sm'
+                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Bahan Mentah ({rawMaterials.length})
@@ -215,7 +215,7 @@ export const InventoryView: React.FC = () => {
 
           <button
             onClick={activeTab === 'products' ? handleOpenNewProduct : handleOpenNewMaterial}
-            className="px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xl"
+            className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
           >
             <Plus className="w-4 h-4" />
             <span>Tambah {activeTab === 'products' ? 'Produk' : 'Bahan'}</span>
@@ -225,57 +225,57 @@ export const InventoryView: React.FC = () => {
 
       {/* Search */}
       <div className="relative max-w-md">
-        <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+        <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder={`Cari nama ${activeTab === 'products' ? 'produk' : 'bahan mentah'}...`}
-          className="w-full pl-10 pr-4 py-2.5 bg-[#0A0908] border border-stone-800 rounded-full text-xs text-white placeholder-stone-500 focus:outline-none focus:border-stone-500"
+          className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-slate-400"
         />
       </div>
 
       {/* TAB 1: PRODUCTS TABLE */}
       {activeTab === 'products' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredProducts.map((p) => (
-            <div key={p.id} className="p-6 rounded-3xl bg-[#0A0908] border border-stone-900 shadow-xl space-y-4">
-              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-stone-950">
+            <div key={p.id} className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+              <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950">
                 <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
-                <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-[10px] font-mono text-amber-300 uppercase tracking-widest border border-stone-800">
+                <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-white/90 dark:bg-slate-950/90 text-[10px] font-medium text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-800">
                   {p.category}
                 </span>
               </div>
 
               <div className="space-y-1">
-                <span className="text-[10px] font-mono text-stone-500">{p.code}</span>
-                <h3 className="font-bold text-white text-base line-clamp-1">{p.name}</h3>
-                <p className="text-xs text-stone-400 font-light line-clamp-2">{p.description}</p>
+                <span className="text-[10px] font-mono text-slate-400">{p.code}</span>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base line-clamp-1">{p.name}</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-normal line-clamp-2">{p.description}</p>
               </div>
 
-              <div className="p-3 rounded-2xl bg-[#050505] border border-stone-900 text-xs flex justify-between items-center">
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-xs flex justify-between items-center">
                 <div>
-                  <span className="text-stone-500 block text-[10px]">Harga Jual:</span>
-                  <span className="font-bold text-amber-300">{formatRupiah(p.basePrice)}</span>
+                  <span className="text-slate-400 block text-[10px]">Harga Jual:</span>
+                  <span className="font-bold text-slate-900 dark:text-amber-300">{formatRupiah(p.basePrice)}</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-stone-500 block text-[10px]">Stok Tersedia:</span>
-                  <span className={`font-bold ${p.stock <= p.minStock ? 'text-rose-400' : 'text-emerald-400'}`}>
+                  <span className="text-slate-400 block text-[10px]">Stok Tersedia:</span>
+                  <span className={`font-bold ${p.stock <= p.minStock ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
                     {p.stock} {p.unit || 'Unit'} {p.stock <= p.minStock && '(Menipis)'}
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-stone-900">
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                 <button
                   onClick={() => handleOpenEditProduct(p)}
-                  className="px-3.5 py-1.5 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-300 text-xs font-semibold flex items-center gap-1"
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium flex items-center gap-1"
                 >
                   <Edit className="w-3.5 h-3.5" /> Edit
                 </button>
                 <button
                   onClick={() => deleteProduct(p.id)}
-                  className="px-3.5 py-1.5 rounded-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold flex items-center gap-1"
+                  className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center gap-1"
                 >
                   <Trash2 className="w-3.5 h-3.5" /> Hapus
                 </button>
@@ -287,9 +287,9 @@ export const InventoryView: React.FC = () => {
 
       {/* TAB 2: RAW MATERIALS TABLE */}
       {activeTab === 'materials' && (
-        <div className="bg-[#0A0908] rounded-3xl border border-stone-900 overflow-hidden shadow-xl">
-          <table className="w-full text-left text-xs text-stone-300">
-            <thead className="bg-[#050505] border-b border-stone-900 text-stone-400 font-mono uppercase tracking-widest text-[10px]">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+          <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+            <thead className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-medium uppercase text-[10px]">
               <tr>
                 <th className="p-4">Kode</th>
                 <th className="p-4">Nama Material</th>
@@ -300,21 +300,21 @@ export const InventoryView: React.FC = () => {
                 <th className="p-4 text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-stone-900">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {filteredMaterials.map((m) => (
-                <tr key={m.id} className="hover:bg-stone-950/60 transition-colors">
-                  <td className="p-4 font-mono text-amber-300">{m.code}</td>
-                  <td className="p-4 font-bold text-white">{m.name}</td>
-                  <td className="p-4"><span className="px-2.5 py-1 rounded-full bg-stone-900 border border-stone-800 text-[10px] uppercase font-mono">{m.category}</span></td>
+                <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-slate-950/60 transition-colors">
+                  <td className="p-4 font-mono text-slate-900 dark:text-amber-300 font-bold">{m.code}</td>
+                  <td className="p-4 font-bold text-slate-900 dark:text-white">{m.name}</td>
+                  <td className="p-4"><span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] uppercase font-mono">{m.category}</span></td>
                   <td className="p-4 font-bold">
-                    <span className={m.stock <= m.minStock ? 'text-rose-400' : 'text-emerald-400'}>
+                    <span className={m.stock <= m.minStock ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}>
                       {m.stock} {m.unit}
                     </span>
                   </td>
                   <td className="p-4 font-mono">{formatRupiah(m.costPerUnit)}</td>
-                  <td className="p-4 text-stone-400">{m.supplier}</td>
-                  <td className="p-4 text-right space-x-2">
-                    <button onClick={() => deleteRawMaterial(m.id)} className="p-1.5 rounded-full hover:bg-rose-500/10 text-rose-400"><Trash2 className="w-4 h-4" /></button>
+                  <td className="p-4 text-slate-500 dark:text-slate-400">{m.supplier}</td>
+                  <td className="p-4 text-right">
+                    <button onClick={() => deleteRawMaterial(m.id)} className="p-1.5 rounded-lg hover:bg-rose-50 text-rose-600 dark:hover:bg-rose-500/10 dark:text-rose-400"><Trash2 className="w-4 h-4" /></button>
                   </td>
                 </tr>
               ))}
@@ -326,22 +326,22 @@ export const InventoryView: React.FC = () => {
       {/* PRODUCT MODAL */}
       {isProductModalOpen && (
         <Modal isOpen={isProductModalOpen} onClose={() => setIsProductModalOpen(false)} title={editingProduct ? 'Edit Produk' : 'Tambah Produk Baru'}>
-          <form onSubmit={handleSaveProduct} className="space-y-4 text-xs text-stone-100">
+          <form onSubmit={handleSaveProduct} className="space-y-4 text-xs text-slate-900 dark:text-slate-100">
             <div>
-              <label className="block text-stone-400 mb-1">Nama Produk</label>
-              <input type="text" required value={prodName} onChange={e => setProdName(e.target.value)} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
+              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Nama Produk</label>
+              <input type="text" required value={prodName} onChange={e => setProdName(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-stone-400 mb-1">Harga Jual (Rp)</label>
-                <input type="number" required value={prodPrice} onChange={e => setProdPrice(Number(e.target.value))} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
+                <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Harga Jual (Rp)</label>
+                <input type="number" required value={prodPrice} onChange={e => setProdPrice(Number(e.target.value))} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white" />
               </div>
               <div>
-                <label className="block text-stone-400 mb-1">Stok Unit</label>
-                <input type="number" required value={prodStock} onChange={e => setProdStock(Number(e.target.value))} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
+                <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Stok Unit</label>
+                <input type="number" required value={prodStock} onChange={e => setProdStock(Number(e.target.value))} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white" />
               </div>
             </div>
-            <button type="submit" className="w-full py-3 bg-white text-stone-950 font-bold text-xs uppercase tracking-widest rounded-full">Simpan Produk</button>
+            <button type="submit" className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Produk</button>
           </form>
         </Modal>
       )}
@@ -349,12 +349,12 @@ export const InventoryView: React.FC = () => {
       {/* MATERIAL MODAL */}
       {isMaterialModalOpen && (
         <Modal isOpen={isMaterialModalOpen} onClose={() => setIsMaterialModalOpen(false)} title="Tambah Material Bahan Mentah">
-          <form onSubmit={handleSaveMaterial} className="space-y-4 text-xs text-stone-100">
+          <form onSubmit={handleSaveMaterial} className="space-y-4 text-xs text-slate-900 dark:text-slate-100">
             <div>
-              <label className="block text-stone-400 mb-1">Nama Material Bahan</label>
-              <input type="text" required value={matName} onChange={e => setMatName(e.target.value)} className="w-full p-3 bg-[#050505] border border-stone-800 rounded-2xl text-white" />
+              <label className="block text-slate-600 dark:text-slate-400 font-medium mb-1">Nama Material Bahan</label>
+              <input type="text" required value={matName} onChange={e => setMatName(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white" />
             </div>
-            <button type="submit" className="w-full py-3 bg-white text-stone-950 font-bold text-xs uppercase tracking-widest rounded-full">Simpan Material</button>
+            <button type="submit" className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl">Simpan Material</button>
           </form>
         </Modal>
       )}

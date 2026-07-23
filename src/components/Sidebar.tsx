@@ -90,10 +90,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
   ];
 
   return (
-    <aside className="w-64 border-r border-stone-900 bg-[#070605] flex flex-col justify-between p-4 min-h-[calc(100vh-4rem)]">
-      <div className="space-y-1.5">
-        <div className="px-3 py-2 text-[10px] font-mono font-bold text-stone-500 uppercase tracking-widest">
-          MODUL MANAJEMEN STUDIO
+    <aside className="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between p-4 min-h-[calc(100vh-4rem)] transition-colors">
+      <div className="space-y-1">
+        <div className="px-3 py-2 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+          Modul Utama Studio
         </div>
 
         {navItems.map((item) => {
@@ -106,17 +106,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
               key={item.id}
               onClick={() => allowed && onTabChange(item.id)}
               disabled={!allowed}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-2xl text-left transition-all group ${
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-all group ${
                 isActive
-                  ? 'bg-stone-900 text-white font-bold border border-stone-700 shadow-lg'
+                  ? 'bg-amber-500/10 text-amber-800 dark:text-amber-300 font-bold border border-amber-500/20 dark:border-amber-500/30'
                   : allowed
-                  ? 'text-stone-400 hover:bg-stone-950 hover:text-white'
-                  : 'text-stone-700 opacity-50 cursor-not-allowed'
+                  ? 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                  : 'text-slate-400 dark:text-slate-600 opacity-50 cursor-not-allowed'
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className={`p-1.5 rounded-xl transition-colors ${
-                  isActive ? 'bg-amber-300 text-stone-950' : 'bg-stone-900 text-stone-400 group-hover:text-amber-300'
+                <div className={`p-1.5 rounded-lg transition-colors ${
+                  isActive
+                    ? 'bg-amber-500 text-slate-950 font-bold'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white'
                 }`}>
                   <Icon className="w-4 h-4" />
                 </div>
@@ -124,19 +126,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                   <div className="text-xs font-semibold leading-snug truncate flex items-center gap-1.5">
                     {item.label}
                     {item.badge && (
-                      <span className="text-[9px] font-mono font-bold bg-amber-400/10 text-amber-300 px-1.5 py-0.2 rounded-full border border-amber-400/30">
+                      <span className="text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-400/20 dark:text-amber-300 px-1.5 py-0.2 rounded border border-amber-200 dark:border-amber-400/30">
                         {item.badge}
                       </span>
                     )}
                   </div>
-                  <div className="text-[10px] text-stone-500 truncate font-light">{item.desc}</div>
+                  <div className="text-[10px] text-slate-400 dark:text-slate-500 truncate font-normal">{item.desc}</div>
                 </div>
               </div>
 
               {!allowed ? (
-                <Lock className="w-3.5 h-3.5 text-stone-700 shrink-0" />
+                <Lock className="w-3.5 h-3.5 text-slate-400 dark:text-slate-600 shrink-0" />
               ) : isActive ? (
-                <ChevronRight className="w-4 h-4 text-amber-300 shrink-0" />
+                <ChevronRight className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
               ) : null}
             </button>
           );
@@ -144,14 +146,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
       </div>
 
       {/* Role banner at sidebar bottom */}
-      <div className="p-4 bg-[#0A0908] border border-stone-900 rounded-2xl space-y-1">
+      <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl space-y-1">
         <div className="flex items-center justify-between text-xs">
-          <span className="text-stone-400 font-medium">Peran Akses:</span>
-          <span className="text-amber-300 font-bold capitalize font-mono text-[11px]">{currentUser ? currentUser.role : 'Guest'}</span>
+          <span className="text-slate-500 dark:text-slate-400 font-medium">Hak Akses:</span>
+          <span className="text-amber-700 dark:text-amber-300 font-bold capitalize text-[11px]">{currentUser ? currentUser.role : 'Guest'}</span>
         </div>
-        <p className="text-[10px] text-stone-500 leading-normal font-light">
+        <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-normal font-normal">
           {currentUser
-            ? `Akses ${currentUser.permissions.includes('all') ? 'penuh seluruh modul' : `${currentUser.permissions.length} modul terstruktur`}.`
+            ? `Diberikan hak ${currentUser.permissions.includes('all') ? 'akses penuh modul' : `${currentUser.permissions.length} modul terstruktur`}.`
             : 'Login untuk membuka portal manajemen.'}
         </p>
       </div>
