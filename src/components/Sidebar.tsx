@@ -104,8 +104,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
   ];
 
   return (
-    <aside className="w-64 h-[calc(100vh-4rem)] sticky top-16 self-start shrink-0 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col justify-between p-4 transition-colors select-none">
-      <div className="space-y-4 overflow-y-auto flex-1 pr-1">
+    <aside className="w-64 h-[calc(100vh-4rem)] sticky top-16 self-start shrink-0 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col justify-between p-3.5 transition-colors select-none">
+      {/* Scrollable Menu Items Container with min-h-0 to prevent flex overflow */}
+      <div className="space-y-3.5 overflow-y-auto min-h-0 flex-1 pr-1">
         {sections.map((sec, sIdx) => (
           <div key={sIdx} className="space-y-1">
             <div className="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
@@ -122,7 +123,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                   key={item.id}
                   onClick={() => allowed && onTabChange(item.id)}
                   disabled={!allowed}
-                  className={`w-full flex items-center justify-between px-3.5 h-11 rounded-xl text-left transition-all group active:scale-[0.98] ${
+                  className={`w-full flex items-center justify-between px-3 h-10 rounded-xl text-left transition-all group active:scale-[0.98] ${
                     isActive
                       ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
                       : allowed
@@ -130,13 +131,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
                       : 'text-zinc-400 dark:text-zinc-600 opacity-50 cursor-not-allowed'
                   }`}
                 >
-                  <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <div className={`p-1.5 rounded-lg transition-colors shrink-0 ${
                       isActive
                         ? 'bg-white/20 text-white dark:bg-zinc-950/20 dark:text-zinc-950'
                         : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white'
                     }`}>
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-3.5 h-3.5" />
                     </div>
                     <div className="truncate">
                       <div className="text-xs font-semibold leading-tight truncate flex items-center gap-1.5">
@@ -169,14 +170,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
         ))}
       </div>
 
-      {/* Role banner at sidebar bottom - Always fixed at bottom */}
-      <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 shrink-0 mt-2">
-        <div className="p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl space-y-1">
+      {/* Role banner at sidebar bottom - Always 100% visible & un-truncated */}
+      <div className="pt-2.5 border-t border-zinc-200 dark:border-zinc-800 shrink-0 mt-1">
+        <div className="p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl space-y-0.5">
           <div className="flex items-center justify-between text-xs">
             <span className="text-zinc-500 dark:text-zinc-400 font-medium">Hak Akses:</span>
             <span className="text-zinc-900 dark:text-white font-bold capitalize text-[11px]">{currentUser ? currentUser.role : 'Guest'}</span>
           </div>
-          <p className="text-[10px] text-zinc-400 dark:text-zinc-500 leading-normal font-normal">
+          <p className="text-[10px] text-zinc-400 dark:text-zinc-500 leading-snug font-normal">
             {currentUser
               ? `Diberikan hak ${currentUser.permissions.includes('all') ? 'akses penuh modul' : `${currentUser.permissions.length} modul terstruktur`}.`
               : 'Login untuk membuka portal.'}
