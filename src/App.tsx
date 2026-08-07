@@ -158,10 +158,10 @@ const MainLayout: React.FC = () => {
 
   return (
     <div className="h-screen overflow-hidden bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col font-sans transition-colors">
-      <Header currentTab={currentTab} onTabChange={setCurrentTab} />
+      <Header currentTab={currentTab} onTabChange={setCurrentTab} isDemoMode={isDemoRoute} />
 
       <div className="flex-1 flex overflow-hidden min-h-0">
-        <Sidebar currentTab={currentTab} onTabChange={setCurrentTab} />
+        <Sidebar currentTab={currentTab} onTabChange={setCurrentTab} isDemoMode={isDemoRoute} />
 
         <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-[1800px] mx-auto w-full min-h-0">
           {renderAdminContent()}

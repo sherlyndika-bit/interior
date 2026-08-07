@@ -16,9 +16,10 @@ import {
 interface SidebarProps {
   currentTab: string;
   onTabChange: (tab: string) => void;
+  isDemoMode?: boolean;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, isDemoMode = false }) => {
   const { hasPermission, currentUser } = useAuth();
 
   const sections = [
@@ -107,67 +108,74 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
     <aside className="w-64 h-full shrink-0 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col justify-between p-3.5 transition-colors select-none">
       {/* Scrollable Menu Items Container with min-h-0 to prevent flex overflow */}
       <div className="space-y-3 overflow-y-auto min-h-0 flex-1 pr-1">
-        {sections.map((sec, sIdx) => (
-          <div key={sIdx} className="space-y-1">
-            <div className="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
-              {sec.title}
-            </div>
+        {sections.map((sec, sIdx) => {
+          // In real admin mode (/#/admin), filter out unallowed items completely.
+          // In demo mode (/#/demo), keep all items visible (unallowed items will be locked).
+          const visibleItems = sec.items.filter(item => isDemoMode || hasPermission(item.permission));
+          if (visibleItems.length === 0) return null;
 
-            {sec.items.map((item) => {
-              const allowed = hasPermission(item.permission);
-              const isActive = currentTab === item.id;
-              const Icon = item.icon;
+          return (
+            <div key={sIdx} className="space-y-1">
+              <div className="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+                {sec.title}
+              </div>
 
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => allowed && onTabChange(item.id)}
-                  disabled={!allowed}
-                  className={`w-full flex items-center justify-between px-3 h-10 rounded-xl text-left transition-all group active:scale-[0.98] ${
-                    isActive
-                      ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
-                      : allowed
-                      ? 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/80 hover:text-zinc-900 dark:hover:text-white'
-                      : 'text-zinc-400 dark:text-zinc-600 opacity-50 cursor-not-allowed'
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className={`p-1.5 rounded-lg transition-colors shrink-0 ${
+              {visibleItems.map((item) => {
+                const allowed = hasPermission(item.permission);
+                const isActive = currentTab === item.id;
+                const Icon = item.icon;
+
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => allowed && onTabChange(item.id)}
+                    disabled={!allowed}
+                    className={`w-full flex items-center justify-between px-3 h-10 rounded-xl text-left transition-all group active:scale-[0.98] ${
                       isActive
-                        ? 'bg-white/20 text-white dark:bg-zinc-950/20 dark:text-zinc-950'
-                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white'
-                    }`}>
-                      <Icon className="w-3.5 h-3.5" />
-                    </div>
-                    <div className="truncate">
-                      <div className="text-xs font-semibold leading-tight truncate flex items-center gap-1.5">
-                        {item.label}
-                        {item.badge && (
-                          <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded border ${
-                            isActive
-                              ? 'bg-white/20 text-white dark:bg-zinc-900 dark:text-white border-transparent'
-                              : 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700'
-                          }`}>
-                            {item.badge}
-                          </span>
-                        )}
-                      </div>
-                      <div className={`text-[10px] truncate font-normal ${
-                        isActive ? 'text-zinc-300 dark:text-zinc-600' : 'text-zinc-400 dark:text-zinc-500'
+                        ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs'
+                        : allowed
+                        ? 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/80 hover:text-zinc-900 dark:hover:text-white'
+                        : 'text-zinc-400 dark:text-zinc-600 opacity-50 cursor-not-allowed'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className={`p-1.5 rounded-lg transition-colors shrink-0 ${
+                        isActive
+                          ? 'bg-white/20 text-white dark:bg-zinc-950/20 dark:text-zinc-950'
+                          : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white'
                       }`}>
-                        {item.desc}
+                        <Icon className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="truncate">
+                        <div className="text-xs font-semibold leading-tight truncate flex items-center gap-1.5">
+                          {item.label}
+                          {item.badge && (
+                            <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded border ${
+                              isActive
+                                ? 'bg-white/20 text-white dark:bg-zinc-900 dark:text-white border-transparent'
+                                : 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700'
+                            }`}>
+                              {item.badge}
+                            </span>
+                          )}
+                        </div>
+                        <div className={`text-[10px] truncate font-normal ${
+                          isActive ? 'text-zinc-300 dark:text-zinc-600' : 'text-zinc-400 dark:text-zinc-500'
+                        }`}>
+                          {item.desc}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {!allowed && (
-                    <Lock className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-600 shrink-0" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        ))}
+                    {!allowed && isDemoMode && (
+                      <Lock className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-600 shrink-0" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
 
       {/* Role banner at sidebar bottom - Always 100% visible & un-truncated */}

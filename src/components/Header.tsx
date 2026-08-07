@@ -6,9 +6,10 @@ import { Sun, Moon, LogOut, Store } from 'lucide-react';
 interface HeaderProps {
   currentTab: string;
   onTabChange: (tab: string) => void;
+  isDemoMode?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onTabChange }) => {
+export const Header: React.FC<HeaderProps> = ({ onTabChange, isDemoMode = false }) => {
   const { currentUser, loginAsRole, logout } = useAuth();
   const [isDarkMode, setIsDarkMode] = React.useState<boolean>(() => {
     return document.documentElement.classList.contains('dark');
@@ -71,23 +72,25 @@ export const Header: React.FC<HeaderProps> = ({ onTabChange }) => {
           )}
         </button>
 
-        {/* Role Simulator Switcher */}
-        <div className="hidden md:flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-800/80 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs">
-          <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase px-2">PERAN:</span>
-          {(['owner', 'kasir', 'gudang', 'teknisi'] as UserRole[]).map((r) => (
-            <button
-              key={r}
-              onClick={() => loginAsRole(r)}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold capitalize transition-all ${
-                currentUser?.role === r
-                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 shadow-xs'
-                  : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
-              }`}
-            >
-              {r}
-            </button>
-          ))}
-        </div>
+        {/* Role Simulator Switcher - ONLY SHOW IN DEMO ROUTE (/#/demo) */}
+        {isDemoMode && (
+          <div className="hidden md:flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-800/80 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700 text-xs">
+            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase px-2">PERAN:</span>
+            {(['owner', 'kasir', 'gudang', 'teknisi'] as UserRole[]).map((r) => (
+              <button
+                key={r}
+                onClick={() => loginAsRole(r)}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold capitalize transition-all ${
+                  currentUser?.role === r
+                    ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 shadow-xs'
+                    : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Current User Profile & Logout */}
         {currentUser && (
