@@ -104,9 +104,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange }) => 
   ];
 
   return (
-    <aside className="w-64 h-[calc(100vh-4rem)] sticky top-16 self-start shrink-0 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col justify-between p-3.5 transition-colors select-none">
+    <aside className="w-64 h-full shrink-0 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col justify-between p-3.5 transition-colors select-none">
       {/* Scrollable Menu Items Container with min-h-0 to prevent flex overflow */}
-      <div className="space-y-3.5 overflow-y-auto min-h-0 flex-1 pr-1">
+      <div className="space-y-3 overflow-y-auto min-h-0 flex-1 pr-1">
         {sections.map((sec, sIdx) => (
           <div key={sIdx} className="space-y-1">
             <div className="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
