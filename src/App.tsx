@@ -51,12 +51,37 @@ const MainLayout: React.FC = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
+  // Dynamic Route & Title / Meta Tag Switcher (Frontend vs Admin Backend vs Demo)
   useEffect(() => {
-    const handleHashChange = () => {
-      setRouteHash(window.location.hash || '#/');
+    const updateTitleAndMeta = () => {
+      const hash = window.location.hash || '#/';
+      setRouteHash(hash);
+
+      const isDemo = hash.includes('demo');
+      const isAdmin = hash.includes('admin') || isDemo;
+
+      let metaDesc = document.querySelector('meta[name="description"]');
+      if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.setAttribute('name', 'description');
+        document.head.appendChild(metaDesc);
+      }
+
+      if (isDemo) {
+        document.title = 'InteriorCraft Studio - Demo Simulator System';
+        metaDesc.setAttribute('content', 'Portal simulasi demo hak akses staff PT InteriorCraft Studio Indonesia.');
+      } else if (isAdmin) {
+        document.title = 'InteriorCraft Studio Admin - Dashboard Manajemen & POS';
+        metaDesc.setAttribute('content', 'Portal manajemen internal PT InteriorCraft Studio Indonesia. Pengelolaan kasir POS, stok bahan, invoice SPH, dan jadwal instalasi.');
+      } else {
+        document.title = 'InteriorCraft Studio - Custom Fitout Interior & Modern Furniture Katalog';
+        metaDesc.setAttribute('content', 'Jasa pembuatan interior custom, kitchen set, wardrobe, dan backdrop TV Jabodetabek. Konsultasi gratis dan garansi kualitas terbaik.');
+      }
     };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+
+    updateTitleAndMeta();
+    window.addEventListener('hashchange', updateTitleAndMeta);
+    return () => window.removeEventListener('hashchange', updateTitleAndMeta);
   }, []);
 
   const isDemoRoute = routeHash.includes('demo');
