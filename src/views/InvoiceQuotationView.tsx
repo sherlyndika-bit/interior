@@ -10,7 +10,7 @@ interface InvoiceQuotationViewProps {
 }
 
 export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ initialTab = 'quotations' }) => {
-  const { quotations, addQuotation, convertQuotationToOrder, orders, taxSetting, addPaymentMilestone } = useApp();
+  const { quotations, addQuotation, convertQuotationToOrder, deleteQuotation, orders, taxSetting, addPaymentMilestone } = useApp();
   const [activeTab, setActiveTab] = useState<'quotations' | 'invoices'>(initialTab);
 
   useEffect(() => {
@@ -304,7 +304,7 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
 
                 {/* Terms and Conditions */}
                 <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 space-y-1 text-[11px]">
-                  <h4 className="font-bold text-zinc-900 dark:text-white mb-1">Syarat & Ketentuan Ketentuan SPH:</h4>
+                  <h4 className="font-bold text-zinc-900 dark:text-white mb-1">Syarat & Ketentuan SPH:</h4>
                   {selectedQuotation.termsAndConditions.map((tc, idx) => (
                     <p key={idx} className="text-zinc-500 dark:text-zinc-400">• {tc}</p>
                   ))}
@@ -317,11 +317,24 @@ export const InvoiceQuotationView: React.FC<InvoiceQuotationViewProps> = ({ init
 
                 <div className="flex justify-end gap-3 pt-4 border-t border-zinc-200 dark:border-zinc-800">
                   <button
+                    onClick={() => {
+                      if (confirm(`Yakin ingin menghapus penawaran ${selectedQuotation.quotationNumber}?`)) {
+                        deleteQuotation(selectedQuotation.id);
+                        setSelectedQuotation(null);
+                      }
+                    }}
+                    className="h-9 px-3.5 rounded-xl bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 font-bold text-xs flex items-center gap-1.5 transition-all"
+                  >
+                    <Trash2 className="w-4 h-4 shrink-0" /> Hapus
+                  </button>
+
+                  <button
                     onClick={() => window.print()}
                     className="h-9 px-4 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-white font-bold text-xs flex items-center gap-1.5 transition-all"
                   >
                     <Printer className="w-4 h-4 shrink-0" /> Cetak SPH PDF
                   </button>
+
                   {selectedQuotation.status !== 'Approved' && selectedQuotation.status !== 'Converted to Order' && (
                     <button
                       onClick={() => convertQuotationToOrder(selectedQuotation.id)}

@@ -52,12 +52,14 @@ interface AppContextType {
   addOrder: (order: Order) => void;
   updateOrderStatus: (orderId: string, stage: Order['stage']) => void;
   addPaymentMilestone: (orderId: string, paymentMethod: string, amount: number) => void;
+  deleteOrder: (id: string) => void;
 
   addSchedule: (schedule: InstallationSchedule) => void;
   updateScheduleStatus: (id: string, status: InstallationSchedule['status'], notes?: string, photo?: string) => void;
 
   addEmployee: (employee: Employee) => void;
   updateEmployee: (employee: Employee) => void;
+  deleteEmployee: (id: string) => void;
   generatePayroll: (employeeId: string, period: string, bonus: number, deductions: number) => void;
   markPayrollPaid: (payrollId: string) => void;
 
@@ -65,9 +67,11 @@ interface AppContextType {
 
   addPromo: (promo: PromoVoucher) => void;
   togglePromo: (id: string) => void;
+  deletePromo: (id: string) => void;
 
   addQuotation: (quotation: Quotation) => void;
   convertQuotationToOrder: (quotationId: string) => void;
+  deleteQuotation: (id: string) => void;
 
   // Global Toast state
   toastMessage: { text: string; type: 'success' | 'error' | 'info' } | null;
@@ -200,6 +204,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return p;
       }));
     });
+
     // Auto add to schedule if target completion date exists
     if (order.targetCompletionDate) {
       const newSch: InstallationSchedule = {
@@ -218,17 +223,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setSchedules(prev => [newSch, ...prev]);
     }
 
-    // Update customer spend
-    setCustomers(prev => prev.map(c => {
-      if (c.id === order.customerId) {
-        return {
+    // Auto create or update Customer in database
+    setCustomers(prev => {
+      const found = prev.find(c => c.id === order.customerId || c.phone === order.customerPhone || c.name.toLowerCase() === order.customerName.toLowerCase());
+      if (found) {
+        return prev.map(c => c.id === found.id ? {
           ...c,
           totalOrders: c.totalOrders + 1,
           totalSpent: c.totalSpent + order.grandTotal
+        } : c);
+      } else {
+        const newCust: Customer = {
+          id: order.customerId || `cust-${Date.now()}`,
+          code: `KLIEN-2026-${Date.now().toString().slice(-4)}`,
+          name: order.customerName,
+          phone: order.customerPhone || '08123456789',
+          email: `${order.customerName.toLowerCase().replace(/\s+/g, '')}@gmail.com`,
+          address: order.customerAddress || 'Alamat Klien',
+          city: 'Jakarta',
+          totalOrders: 1,
+          totalSpent: order.grandTotal,
+          notes: 'Dibuat otomatis dari Pesanan Baru POS',
+          joinedDate: new Date().toISOString().split('T')[0]
         };
+        return [newCust, ...prev];
       }
-      return c;
-    }));
+    });
 
     showToast(`Pesanan ${order.orderNumber} berhasil dibuat!`);
   };
@@ -267,6 +287,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast(`Pembayaran Rp ${amount.toLocaleString('id-ID')} berhasil dicatat!`);
   };
 
+  const deleteOrder = (id: string) => {
+    setOrders(prev => prev.filter(o => o.id !== id));
+    showToast('Pesanan berhasil dibatalkan/dihapus.', 'info');
+  };
+
   // Schedule Actions
   const addSchedule = (schedule: InstallationSchedule) => {
     setSchedules(prev => [schedule, ...prev]);
@@ -297,6 +322,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const updateEmployee = (employee: Employee) => {
     setEmployees(prev => prev.map(e => e.id === employee.id ? employee : e));
     showToast(`Data ${employee.name} diperbarui.`);
+  };
+
+  const deleteEmployee = (id: string) => {
+    setEmployees(prev => prev.filter(e => e.id !== id));
+    showToast('Data karyawan dihapus.', 'info');
   };
 
   const generatePayroll = (employeeId: string, period: string, bonus: number, deductions: number) => {
@@ -357,6 +387,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('Status voucher diperbarui.');
   };
 
+  const deletePromo = (id: string) => {
+    setPromos(prev => prev.filter(p => p.id !== id));
+    showToast('Voucher diskon dihapus.', 'info');
+  };
+
   // Quotation
   const addQuotation = (quotation: Quotation) => {
     setQuotations(prev => [quotation, ...prev]);
@@ -367,13 +402,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const q = quotations.find(item => item.id === quotationId);
     if (!q) return;
 
+    // Check if customer already exists or create new customer
+    const existingCust = customers.find(c => c.phone === q.customerPhone || c.name.toLowerCase() === q.customerName.toLowerCase());
+    const custId = existingCust ? existingCust.id : `cust-${Date.now()}`;
+
+    if (!existingCust) {
+      const newCust: Customer = {
+        id: custId,
+        code: `KLIEN-2026-${Date.now().toString().slice(-4)}`,
+        name: q.customerName,
+        phone: q.customerPhone || '08123456789',
+        email: `${q.customerName.toLowerCase().replace(/\s+/g, '')}@gmail.com`,
+        address: q.customerAddress || 'Lokasi Site Proyek',
+        city: 'Jakarta',
+        totalOrders: 1,
+        totalSpent: q.grandTotal,
+        notes: `Klien dari konversi SPH ${q.quotationNumber}`,
+        joinedDate: new Date().toISOString().split('T')[0]
+      };
+      setCustomers(prev => [newCust, ...prev]);
+    } else {
+      setCustomers(prev => prev.map(c => c.id === existingCust.id ? {
+        ...c,
+        totalOrders: c.totalOrders + 1,
+        totalSpent: c.totalSpent + q.grandTotal
+      } : c));
+    }
+
     // Create new order from quotation
     const newOrder: Order = {
       id: `ord-q-${Date.now()}`,
       orderNumber: `ORD-${q.quotationNumber.replace('QUO-', '')}`,
       date: new Date().toISOString().split('T')[0],
       type: 'Pre-Order / Custom',
-      customerId: 'cust-temp',
+      customerId: custId,
       customerName: q.customerName,
       customerPhone: q.customerPhone,
       customerAddress: q.customerAddress,
@@ -416,12 +478,33 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       ],
       targetCompletionDate: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       notes: `Dikonversi dari Penawaran ${q.quotationNumber}`,
-      createdByName: 'Sistem Conversi'
+      createdByName: 'Sistem Konversi'
+    };
+
+    // Auto create schedule for converted order
+    const newSch: InstallationSchedule = {
+      id: `sch-${Date.now()}`,
+      orderId: newOrder.id,
+      orderNumber: newOrder.orderNumber,
+      customerName: newOrder.customerName,
+      phone: newOrder.customerPhone,
+      address: newOrder.customerAddress,
+      scheduledDate: newOrder.targetCompletionDate!,
+      timeSlot: '09:00 - 15:00 WIB',
+      assignedTeam: ['Tim Instalatir Utama'],
+      status: 'Scheduled',
+      notes: `Instalasi Proyek Konversi ${q.quotationNumber}`
     };
 
     setOrders(prev => [newOrder, ...prev]);
+    setSchedules(prev => [newSch, ...prev]);
     setQuotations(prev => prev.map(item => item.id === quotationId ? { ...item, status: 'Converted to Order' } : item));
-    showToast(`Penawaran ${q.quotationNumber} berhasil dikonversi ke Pesanan Baru!`);
+    showToast(`Penawaran ${q.quotationNumber} berhasil dikonversi ke Pesanan & Jadwal Instalasi Baru!`);
+  };
+
+  const deleteQuotation = (id: string) => {
+    setQuotations(prev => prev.filter(q => q.id !== id));
+    showToast('Surat Penawaran dihapus.', 'info');
   };
 
   return (
@@ -448,17 +531,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       addOrder,
       updateOrderStatus,
       addPaymentMilestone,
+      deleteOrder,
       addSchedule,
       updateScheduleStatus,
       addEmployee,
       updateEmployee,
+      deleteEmployee,
       generatePayroll,
       markPayrollPaid,
       updateTaxSetting,
       addPromo,
       togglePromo,
+      deletePromo,
       addQuotation,
       convertQuotationToOrder,
+      deleteQuotation,
       toastMessage,
       showToast
     }}>
