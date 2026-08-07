@@ -51,8 +51,18 @@ const MainLayout: React.FC = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Dynamic Route & Title / Meta Tag Switcher (Frontend vs Admin Backend vs Demo)
+  // Dynamic Route & Open Graph / Twitter Preview Card Switcher
   useEffect(() => {
+    const updateMetaTag = (attr: string, key: string, content: string) => {
+      let element = document.querySelector(`meta[${attr}="${key}"]`);
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute(attr, key);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', content);
+    };
+
     const updateTitleAndMeta = () => {
       const hash = window.location.hash || '#/';
       setRouteHash(hash);
@@ -60,22 +70,29 @@ const MainLayout: React.FC = () => {
       const isDemo = hash.includes('demo');
       const isAdmin = hash.includes('admin') || isDemo;
 
-      let metaDesc = document.querySelector('meta[name="description"]');
-      if (!metaDesc) {
-        metaDesc = document.createElement('meta');
-        metaDesc.setAttribute('name', 'description');
-        document.head.appendChild(metaDesc);
-      }
-
       if (isDemo) {
         document.title = 'InteriorCraft Studio - Demo Simulator System';
-        metaDesc.setAttribute('content', 'Portal simulasi demo hak akses staff PT InteriorCraft Studio Indonesia.');
+        updateMetaTag('name', 'description', 'Portal simulasi demo hak akses staff PT InteriorCraft Studio Indonesia.');
+        updateMetaTag('property', 'og:title', 'InteriorCraft Studio - Demo Simulator System');
+        updateMetaTag('property', 'og:description', 'Portal simulasi demo hak akses staff PT InteriorCraft Studio Indonesia.');
+        updateMetaTag('name', 'twitter:title', 'InteriorCraft Studio - Demo Simulator System');
+        updateMetaTag('name', 'twitter:description', 'Portal simulasi demo hak akses staff PT InteriorCraft Studio Indonesia.');
       } else if (isAdmin) {
         document.title = 'InteriorCraft Studio Admin - Dashboard Manajemen & POS';
-        metaDesc.setAttribute('content', 'Portal manajemen internal PT InteriorCraft Studio Indonesia. Pengelolaan kasir POS, stok bahan, invoice SPH, dan jadwal instalasi.');
+        updateMetaTag('name', 'description', 'Portal manajemen internal PT InteriorCraft Studio Indonesia. Pengelolaan kasir POS, stok bahan, invoice SPH, dan jadwal instalasi.');
+        updateMetaTag('property', 'og:title', 'InteriorCraft Studio Admin - Dashboard Manajemen & POS');
+        updateMetaTag('property', 'og:description', 'Portal manajemen internal PT InteriorCraft Studio Indonesia.');
+        updateMetaTag('name', 'twitter:title', 'InteriorCraft Studio Admin - Dashboard Manajemen & POS');
+        updateMetaTag('name', 'twitter:description', 'Portal manajemen internal PT InteriorCraft Studio Indonesia.');
       } else {
         document.title = 'InteriorCraft Studio - Custom Fitout Interior & Modern Furniture Katalog';
-        metaDesc.setAttribute('content', 'Jasa pembuatan interior custom, kitchen set, wardrobe, dan backdrop TV Jabodetabek. Konsultasi gratis dan garansi kualitas terbaik.');
+        updateMetaTag('name', 'description', 'Jasa pembuatan interior custom, kitchen set, wardrobe, dan backdrop TV Jabodetabek. Konsultasi gratis dan garansi kualitas terbaik.');
+        updateMetaTag('property', 'og:title', 'InteriorCraft Studio - Custom Fitout Interior & Modern Furniture');
+        updateMetaTag('property', 'og:description', 'Jasa pembuatan interior custom, kitchen set, wardrobe, dan backdrop TV Jabodetabek. Konsultasi gratis dan garansi kualitas terbaik.');
+        updateMetaTag('property', 'og:image', 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&h=630&q=80');
+        updateMetaTag('name', 'twitter:title', 'InteriorCraft Studio - Custom Fitout Interior & Modern Furniture');
+        updateMetaTag('name', 'twitter:description', 'Jasa pembuatan interior custom, kitchen set, wardrobe, dan backdrop TV Jabodetabek. Konsultasi gratis dan garansi kualitas terbaik.');
+        updateMetaTag('name', 'twitter:image', 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&h=630&q=80');
       }
     };
 
