@@ -116,9 +116,9 @@ export const PublicCatalogView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-stone-100 font-sans selection:bg-stone-100 selection:text-stone-950">
+    <div className="min-h-screen bg-slate-950 text-stone-100 font-sans selection:bg-stone-100 selection:text-stone-950">
       {/* HEADER WITH AUTO BROWSER LANGUAGE DETECTION (CLEAN HEADER, ZERO MANUAL BUTTON CLUTTER) */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-[#050505]/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 lg:px-16 py-5 transition-all">
+      <header className="fixed top-0 inset-x-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-stone-900 px-6 sm:px-12 lg:px-16 py-5 transition-all">
         <div className="max-w-[1800px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <span className="font-bold text-white text-xl sm:text-2xl lg:text-3xl tracking-widest uppercase">
@@ -161,7 +161,7 @@ export const PublicCatalogView: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover filter brightness-[0.65] contrast-[1.05] scale-105"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-[#050505]/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-slate-950/60" />
 
         <div className="relative z-10 max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-16 w-full text-left space-y-6 lg:space-y-8">
           <h1 className="text-4xl sm:text-6xl lg:text-8xl 2xl:text-9xl font-sans font-extrabold text-white tracking-tight leading-[1.05] max-w-6xl">
@@ -197,7 +197,7 @@ export const PublicCatalogView: React.FC = () => {
       </section>
 
       {/* STUDIO MANIFESTO SECTION */}
-      <section className="py-20 lg:py-28 px-6 sm:px-12 lg:px-16 bg-[#0A0908] border-y border-stone-900">
+      <section className="py-20 lg:py-28 px-6 sm:px-12 lg:px-16 bg-slate-950 border-y border-stone-900">
         <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           <div className="lg:col-span-4 flex items-center justify-center lg:justify-start">
             <span className="text-9xl lg:text-[14rem] font-extrabold text-stone-800 tracking-tighter select-none leading-none">
@@ -223,7 +223,7 @@ export const PublicCatalogView: React.FC = () => {
       </section>
 
       {/* PURE EDITORIAL ARCHITECTURAL STUDIO ABOUT US SECTION */}
-      <section id="about-section" className="py-24 lg:py-32 px-6 sm:px-12 lg:px-16 bg-[#050505] border-b border-stone-900">
+      <section id="about-section" className="py-24 lg:py-32 px-6 sm:px-12 lg:px-16 bg-slate-950 border-b border-stone-900">
         <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
           {/* Left Column: Title & Heritage */}
           <div className="lg:col-span-5 space-y-6">
@@ -270,7 +270,7 @@ export const PublicCatalogView: React.FC = () => {
       </section>
 
       {/* INFINITE MARQUEE SLIDERS */}
-      <section className="py-8 bg-[#050505] overflow-hidden space-y-6">
+      <section className="py-8 bg-slate-950 overflow-hidden space-y-6">
         {/* ROW 1 */}
         <div className="overflow-hidden w-full relative">
           <div className="animate-marquee-left gap-4 lg:gap-6">
@@ -379,7 +379,7 @@ export const PublicCatalogView: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={lang === 'id' ? "Cari nama proyek interior..." : "Search project by name..."}
-            className="w-full pl-11 lg:pl-12 pr-4 py-2.5 lg:py-3 bg-[#0A0908] border border-stone-800 rounded-full text-xs lg:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
+            className="w-full pl-11 lg:pl-12 pr-4 py-2.5 lg:py-3 bg-slate-950 border border-stone-800 rounded-full text-xs lg:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-stone-500 transition-colors"
           />
         </div>
 
@@ -427,7 +427,7 @@ export const PublicCatalogView: React.FC = () => {
       </main>
 
       {/* RICH ARCHITECTURAL STUDIO FOOTER */}
-      <footer className="border-t border-stone-900 bg-[#070605] pt-20 pb-12 text-stone-400 text-xs lg:text-sm">
+      <footer className="border-t border-stone-900 bg-slate-950 pt-20 pb-12 text-stone-400 text-xs lg:text-sm">
         <div className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-16 space-y-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-16">
             {/* Col 1: Studio Info */}
