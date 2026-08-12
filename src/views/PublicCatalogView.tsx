@@ -133,7 +133,7 @@ export const PublicCatalogView: React.FC = () => {
             <button onClick={scrollToAbout} className="hover:text-white transition-colors">
               {lang === 'id' ? 'TENTANG KAMI' : 'ABOUT US'}
             </button>
-            <button onClick={scrollToGallery} className="hover:text-white transition-colors">
+            <button onClick={() => scrollToGallery()} className="hover:text-white transition-colors">
               {lang === 'id' ? 'GALERI PROYEK' : 'PROJECT GALLERY'}
             </button>
             <button onClick={() => setIsEstimatorOpen(true)} className="hover:text-white transition-colors">
@@ -181,7 +181,7 @@ export const PublicCatalogView: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-4 lg:gap-6 pt-4">
             <button
-              onClick={scrollToGallery}
+              onClick={() => scrollToGallery()}
               className="px-8 lg:px-10 py-3.5 lg:py-4 border border-white text-white font-semibold text-xs lg:text-sm uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-all rounded-full"
             >
               {lang === 'id' ? 'Jelajahi Galeri' : 'Explore Gallery'}
@@ -471,7 +471,7 @@ export const PublicCatalogView: React.FC = () => {
                   </button>
                 </li>
                 <li>
-                  <button onClick={scrollToGallery} className="hover:text-white transition-colors">
+                  <button onClick={() => scrollToGallery()} className="hover:text-white transition-colors">
                     {lang === 'id' ? 'Galeri Portofolio Proyek' : 'Project Portfolio'}
                   </button>
                 </li>
