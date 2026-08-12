@@ -49,6 +49,10 @@ export const PublicCatalogView: React.FC = () => {
   const [estHeight, setEstHeight] = useState<number>(2.8);
   const [estFinish, setEstFinish] = useState<string>('HPL Taco Wood Grain');
 
+  // Policy Modals State
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState<boolean>(false);
+  const [isTermsOpen, setIsTermsOpen] = useState<boolean>(false);
+
   const categories = lang === 'id'
     ? ['Semua', 'Kitchen Set', 'Wardrobe', 'Bedroom', 'Living Room', 'Wall Panel', 'Office']
     : ['All', 'Kitchen Set', 'Wardrobe', 'Bedroom', 'Living Room', 'Wall Panel', 'Office'];
@@ -65,7 +69,10 @@ export const PublicCatalogView: React.FC = () => {
   const marqueeRow1 = [...products, ...products];
   const marqueeRow2 = [...products].reverse().concat([...products].reverse());
 
-  const scrollToGallery = () => {
+  const scrollToGallery = (category?: string) => {
+    if (category) {
+      setSelectedCategory(category);
+    }
     document.getElementById('gallery-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -482,11 +489,11 @@ export const PublicCatalogView: React.FC = () => {
                 {lang === 'id' ? 'SPESIALISASI LAYANAN' : 'SPECIALIZED SERVICES'}
               </h4>
               <ul className="space-y-2.5 font-light">
-                <li className="hover:text-white transition-colors">Kitchen Set Modular & Island Table</li>
-                <li className="hover:text-white transition-colors">Wardrobe Walk-in Closet Glass</li>
-                <li className="hover:text-white transition-colors">Wall Panel WPC & TV Backdrop</li>
-                <li className="hover:text-white transition-colors">Bed Frame Floating & Headboard</li>
-                <li className="hover:text-white transition-colors">Fitout Komersial & Kantor Direksi</li>
+                <li className="hover:text-white transition-colors cursor-pointer" onClick={() => scrollToGallery('Kitchen Set')}>Kitchen Set Modular & Island Table</li>
+                <li className="hover:text-white transition-colors cursor-pointer" onClick={() => scrollToGallery('Wardrobe')}>Wardrobe Walk-in Closet Glass</li>
+                <li className="hover:text-white transition-colors cursor-pointer" onClick={() => scrollToGallery('Wall Panel')}>Wall Panel WPC & TV Backdrop</li>
+                <li className="hover:text-white transition-colors cursor-pointer" onClick={() => scrollToGallery('Bedroom')}>Bed Frame Floating & Headboard</li>
+                <li className="hover:text-white transition-colors cursor-pointer" onClick={() => scrollToGallery('Office')}>Fitout Komersial & Kantor Direksi</li>
               </ul>
             </div>
 
@@ -515,8 +522,8 @@ export const PublicCatalogView: React.FC = () => {
           <div className="border-t border-stone-900 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-stone-500 text-xs">
             <span>© 2026 PT InteriorCraft Studio Indonesia. All rights reserved.</span>
             <div className="flex items-center gap-6">
-              <a href="#" className="hover:text-stone-300 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-stone-300 transition-colors">Terms of Service</a>
+              <button onClick={() => setIsPrivacyOpen(true)} className="hover:text-stone-300 transition-colors">Privacy Policy</button>
+              <button onClick={() => setIsTermsOpen(true)} className="hover:text-stone-300 transition-colors">Terms of Service</button>
             </div>
           </div>
         </div>
@@ -756,6 +763,102 @@ export const PublicCatalogView: React.FC = () => {
                 <WhatsAppIcon className="w-4 h-4" />
                 <span>{lang === 'id' ? 'Konsultasi Hasil Estimasi via WA' : 'Inquire Estimate Result via WA'}</span>
               </a>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* PRIVACY POLICY MODAL */}
+      {isPrivacyOpen && (
+        <Modal
+          isOpen={isPrivacyOpen}
+          onClose={() => setIsPrivacyOpen(false)}
+          title={lang === 'id' ? "Kebijakan Privasi (Privacy Policy)" : "Privacy Policy"}
+          maxWidth="max-w-3xl"
+        >
+          <div className="space-y-6 text-stone-300 text-sm leading-relaxed font-light pb-4">
+            <h4 className="text-white font-bold text-lg">Kebijakan Privasi PT InteriorCraft Studio Indonesia</h4>
+            <p>
+              Terakhir diperbarui: Agustus 2026<br/><br/>
+              Kami di PT InteriorCraft Studio Indonesia ("Kami", "Studio", atau "InteriorCraft") sangat menghargai privasi dan keamanan data pribadi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi Anda saat Anda menggunakan layanan kami, mengunjungi situs web kami, atau berkonsultasi mengenai proyek interior Anda.
+            </p>
+            
+            <h5 className="text-white font-bold text-base mt-4">1. Informasi yang Kami Kumpulkan</h5>
+            <p>
+              Kami dapat mengumpulkan data pribadi Anda meliputi: nama lengkap, alamat proyek/instalasi, nomor telepon/WhatsApp, alamat email, denah/layout ruangan, dan preferensi desain. Data ini dikumpulkan saat Anda mengisi formulir estimasi budget, menghubungi kami via WhatsApp, atau menyetujui Surat Perjanjian Kerja (SPK).
+            </p>
+
+            <h5 className="text-white font-bold text-base mt-4">2. Penggunaan Informasi</h5>
+            <p>
+              Informasi yang dikumpulkan digunakan semata-mata untuk:
+              <ul className="list-disc pl-5 mt-2 space-y-1">
+                <li>Menyusun penawaran harga (Quotation) dan desain 3D yang akurat.</li>
+                <li>Koordinasi jadwal survei lokasi dan instalasi furnitur.</li>
+                <li>Keperluan administrasi internal (invoicing, garansi, dan logistik).</li>
+                <li>Komunikasi terkait pembaruan status produksi proyek Anda.</li>
+              </ul>
+            </p>
+
+            <h5 className="text-white font-bold text-base mt-4">3. Keamanan & Kerahasiaan Data</h5>
+            <p>
+              Kami menerapkan standar keamanan operasional yang ketat. Data denah rumah, aset, dan informasi pribadi Anda akan disimpan dengan aman dan hanya dapat diakses oleh tim internal (desainer dan manajer proyek) yang bertugas. Kami tidak pernah menjual, menyewakan, atau menukar data Anda kepada pihak ketiga mana pun tanpa persetujuan eksplisit Anda.
+            </p>
+
+            <h5 className="text-white font-bold text-base mt-4">4. Penggunaan Foto Proyek</h5>
+            <p>
+              Kami berhak menggunakan foto hasil akhir instalasi (tanpa menampilkan barang-barang pribadi yang sensitif atau lokasi persis) sebagai portofolio galeri kami. Jika Anda keberatan atas publikasi foto proyek Anda, Anda dapat mengajukan permohonan pengecualian (NDA) sebelum SPK ditandatangani.
+            </p>
+
+            <div className="pt-6 border-t border-stone-800 flex justify-end">
+              <button onClick={() => setIsPrivacyOpen(false)} className="px-6 py-2.5 rounded-full bg-stone-800 hover:bg-stone-700 text-white font-semibold transition-colors">
+                Tutup / Close
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* TERMS OF SERVICE MODAL */}
+      {isTermsOpen && (
+        <Modal
+          isOpen={isTermsOpen}
+          onClose={() => setIsTermsOpen(false)}
+          title={lang === 'id' ? "Syarat & Ketentuan (Terms of Service)" : "Terms of Service"}
+          maxWidth="max-w-3xl"
+        >
+          <div className="space-y-6 text-stone-300 text-sm leading-relaxed font-light pb-4">
+            <h4 className="text-white font-bold text-lg">Syarat & Ketentuan Layanan (Terms of Service)</h4>
+            <p>
+              Dengan menggunakan layanan desain dan manufaktur PT InteriorCraft Studio Indonesia, Anda menyetujui seluruh syarat dan ketentuan berikut. Harap baca dengan saksama sebelum menyetujui Surat Perjanjian Kerja (SPK).
+            </p>
+            
+            <h5 className="text-white font-bold text-base mt-4">1. Prosedur Pembayaran & Termin</h5>
+            <ul className="list-disc pl-5 space-y-1">
+              <li><strong>Termin 1 (Down Payment 50%):</strong> Dibayarkan setelah penandatanganan SPK dan persetujuan desain final. Proses produksi (pemotongan material) baru akan dimulai setelah DP diterima.</li>
+              <li><strong>Termin 2 (Pelunasan 50%):</strong> Dibayarkan maksimal H-1 sebelum furnitur dikirim dan diinstalasi di lokasi proyek.</li>
+              <li>Semua pembayaran dianggap sah jika ditransfer ke rekening resmi atas nama PT InteriorCraft Studio Indonesia.</li>
+            </ul>
+
+            <h5 className="text-white font-bold text-base mt-4">2. Waktu Pengerjaan (Lead Time)</h5>
+            <p>
+              Standar waktu pengerjaan (lead time) adalah 14 hingga 30 hari kerja, tergantung pada kompleksitas desain, ketersediaan material khusus, dan volume produksi di workshop kami. Keterlambatan akibat *force majeure* (bencana alam, pandemi, dsb) akan dikomunikasikan secara transparan.
+            </p>
+
+            <h5 className="text-white font-bold text-base mt-4">3. Garansi Kualitas & Pemeliharaan</h5>
+            <p>
+              Kami memberikan <strong>Garansi Resmi 2 Tahun</strong> yang mencakup cacat produksi pabrikasi, kegagalan mekanisme hardware (engsel, rel laci Hafele), dan kelupasan HPL/Veneer dalam kondisi pemakaian normal.
+              Garansi tidak berlaku untuk kerusakan akibat kelalaian pihak klien (seperti benturan keras, paparan air berlebih untuk area non-basah, kebakaran, atau bencana alam).
+            </p>
+
+            <h5 className="text-white font-bold text-base mt-4">4. Revisi Desain & Perubahan Material</h5>
+            <p>
+              Klien berhak mendapatkan maksimal 3 (tiga) kali revisi gambar 3D sebelum tahap produksi dimulai. Apabila terdapat perubahan ukuran, penambahan kabinet, atau penggantian material (misal dari HPL ke Duco) setelah SPK ditandatangani, hal tersebut akan dihitung sebagai <em>Addendum</em> (Biaya Tambahan) dan dapat memperpanjang durasi produksi.
+            </p>
+
+            <div className="pt-6 border-t border-stone-800 flex justify-end">
+              <button onClick={() => setIsTermsOpen(false)} className="px-6 py-2.5 rounded-full bg-stone-800 hover:bg-stone-700 text-white font-semibold transition-colors">
+                Tutup / Close
+              </button>
             </div>
           </div>
         </Modal>
