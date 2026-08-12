@@ -158,6 +158,28 @@ export interface Employee {
   status: 'Active' | 'Inactive';
 }
 
+export interface EmployeeAttendance {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  date: string;
+  checkIn?: string; // HH:MM format
+  checkOut?: string; // HH:MM format
+  status: 'Hadir' | 'Sakit' | 'Izin' | 'Alpa' | 'Cuti';
+  isLate: boolean;
+  notes?: string;
+}
+
+export interface WorkSchedule {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  shiftName: 'Pagi' | 'Siang' | 'Malam' | 'Fleksibel';
+  startTime: string; // e.g. "08:00"
+  endTime: string; // e.g. "17:00"
+  workDays: string[]; // e.g. ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"]
+}
+
 export interface PayrollRecord {
   id: string;
   employeeId: string;
@@ -184,6 +206,9 @@ export interface TaxSetting {
   companyAddress: string;
   companyPhone: string;
   companyEmail: string;
+  // HR Policies
+  latePenaltyFee: number;
+  absencePenaltyFee: number;
 }
 
 export interface PromoVoucher {

@@ -68,8 +68,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, isDem
         },
         {
           id: 'payroll',
-          label: 'Gaji, Pajak & Promo',
-          desc: 'Payroll Staff & Kupon',
+          label: 'HR, Gaji & Pajak',
+          desc: 'Absensi, Shift & Payroll',
           icon: DollarSign,
           permission: 'payroll'
         },

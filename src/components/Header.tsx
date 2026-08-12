@@ -1,7 +1,8 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
-import { Sun, Moon, LogOut, Store } from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { Sun, Moon, LogOut, Store, Clock } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: string;
@@ -25,6 +26,38 @@ export const Header: React.FC<HeaderProps> = ({ onTabChange, isDemoMode = false 
       localStorage.setItem('app-theme', 'dark');
       setIsDarkMode(true);
     }
+  };
+
+  const { employees, addAttendance, attendances } = useApp();
+
+  const handleClockIn = () => {
+    if (!currentUser) return;
+    // Find employee based on user role/name. In demo, we just map basic roles to our mock employees
+    let empId = employees[0]?.id; // default to Rudi
+    if (currentUser.role === 'gudang') empId = employees[2]?.id; // Sujatno
+    if (currentUser.role === 'kasir') empId = employees[1]?.id; // Ahmad Fauzi
+    
+    const emp = employees.find(e => e.id === empId);
+    if (!emp) return;
+
+    const today = new Date().toISOString().split('T')[0];
+    const hasClockedIn = attendances.some(a => a.employeeId === empId && a.date === today);
+
+    if (hasClockedIn) {
+      alert('Anda sudah melakukan absensi hari ini.');
+      return;
+    }
+
+    addAttendance({
+      id: `att-${Date.now()}`,
+      employeeId: emp.id,
+      employeeName: emp.name,
+      date: today,
+      checkIn: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      status: 'Hadir',
+      isLate: false
+    });
+    alert(`Absensi masuk berhasil dicatat untuk ${emp.name}`);
   };
 
   return (
@@ -52,6 +85,17 @@ export const Header: React.FC<HeaderProps> = ({ onTabChange, isDemoMode = false 
           <Store className="w-3.5 h-3.5" />
           <span>Katalog Publik</span>
         </button>
+
+        {/* Quick Clock In Button */}
+        {currentUser && currentUser.role !== 'owner' && (
+          <button
+            onClick={handleClockIn}
+            className="px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white active:scale-[0.98] shadow-sm"
+          >
+            <Clock className="w-3.5 h-3.5" />
+            <span>Clock In</span>
+          </button>
+        )}
 
         {/* Light / Dark Mode Toggle */}
         <button

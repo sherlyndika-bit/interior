@@ -9,7 +9,9 @@ import {
   PayrollRecord,
   TaxSetting,
   PromoVoucher,
-  Quotation
+  Quotation,
+  EmployeeAttendance,
+  WorkSchedule
 } from '../types';
 import {
   initialProducts,
@@ -21,7 +23,9 @@ import {
   initialPayrolls,
   initialTaxSetting,
   initialPromos,
-  initialQuotations
+  initialQuotations,
+  initialAttendances,
+  initialWorkSchedules
 } from '../mock/initialData';
 
 interface AppContextType {
@@ -35,6 +39,8 @@ interface AppContextType {
   taxSetting: TaxSetting;
   promos: PromoVoucher[];
   quotations: Quotation[];
+  attendances: EmployeeAttendance[];
+  workSchedules: WorkSchedule[];
 
   // CRUD actions
   addProduct: (product: Product) => void;
@@ -60,8 +66,13 @@ interface AppContextType {
   addEmployee: (employee: Employee) => void;
   updateEmployee: (employee: Employee) => void;
   deleteEmployee: (id: string) => void;
-  generatePayroll: (employeeId: string, period: string, bonus: number, deductions: number) => void;
+  generatePayroll: (employeeId: string, period: string, bonus: number, manualDeductions: number) => void;
   markPayrollPaid: (payrollId: string) => void;
+
+  addAttendance: (attendance: EmployeeAttendance) => void;
+  updateAttendance: (attendance: EmployeeAttendance) => void;
+  addWorkSchedule: (schedule: WorkSchedule) => void;
+  updateWorkSchedule: (schedule: WorkSchedule) => void;
 
   updateTaxSetting: (setting: TaxSetting) => void;
 
@@ -131,6 +142,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return saved ? JSON.parse(saved) : initialQuotations;
   });
 
+  const [attendances, setAttendances] = useState<EmployeeAttendance[]>(() => {
+    const saved = localStorage.getItem('interior_attendances');
+    return saved ? JSON.parse(saved) : initialAttendances;
+  });
+
+  const [workSchedules, setWorkSchedules] = useState<WorkSchedule[]>(() => {
+    const saved = localStorage.getItem('interior_work_schedules');
+    return saved ? JSON.parse(saved) : initialWorkSchedules;
+  });
+
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
 
   const showToast = (text: string, type: 'success' | 'error' | 'info' = 'success') => {
@@ -149,6 +170,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => { localStorage.setItem('interior_tax', JSON.stringify(taxSetting)); }, [taxSetting]);
   useEffect(() => { localStorage.setItem('interior_promos', JSON.stringify(promos)); }, [promos]);
   useEffect(() => { localStorage.setItem('interior_quotations', JSON.stringify(quotations)); }, [quotations]);
+  useEffect(() => { localStorage.setItem('interior_attendances', JSON.stringify(attendances)); }, [attendances]);
+  useEffect(() => { localStorage.setItem('interior_work_schedules', JSON.stringify(workSchedules)); }, [workSchedules]);
 
   // Product Actions
   const addProduct = (product: Product) => {
@@ -329,7 +352,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('Data karyawan dihapus.', 'info');
   };
 
-  const generatePayroll = (employeeId: string, period: string, bonus: number, deductions: number) => {
+  const generatePayroll = (employeeId: string, period: string, bonus: number, manualDeductions: number) => {
     const emp = employees.find(e => e.id === employeeId);
     if (!emp) return;
 
@@ -337,9 +360,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const installedProjectsCount = orders.filter(o => o.stage === 'Installed' || o.stage === 'Completed').length;
     const commission = (emp.commissionRate / 100) * 15000000 * installedProjectsCount; // approx estimate per project
 
+    // Calculate auto deductions based on HR Attendance policy
+    // Filter attendances for this period
+    const empAttendances = attendances.filter(a => a.employeeId === employeeId && a.date.startsWith(period));
+    const lateDaysCount = empAttendances.filter(a => a.isLate).length;
+    const absentDaysCount = empAttendances.filter(a => a.status === 'Alpa').length;
+
+    const autoLatePenalty = lateDaysCount * taxSetting.latePenaltyFee;
+    const autoAbsencePenalty = absentDaysCount * taxSetting.absencePenaltyFee;
+    const totalDeductions = manualDeductions + autoLatePenalty + autoAbsencePenalty;
+
     const gross = emp.baseSalary + emp.allowance + commission + bonus;
     const pph21 = taxSetting.enablePPh21 ? gross * 0.05 : 0;
-    const net = gross - deductions - pph21;
+    const net = gross - totalDeductions - pph21;
 
     const newRecord: PayrollRecord = {
       id: `pay-${Date.now()}`,
@@ -351,14 +384,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       allowance: emp.allowance,
       commissionAmount: commission,
       bonus,
-      deductions,
+      deductions: totalDeductions,
       taxAmount: pph21,
       netSalary: Math.max(0, net),
       status: 'Draft'
     };
 
     setPayrolls(prev => [newRecord, ...prev]);
-    showToast(`Slip gaji ${emp.name} periode ${period} berhasil dibuat!`);
+    showToast(`Slip gaji ${emp.name} periode ${period} berhasil dibuat! (Potongan absen/telat otomatis dihitung)`);
   };
 
   const markPayrollPaid = (payrollId: string) => {
@@ -368,6 +401,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       paymentDate: new Date().toISOString().split('T')[0]
     } : p));
     showToast('Status penggajian diubah ke LUNAS.');
+  };
+
+  // HR Actions
+  const addAttendance = (attendance: EmployeeAttendance) => {
+    setAttendances(prev => [attendance, ...prev]);
+    showToast('Data absensi dicatat.');
+  };
+  
+  const updateAttendance = (attendance: EmployeeAttendance) => {
+    setAttendances(prev => prev.map(a => a.id === attendance.id ? attendance : a));
+    showToast('Data absensi diperbarui.');
+  };
+
+  const addWorkSchedule = (schedule: WorkSchedule) => {
+    setWorkSchedules(prev => [schedule, ...prev]);
+    showToast('Jadwal kerja berhasil dibuat.');
+  };
+
+  const updateWorkSchedule = (schedule: WorkSchedule) => {
+    setWorkSchedules(prev => prev.map(s => s.id === schedule.id ? schedule : s));
+    showToast('Jadwal kerja diperbarui.');
   };
 
   // Tax Setting
@@ -519,6 +573,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       taxSetting,
       promos,
       quotations,
+      attendances,
+      workSchedules,
       addProduct,
       updateProduct,
       deleteProduct,
@@ -546,6 +602,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       addQuotation,
       convertQuotationToOrder,
       deleteQuotation,
+      addAttendance,
+      updateAttendance,
+      addWorkSchedule,
+      updateWorkSchedule,
       toastMessage,
       showToast
     }}>

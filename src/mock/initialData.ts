@@ -9,7 +9,9 @@ import {
   PayrollRecord,
   TaxSetting,
   PromoVoucher,
-  Quotation
+  Quotation,
+  EmployeeAttendance,
+  WorkSchedule
 } from '../types';
 
 export const initialUsers: User[] = [
@@ -524,8 +526,73 @@ export const initialTaxSetting: TaxSetting = {
   companyName: 'PT InteriorCraft Studio Indonesia',
   companyAddress: 'Kawasan Industri Kreatif No. 12, BSD City, Tangerang',
   companyPhone: '+62 21 5566-7788',
-  companyEmail: 'info@interiorcraft.id'
+  companyEmail: 'info@interiorcraft.id',
+  latePenaltyFee: 50000,
+  absencePenaltyFee: 150000
 };
+
+export const initialAttendances: EmployeeAttendance[] = [
+  {
+    id: 'att-1',
+    employeeId: 'emp-1',
+    employeeName: 'Rudi Hartono',
+    date: new Date().toISOString().split('T')[0],
+    checkIn: '08:15',
+    checkOut: '17:30',
+    status: 'Hadir',
+    isLate: true,
+    notes: 'Terlambat karena macet'
+  },
+  {
+    id: 'att-2',
+    employeeId: 'emp-2',
+    employeeName: 'Ahmad Fauzi',
+    date: new Date().toISOString().split('T')[0],
+    checkIn: '07:55',
+    checkOut: '17:05',
+    status: 'Hadir',
+    isLate: false
+  },
+  {
+    id: 'att-3',
+    employeeId: 'emp-3',
+    employeeName: 'Sujatno',
+    date: new Date().toISOString().split('T')[0],
+    status: 'Sakit',
+    isLate: false,
+    notes: 'Surat dokter terlampir'
+  }
+];
+
+export const initialWorkSchedules: WorkSchedule[] = [
+  {
+    id: 'ws-1',
+    employeeId: 'emp-1',
+    employeeName: 'Rudi Hartono',
+    shiftName: 'Pagi',
+    startTime: '08:00',
+    endTime: '17:00',
+    workDays: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']
+  },
+  {
+    id: 'ws-2',
+    employeeId: 'emp-2',
+    employeeName: 'Ahmad Fauzi',
+    shiftName: 'Pagi',
+    startTime: '08:00',
+    endTime: '17:00',
+    workDays: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']
+  },
+  {
+    id: 'ws-3',
+    employeeId: 'emp-3',
+    employeeName: 'Sujatno',
+    shiftName: 'Siang',
+    startTime: '10:00',
+    endTime: '19:00',
+    workDays: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+  }
+];
 
 export const initialPromos: PromoVoucher[] = [
   {
