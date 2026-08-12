@@ -503,18 +503,18 @@ export const PublicCatalogView: React.FC = () => {
                 {lang === 'id' ? 'KANTOR & WORKSHOP' : 'STUDIO & WORKSHOP'}
               </h4>
               <div className="space-y-3 font-light leading-relaxed">
-                <p className="flex items-start gap-2.5">
+                <a href="https://maps.google.com/?q=Jl.+Interior+Craftsman+No.+88,+Cilandak,+Jakarta+Selatan+12430" target="_blank" rel="noopener noreferrer" className="flex items-start gap-2.5 hover:text-white transition-colors cursor-pointer">
                   <MapPin className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
                   <span>Jl. Interior Craftsman No. 88, Cilandak, Jakarta Selatan 12430</span>
-                </p>
-                <p className="flex items-center gap-2.5">
+                </a>
+                <a href="https://wa.me/6281298765432" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 hover:text-white transition-colors cursor-pointer">
                   <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>+62 812-9876-5432 (WhatsApp)</span>
-                </p>
-                <p className="flex items-center gap-2.5">
+                </a>
+                <a href="mailto:info@interiorcraft.co.id" className="flex items-center gap-2.5 hover:text-white transition-colors cursor-pointer">
                   <Mail className="w-4 h-4 text-blue-400 shrink-0" />
                   <span>info@interiorcraft.co.id</span>
-                </p>
+                </a>
               </div>
             </div>
           </div>
@@ -776,19 +776,19 @@ export const PublicCatalogView: React.FC = () => {
           title={lang === 'id' ? "Kebijakan Privasi (Privacy Policy)" : "Privacy Policy"}
           maxWidth="max-w-3xl"
         >
-          <div className="space-y-6 text-stone-300 text-sm leading-relaxed font-light pb-4">
-            <h4 className="text-white font-bold text-lg">Kebijakan Privasi PT InteriorCraft Studio Indonesia</h4>
+          <div className="space-y-6 text-zinc-600 dark:text-stone-300 text-sm leading-relaxed font-light pb-4">
+            <h4 className="text-zinc-900 dark:text-white font-bold text-lg">Kebijakan Privasi PT InteriorCraft Studio Indonesia</h4>
             <p>
               Terakhir diperbarui: Agustus 2026<br/><br/>
               Kami di PT InteriorCraft Studio Indonesia ("Kami", "Studio", atau "InteriorCraft") sangat menghargai privasi dan keamanan data pribadi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi Anda saat Anda menggunakan layanan kami, mengunjungi situs web kami, atau berkonsultasi mengenai proyek interior Anda.
             </p>
             
-            <h5 className="text-white font-bold text-base mt-4">1. Informasi yang Kami Kumpulkan</h5>
+            <h5 className="text-zinc-900 dark:text-white font-bold text-base mt-4">1. Informasi yang Kami Kumpulkan</h5>
             <p>
               Kami dapat mengumpulkan data pribadi Anda meliputi: nama lengkap, alamat proyek/instalasi, nomor telepon/WhatsApp, alamat email, denah/layout ruangan, dan preferensi desain. Data ini dikumpulkan saat Anda mengisi formulir estimasi budget, menghubungi kami via WhatsApp, atau menyetujui Surat Perjanjian Kerja (SPK).
             </p>
 
-            <h5 className="text-white font-bold text-base mt-4">2. Penggunaan Informasi</h5>
+            <h5 className="text-zinc-900 dark:text-white font-bold text-base mt-4">2. Penggunaan Informasi</h5>
             <p>
               Informasi yang dikumpulkan digunakan semata-mata untuk:
               <ul className="list-disc pl-5 mt-2 space-y-1">
@@ -799,18 +799,18 @@ export const PublicCatalogView: React.FC = () => {
               </ul>
             </p>
 
-            <h5 className="text-white font-bold text-base mt-4">3. Keamanan & Kerahasiaan Data</h5>
+            <h5 className="text-zinc-900 dark:text-white font-bold text-base mt-4">3. Keamanan & Kerahasiaan Data</h5>
             <p>
               Kami menerapkan standar keamanan operasional yang ketat. Data denah rumah, aset, dan informasi pribadi Anda akan disimpan dengan aman dan hanya dapat diakses oleh tim internal (desainer dan manajer proyek) yang bertugas. Kami tidak pernah menjual, menyewakan, atau menukar data Anda kepada pihak ketiga mana pun tanpa persetujuan eksplisit Anda.
             </p>
 
-            <h5 className="text-white font-bold text-base mt-4">4. Penggunaan Foto Proyek</h5>
+            <h5 className="text-zinc-900 dark:text-white font-bold text-base mt-4">4. Penggunaan Foto Proyek</h5>
             <p>
               Kami berhak menggunakan foto hasil akhir instalasi (tanpa menampilkan barang-barang pribadi yang sensitif atau lokasi persis) sebagai portofolio galeri kami. Jika Anda keberatan atas publikasi foto proyek Anda, Anda dapat mengajukan permohonan pengecualian (NDA) sebelum SPK ditandatangani.
             </p>
 
-            <div className="pt-6 border-t border-stone-800 flex justify-end">
-              <button onClick={() => setIsPrivacyOpen(false)} className="px-6 py-2.5 rounded-full bg-stone-800 hover:bg-stone-700 text-white font-semibold transition-colors">
+            <div className="pt-6 border-t border-zinc-200 dark:border-stone-800 flex justify-end">
+              <button onClick={() => setIsPrivacyOpen(false)} className="px-6 py-2.5 rounded-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-stone-800 dark:hover:bg-stone-700 font-semibold transition-colors">
                 Tutup / Close
               </button>
             </div>
@@ -826,37 +826,37 @@ export const PublicCatalogView: React.FC = () => {
           title={lang === 'id' ? "Syarat & Ketentuan (Terms of Service)" : "Terms of Service"}
           maxWidth="max-w-3xl"
         >
-          <div className="space-y-6 text-stone-300 text-sm leading-relaxed font-light pb-4">
-            <h4 className="text-white font-bold text-lg">Syarat & Ketentuan Layanan (Terms of Service)</h4>
+          <div className="space-y-6 text-zinc-600 dark:text-stone-300 text-sm leading-relaxed font-light pb-4">
+            <h4 className="text-zinc-900 dark:text-white font-bold text-lg">Syarat & Ketentuan Layanan (Terms of Service)</h4>
             <p>
               Dengan menggunakan layanan desain dan manufaktur PT InteriorCraft Studio Indonesia, Anda menyetujui seluruh syarat dan ketentuan berikut. Harap baca dengan saksama sebelum menyetujui Surat Perjanjian Kerja (SPK).
             </p>
             
-            <h5 className="text-white font-bold text-base mt-4">1. Prosedur Pembayaran & Termin</h5>
+            <h5 className="text-zinc-900 dark:text-white font-bold text-base mt-4">1. Prosedur Pembayaran & Termin</h5>
             <ul className="list-disc pl-5 space-y-1">
               <li><strong>Termin 1 (Down Payment 50%):</strong> Dibayarkan setelah penandatanganan SPK dan persetujuan desain final. Proses produksi (pemotongan material) baru akan dimulai setelah DP diterima.</li>
               <li><strong>Termin 2 (Pelunasan 50%):</strong> Dibayarkan maksimal H-1 sebelum furnitur dikirim dan diinstalasi di lokasi proyek.</li>
               <li>Semua pembayaran dianggap sah jika ditransfer ke rekening resmi atas nama PT InteriorCraft Studio Indonesia.</li>
             </ul>
 
-            <h5 className="text-white font-bold text-base mt-4">2. Waktu Pengerjaan (Lead Time)</h5>
+            <h5 className="text-zinc-900 dark:text-white font-bold text-base mt-4">2. Waktu Pengerjaan (Lead Time)</h5>
             <p>
               Standar waktu pengerjaan (lead time) adalah 14 hingga 30 hari kerja, tergantung pada kompleksitas desain, ketersediaan material khusus, dan volume produksi di workshop kami. Keterlambatan akibat *force majeure* (bencana alam, pandemi, dsb) akan dikomunikasikan secara transparan.
             </p>
 
-            <h5 className="text-white font-bold text-base mt-4">3. Garansi Kualitas & Pemeliharaan</h5>
+            <h5 className="text-zinc-900 dark:text-white font-bold text-base mt-4">3. Garansi Kualitas & Pemeliharaan</h5>
             <p>
               Kami memberikan <strong>Garansi Resmi 2 Tahun</strong> yang mencakup cacat produksi pabrikasi, kegagalan mekanisme hardware (engsel, rel laci Hafele), dan kelupasan HPL/Veneer dalam kondisi pemakaian normal.
               Garansi tidak berlaku untuk kerusakan akibat kelalaian pihak klien (seperti benturan keras, paparan air berlebih untuk area non-basah, kebakaran, atau bencana alam).
             </p>
 
-            <h5 className="text-white font-bold text-base mt-4">4. Revisi Desain & Perubahan Material</h5>
+            <h5 className="text-zinc-900 dark:text-white font-bold text-base mt-4">4. Revisi Desain & Perubahan Material</h5>
             <p>
               Klien berhak mendapatkan maksimal 3 (tiga) kali revisi gambar 3D sebelum tahap produksi dimulai. Apabila terdapat perubahan ukuran, penambahan kabinet, atau penggantian material (misal dari HPL ke Duco) setelah SPK ditandatangani, hal tersebut akan dihitung sebagai <em>Addendum</em> (Biaya Tambahan) dan dapat memperpanjang durasi produksi.
             </p>
 
-            <div className="pt-6 border-t border-stone-800 flex justify-end">
-              <button onClick={() => setIsTermsOpen(false)} className="px-6 py-2.5 rounded-full bg-stone-800 hover:bg-stone-700 text-white font-semibold transition-colors">
+            <div className="pt-6 border-t border-zinc-200 dark:border-stone-800 flex justify-end">
+              <button onClick={() => setIsTermsOpen(false)} className="px-6 py-2.5 rounded-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-stone-800 dark:hover:bg-stone-700 font-semibold transition-colors">
                 Tutup / Close
               </button>
             </div>
